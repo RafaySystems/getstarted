@@ -1,0 +1,69 @@
+kind: Cluster
+metadata:
+  name: demo-gpueks
+  project: kubecon2021
+spec:
+  blueprint: gpu-blueprint
+  blueprintversion: v1
+  cloudprovider: qa-eks
+  clusterConfig: null
+  cniprovider: aws-cni
+  proxyconfig: {}
+  type: eks
+---
+apiVersion: rafay.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: demo-gpueks
+  region: us-west-1
+  tags:
+    owner: mohan@rafay.co
+  version: "1.21"
+nodeGroups:
+- amiFamily: AmazonLinux2
+  desiredCapacity: 1
+  iam:
+    withAddonPolicies:
+      albIngress: true
+      autoScaler: true
+      efs: true
+      externalDNS: true
+      imageBuilder: true
+  instanceType: g4dn.xlarge
+  labels:
+    NodeType: gpu-node
+  maxSize: 4
+  minSize: 0
+  name: gpu-nodegroup
+  privateNetworking: true
+  tags:
+    owner: mohan@rafay.co
+  volumeSize: 100
+  volumeType: gp3
+- amiFamily: AmazonLinux2
+  desiredCapacity: 1
+  iam:
+    withAddonPolicies:
+      albIngress: true
+      autoScaler: true
+      efs: true
+      externalDNS: true
+      imageBuilder: true
+  instanceType: t3.large
+  labels:
+    NodeType: t3-node
+  maxSize: 4
+  minSize: 0
+  name: t3-nodegroup
+  privateNetworking: true
+  tags:
+    owner: mohan@rafay.co
+  volumeSize: 100
+  volumeType: gp3
+vpc:
+  cidr: 192.168.0.0/16
+  clusterEndpoints:
+    privateAccess: true
+    publicAccess: false
+  nat:
+    gateway: Single

@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: dcgmproftester
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dcgmproftester
+            image: nvidia/samples:dcgmproftester-2.0.10-cuda11.0-ubuntu18.04
+            args: ["--no-dcgm-validation", "-t 1004", "-d 120"]
+            resources:
+              limits:
+                 nvidia.com/gpu: 1
+            securityContext:
+              capabilities:
+                add: ["SYS_ADMIN"]
+          restartPolicy: OnFailure

@@ -1,0 +1,6 @@
+kind: Blueprint
+metadata:
+  # blueprint name
+  name: gpu-blueprint
+  #project name
+  project: kubecon2021

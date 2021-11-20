@@ -1,0 +1,15 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: kubecon2021
+spec:
+  addon: gpu-operator
+  namespace: nvidia
+  template:
+    type: Helm3
+    valuesFile: values.yaml
+    repository_ref: gpu
+    repo_artifact_meta:
+      helm:
+       tag: v1.8.2
+       chartName: gpu-operator

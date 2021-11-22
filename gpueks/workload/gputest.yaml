@@ -1,6 +1,6 @@
 name: gputest
 namespace: gputest
-project: kubecon2021
+project: defaultproject
 type: NativeYaml
 clusters: demo-gpueks
 payload: ./gpu-job.yaml

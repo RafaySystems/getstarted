@@ -1,7 +1,7 @@
 kind: AddonVersion
 metadata:
   name: v1
-  project: kubecon2021
+  project: defaultproject
 spec:
   addon: gpu-operator
   namespace: nvidia

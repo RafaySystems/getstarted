@@ -1,12 +1,11 @@
 kind: Cluster
 metadata:
   name: demo-gpueks
-  project: kubecon2021
+  project: defaultproject
 spec:
   blueprint: gpu-blueprint
   blueprintversion: v1
-  cloudprovider: qa-eks
-  clusterConfig: null
+  cloudprovider: eks
   cniprovider: aws-cni
   proxyconfig: {}
   type: eks
@@ -17,9 +16,9 @@ metadata:
   name: demo-gpueks
   region: us-west-1
   tags:
-    owner: mohan@rafay.co
+    owner: demos@rafay.co
   version: "1.21"
-nodeGroups:
+managedNodeGroups:
 - amiFamily: AmazonLinux2
   desiredCapacity: 1
   iam:
@@ -37,7 +36,7 @@ nodeGroups:
   name: gpu-nodegroup
   privateNetworking: true
   tags:
-    owner: mohan@rafay.co
+    owner:demos@rafay.co
   volumeSize: 100
   volumeType: gp3
 - amiFamily: AmazonLinux2
@@ -57,7 +56,7 @@ nodeGroups:
   name: t3-nodegroup
   privateNetworking: true
   tags:
-    owner: mohan@rafay.co
+    owner: demos@rafay.co
   volumeSize: 100
   volumeType: gp3
 vpc:

@@ -1,8 +1,8 @@
 kind: BlueprintVersion
 metadata:
-  name: gpu-blueprint
-  project: kubecon2021
-  description: nvidia GPU Operator 
+  name: v1
+  project: defaultproject
+  description: Nvidia GPU Operator 
 spec:
   blueprint: gpu-blueprint
   baseSystemBlueprint: default

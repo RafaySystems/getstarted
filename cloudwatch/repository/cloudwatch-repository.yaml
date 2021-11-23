@@ -4,5 +4,5 @@ metadata:
   name: cloudwatch-repo
 spec:
   repositoryType: GitRepository
-  endpoint:  https://github.com/timrafay/getstarted.git
+  endpoint:  https://github.com/RafaySystems/getstarted.git
   credentialType: CredentialTypeNotSet

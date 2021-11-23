@@ -1,0 +1,16 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: cloudwatch-addon
+  namespace: amazon-cloudwatch
+  template:
+    type: NativeYaml
+    repository_ref: cloudwatch-repo
+    repo_artifact_meta:
+      git:
+        revision: master
+        repoArtifactFiles:
+        - relPath: cloudwatch/cloudwatch-agent/cloudwatch-manifest.yaml
+          fileType: K8sYAMLFile

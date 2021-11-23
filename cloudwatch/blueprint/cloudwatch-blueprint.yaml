@@ -1,0 +1,6 @@
+kind: Blueprint
+metadata:
+  # blueprint name
+  name: cloudwatch-blueprint
+  #project name
+  project: defaultproject

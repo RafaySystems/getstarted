@@ -6,11 +6,9 @@ spec:
   addon: cloudwatch-addon
   namespace: amazon-cloudwatch
   template:
-    type: NativeYaml
+    type: Helm3
+    valuesFile: custom-values.yaml
     repository_ref: cloudwatch-repo
     repo_artifact_meta:
-      git:
-        revision: master
-        repoArtifactFiles:
-        - relPath: cloudwatch/cloudwatch-agent/cloudwatch-manifest.yaml
-          fileType: K8sYAMLFile
+      helm:
+       chartName: aws-cloudwatch-metrics

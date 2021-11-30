@@ -3,6 +3,6 @@ kind: Repository
 metadata:
   name: cloudwatch-repo
 spec:
-  repositoryType: GitRepository
-  endpoint:  https://github.com/RafaySystems/getstarted.git
+  repositoryType: HelmRepository
+  endpoint:  https://aws.github.io/eks-charts
   credentialType: CredentialTypeNotSet

@@ -1,0 +1,8 @@
+apiVersion: config.rafay.dev/v2
+kind: Repository
+metadata:
+  name: autoscaler-repo
+spec:
+  repositoryType: HelmRepository
+  endpoint:  https://kubernetes.github.io/autoscaler
+  credentialType: CredentialTypeNotSet

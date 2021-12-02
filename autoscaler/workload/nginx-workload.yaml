@@ -1,0 +1,6 @@
+name: nginx-workload
+namespace: nginx-test
+project: defaultproject
+type: NativeYaml
+clusters: autoscaler-cluster
+payload: ./nginx.yaml

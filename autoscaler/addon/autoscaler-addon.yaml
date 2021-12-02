@@ -1,0 +1,14 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: autoscaler-addon
+  namespace: autoscaler
+  template:
+    type: Helm3
+    valuesFile: custom-values.yaml
+    repository_ref: autoscaler-repo
+    repo_artifact_meta:
+      helm:
+       chartName: cluster-autoscaler

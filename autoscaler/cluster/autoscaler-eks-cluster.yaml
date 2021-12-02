@@ -1,0 +1,29 @@
+kind: Cluster
+metadata:
+  name: autoscaler-cluster
+  project: defaultproject
+spec:
+  blueprint: autoscaler-blueprint
+  blueprintversion: v1
+  cloudprovider: aws-cloud-credential
+  cniprovider: aws-cni
+  type: eks
+---
+apiVersion: rafay.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: autoscaler-cluster
+  region: us-west-1
+  tags:
+  version: "1.21"
+managedNodeGroups:
+  - name: ng-1
+    instanceType: t3.large
+    desiredCapacity: 2
+    maxSize: 4
+    minSize: 1
+    iam:
+     withAddonPolicies:
+      albIngress: true
+      autoScaler: true
+      efs: true

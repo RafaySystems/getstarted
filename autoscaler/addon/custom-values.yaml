@@ -1,0 +1,3 @@
+autoDiscovery:
+  clusterName:  autoscaler-cluster
+awsRegion: us-west-1

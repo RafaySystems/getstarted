@@ -1,0 +1,10 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: provisioner-addon
+  namespace: karpenter
+  template:
+    type: NativeYaml
+    yamlFile: provisioner.yaml

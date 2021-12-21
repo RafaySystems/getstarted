@@ -1,0 +1,8 @@
+name: inflate-workload
+namespace: default
+project: defaultproject
+type: NativeYaml
+clusters: karpenter-cluster
+payload: inflate.yaml
+
+

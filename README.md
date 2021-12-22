@@ -9,3 +9,6 @@ Git Repo with functioning examples to help you Get Started with the Rafay Kubern
 ## Amazon EKS with Cloudwatch 
 - Provision an Amazon EKS Cluster with a custom cluster blueprint with the Cloudwatch addon 
 - View metrics in Container Insights 
+
+## Amazon EKS with Karpenter
+- Provision an Amazon EKS Cluster with a custom cluster blueprint with the Karpenter cluster auto scaler 

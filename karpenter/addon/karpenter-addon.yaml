@@ -1,0 +1,14 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: karpenter-addon
+  namespace: karpenter
+  template:
+    type: Helm3
+    valuesFile: custom-values.yaml
+    repository_ref: karpenter-repo
+    repo_artifact_meta:
+      helm:
+       chartName: karpenter

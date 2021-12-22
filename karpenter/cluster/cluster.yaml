@@ -1,0 +1,60 @@
+kind: Cluster
+metadata:
+  name: karpenter-cluster
+  project: defaultproject
+spec:
+  blueprint: default
+  blueprintversion:
+  cloudprovider: aws-cloud-credential
+  cniprovider: aws-cni
+  type: eks
+---
+apiVersion: rafay.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: karpenter-cluster
+  region: us-west-2
+  tags:
+   'owner': 'tf'
+   'cluster-name': 'karpenter-cluster'
+  version: "1.21"
+iam:
+  withOIDC: true
+  serviceAccounts:
+    - metadata:
+        name: karpenter
+        namespace: karpenter
+      attachPolicy:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Resource: "*"
+            Action:
+              # Write Operations
+              - "ec2:CreateLaunchTemplate"
+              - "ec2:CreateFleet"
+              - "ec2:RunInstances"
+              - "ec2:CreateTags"
+              - "iam:PassRole"
+              - "ec2:TerminateInstances"
+              # Read Operations
+              - "ec2:DescribeLaunchTemplates"
+              - "ec2:DescribeInstances"
+              - "ec2:DescribeSecurityGroups"
+              - "ec2:DescribeSubnets"
+              - "ec2:DescribeInstanceTypes"
+              - "ec2:DescribeInstanceTypeOfferings"
+              - "ec2:DescribeAvailabilityZones"
+              - "ssm:GetParameter"
+managedNodeGroups:
+  - name: ng-1
+    instanceType: t3.large
+    desiredCapacity: 2
+    maxSize: 4
+    minSize: 1
+    ssh:
+      enableSsm: true
+    iam:
+     withAddonPolicies:
+      albIngress: true
+      efs: true

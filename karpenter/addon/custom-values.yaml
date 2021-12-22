@@ -1,0 +1,5 @@
+serviceAccount:
+  create: false
+controller:
+  clusterName: karpenter-cluster
+  clusterEndpoint: https://C167D39D46B39390254F6E0AF5CEE5E5.gr7.us-west-2.eks.amazonaws.com

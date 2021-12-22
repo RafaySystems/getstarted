@@ -1,0 +1,19 @@
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: default
+spec:
+  requirements:
+    - key: karpenter.sh/capacity-type
+      operator: In
+      values: ["spot"]
+  limits:
+    resources:
+      cpu: 1000
+  provider:
+    instanceProfile: eks-cabeeee3-0a98-2980-4d40-d85bb6c8ca27
+    securityGroupSelector:
+      cluster-name: karpenter-cluster
+    subnetSelector:
+      cluster-name: karpenter-cluster
+  ttlSecondsAfterEmpty: 30

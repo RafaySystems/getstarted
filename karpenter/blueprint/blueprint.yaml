@@ -1,0 +1,6 @@
+kind: Blueprint
+metadata:
+  # blueprint name
+  name: karpenter-blueprint
+  #project name
+  project: defaultproject

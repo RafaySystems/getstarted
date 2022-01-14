@@ -1,0 +1,46 @@
+kind: Cluster
+metadata:
+  name: gitops-eks-cluster
+  project: defaultproject
+spec:
+  blueprint: default
+  cloudprovider: aws-cloud-credential
+  clusterConfig: null
+  cniprovider: aws-cni
+  proxyconfig: {}
+  type: eks
+---
+apiVersion: rafay.io/v1alpha5
+availabilityZones:
+- us-west-2a
+- us-west-2b
+kind: ClusterConfig
+metadata:
+  name: gitops-eks-cluster
+  region: us-west-2
+  version: "1.20"
+managedNodeGroups:
+- amiFamily: AmazonLinux2
+  availabilityZones:
+  - us-west-2a
+  - us-west-2b
+  desiredCapacity: 1
+  iam:
+    withAddonPolicies:
+      albIngress: true
+      autoScaler: true
+  instanceType: t3.large
+  maxSize: 1
+  minSize: 1
+  name: managed-ng1
+  version: "1.20"
+  privateNetworking: true
+  volumeSize: 80
+  volumeType: gp3
+vpc:
+  cidr: 192.168.0.0/16
+  clusterEndpoints:
+    privateAccess: true
+    publicAccess: true
+  nat:
+    gateway: Single

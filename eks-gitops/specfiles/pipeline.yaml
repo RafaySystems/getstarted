@@ -1,0 +1,215 @@
+apiVersion: pipeline.rafay.dev/v2
+kind: Pipeline
+metadata:
+  name: gitops-eks-pipeline
+spec:
+  edges:
+  - source: create-cluster
+    target: update-cluster
+    weight: 0
+  - source: update-cluster
+    target: delete-cluster
+    weight: 0
+  stages:
+  - name: create-cluster
+    stageType: InfraProvisionerStage
+    stageConfig:
+      approval: null
+      deployment: null
+      onFailure: Stop
+      workdloadTemplate: null
+      infraProvisioner:
+        infraProvisionerName: gitops-eks-infraprovisioner
+        actionConfig:
+          terraform:
+            type: TerraformActionApply
+            norefresh: false
+            targets: []
+            destroy: false
+        config:
+          terraform:
+            version: 0.15.0
+            inputVars: []
+            tfvarsFile: ""
+            envVars:
+            - key: IS_ADDED
+              value: '{{ .trigger.isAdded }}'
+              type: PlainText
+            - key: IS_MODIFIED
+              value: '{{ .trigger.isModified }}'
+              type: PlainText
+            - key: IS_REMOVED
+              value: '{{ .trigger.isRemoved }}'
+              type: PlainText
+            - key: ADD_CLUSTER_SPEC
+              value: '{{ .trigger.addClusterSpec }}'
+              type: PlainText
+            - key: MOD_CLUSTER_SPEC
+              value: '{{ .trigger.modClusterSpec }}'
+              type: PlainText
+            - key: REM_CLUSTER_SPEC
+              value: '{{ .trigger.remClusterSpec }}'
+              type: PlainText
+            backendConfig: null
+        gitRevision: main
+        useWorkingDirFrom: ""
+        persistWorkingDir: false
+        agentNames:
+        - gitops-eks-agent
+    variables: []
+    preConditions:
+    - conditionType: EvaluateExpression
+      config:
+        parentname: ""
+        parents: []
+        expression: trigger.name == "gitops-eks-trigger" && trigger.isAdded == true
+  - name: update-cluster
+    stageType: InfraProvisionerStage
+    stageConfig:
+      approval: null
+      deployment: null
+      onFailure: Stop
+      workdloadTemplate: null
+      infraProvisioner:
+        infraProvisionerName: gitops-eks-infraprovisioner
+        actionConfig:
+          terraform:
+            type: TerraformActionApply
+            norefresh: false
+            targets: []
+            destroy: false
+        config:
+          terraform:
+            version: 0.15.0
+            inputVars: []
+            tfvarsFile: ""
+            envVars:
+            - key: IS_ADDED
+              value: '{{ .trigger.isAdded }}'
+              type: PlainText
+            - key: IS_MODIFIED
+              value: '{{ .trigger.isModified }}'
+              type: PlainText
+            - key: IS_REMOVED
+              value: '{{ .trigger.isRemoved }}'
+              type: PlainText
+            - key: ADD_CLUSTER_SPEC
+              value: '{{ .trigger.addClusterSpec }}'
+              type: PlainText
+            - key: MOD_CLUSTER_SPEC
+              value: '{{ .trigger.modClusterSpec }}'
+              type: PlainText
+            - key: REM_CLUSTER_SPEC
+              value: '{{ .trigger.remClusterSpec }}'
+              type: PlainText
+            backendConfig: null
+        gitRevision: main
+        useWorkingDirFrom: ""
+        persistWorkingDir: false
+        agentNames:
+        - gitops-eks-agent
+    variables: []
+    preConditions:
+    - conditionType: EvaluateExpression
+      config:
+        parentName: ""
+        parents: []
+        expression: trigger.name == "gitops-eks-trigger" && trigger.isModified ==
+          true
+  - name: delete-cluster
+    stageType: InfraProvisionerStage
+    stageConfig:
+      approval: null
+      deployment: null
+      onFailure: Stop
+      workdloadTemplate: null
+      infraProvisioner:
+        infraProvisionerName: gitops-eks-infraprovisioner
+        actionConfig:
+          terraform:
+            type: TerraformActionApply
+            norefresh: false
+            targets: []
+            destroy: false
+        config:
+          terraform:
+            version: 0.15.0
+            inputVars: []
+            tfvarsFile: ""
+            envVars:
+            - key: IS_ADDED
+              value: '{{ .trigger.isAdded }}'
+              type: PlainText
+            - key: IS_MODIFIED
+              value: '{{ .trigger.isModified }}'
+              type: PlainText
+            - key: IS_REMOVED
+              value: '{{ .trigger.isRemoved }}'
+              type: PlainText
+            - key: ADD_CLUSTER_SPEC
+              value: '{{ .trigger.addClusterSpec }}'
+              type: PlainText
+            - key: MOD_CLUSTER_SPEC
+              value: '{{ .trigger.modClusterSpec }}'
+              type: PlainText
+            - key: REM_CLUSTER_SPEC
+              value: '{{ .trigger.remClusterSpec }}'
+              type: PlainText
+            backendConfig: null
+        gitRevision: main
+        useWorkingDirFrom: ""
+        persistWorkingDir: false
+        agentNames:
+        - gitops-eks-agent
+    variables: []
+    preConditions:
+    - conditionType: EvaluateExpression
+      config:
+        parentName: ""
+        parents: []
+        expression: trigger.name == "gitops-eks-trigger" && trigger.isRemoved == true
+---
+apiVersion: pipeline.rafay.dev/v2
+kind: Trigger
+metadata:
+  name: gitops-eks-trigger
+spec:
+  triggerType: WebhookTrigger
+  pipelineRef: gitops-eks-pipeline
+  repositoryRef: gitops-eks-repo
+  triggerConfig:
+    webhook:
+      configType: Github
+  repositoryConfig:
+    git:
+      revision: main
+      paths:
+      - specfiles/
+    helm: null
+  variables: []
+---
+apiVersion: config.rafay.dev/v2
+kind: Repository
+metadata:
+  name: gitops-eks-repo
+spec:
+  repositoryType: GitRepository
+  endpoint: https://github.com/timrafay/eks-gitops.git
+  insecure: false
+  caCert: ""
+  credentialType: UserPassCredential
+  credentials:
+    userPass:
+      username: timrafay
+      password: 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
+  agentNames:
+  - "gitops-eks-agent"
+---
+apiVersion: config.rafay.dev/v2
+kind: Agent
+metadata:
+  name: gitops-eks-agent
+spec:
+  template:
+    type: ClusterAgent
+    clusterName: gitops-eks-cluster

@@ -1,0 +1,36 @@
+apiVersion: pipeline.rafay.dev/v2
+kind: Trigger
+metadata:
+  name: gitops-eks-trigger
+spec:
+  triggerType: WebhookTrigger
+  pipelineRef: gitops-eks-pipeline
+  repositoryRef: gitops-eks-repo
+  triggerConfig:
+    webhook:
+      configType: Github
+  repositoryConfig:
+    git:
+      revision: main
+      paths:
+      - specfiles/
+    helm: null
+  variables:
+  - name: isAdded
+    type: BooleanType
+    value: 'len(trigger.payload.commits[0].added) > 0 ? true : false'
+  - name: isModified
+    type: BooleanType
+    value: 'len(trigger.payload.commits[0].modified) > 0 ? true : false'
+  - name: isRemoved
+    type: BooleanType
+    value: 'len(trigger.payload.commits[0].removed) > 0 ? true : false'
+  - name: addClusterSpec
+    type: StringType
+    value: 'len(trigger.payload.commits[0].added) > 0 ? trigger.payload.commits[0].added[0] : trigger.payload.commits[0].message'
+  - name: modClusterSpec
+    type: StringType
+    value: 'len(trigger.payload.commits[0].modified) > 0 ? trigger.payload.commits[0].modified[0] : trigger.payload.commits[0].message'
+  - name: remClusterSpec
+    type: StringType
+    value: 'len(trigger.payload.commits[0].removed) > 0 ? trigger.payload.commits[0].removed[0] : trigger.payload.commits[0].message'

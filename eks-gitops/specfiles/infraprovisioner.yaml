@@ -1,0 +1,31 @@
+apiVersion: infra.provisioner.rafay.dev/v2
+kind: InfraProvisioner
+metadata:
+  name: gitops-eks-infraprovisioner
+spec:
+  type: Terraform
+  gitRepository: gitops-eks-repo
+  gitRevision: main
+  directoryPath: /
+  config:
+    terraform:
+      version: 0.15.0
+      inputVars: []
+      tfvarsFile: ""
+      envVars:
+      - key: RCTL_REST_ENDPOINT
+        value: console.rafay.dev
+        type: PlainText
+      - key: RCTL_API_KEY
+        value: "97809f67cb95bea7b6d33f44b57bcf009f529edb"
+        type: SecureText
+      - key: RCTL_API_SECRET
+        value: "99cdd8429704beac0b2fa70a218c5893b51fa44c05014daf062c65bb1d8ea980"
+        type: SecureText
+      - key: RCTL_OPS_ENDPOINT
+        value: console.rafay.dev
+        type: PlainText
+      - key: RCTL_PROJECT
+        value: defaultproject
+        type: PlainText
+      backendconfig: null

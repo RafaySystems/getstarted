@@ -3,15 +3,9 @@ kind: Pipeline
 metadata:
   name: gitops-eks-pipeline
 spec:
-  edges:
-  - source: create-cluster
-    target: update-cluster
-    weight: 0
-  - source: update-cluster
-    target: delete-cluster
-    weight: 0
+  edges: []
   stages:
-  - name: create-cluster
+  - name: cluster-action
     stageType: InfraProvisionerStage
     stageConfig:
       approval: null
@@ -31,25 +25,7 @@ spec:
             version: 0.15.0
             inputVars: []
             tfvarsFile: ""
-            envVars:
-            - key: IS_ADDED
-              value: '{{ .trigger.isAdded }}'
-              type: PlainText
-            - key: IS_MODIFIED
-              value: '{{ .trigger.isModified }}'
-              type: PlainText
-            - key: IS_REMOVED
-              value: '{{ .trigger.isRemoved }}'
-              type: PlainText
-            - key: ADD_CLUSTER_SPEC
-              value: '{{ .trigger.addClusterSpec }}'
-              type: PlainText
-            - key: MOD_CLUSTER_SPEC
-              value: '{{ .trigger.modClusterSpec }}'
-              type: PlainText
-            - key: REM_CLUSTER_SPEC
-              value: '{{ .trigger.remClusterSpec }}'
-              type: PlainText
+            envVars: null
             backendConfig: null
         gitRevision: main
         useWorkingDirFrom: ""
@@ -62,112 +38,6 @@ spec:
       config:
         parentname: ""
         parents: []
-        expression: trigger.name == "gitops-eks-trigger" && trigger.isAdded == true
-  - name: update-cluster
-    stageType: InfraProvisionerStage
-    stageConfig:
-      approval: null
-      deployment: null
-      onFailure: Stop
-      workdloadTemplate: null
-      infraProvisioner:
-        infraProvisionerName: gitops-eks-infraprovisioner
-        actionConfig:
-          terraform:
-            type: TerraformActionApply
-            norefresh: false
-            targets: []
-            destroy: false
-        config:
-          terraform:
-            version: 0.15.0
-            inputVars: []
-            tfvarsFile: ""
-            envVars:
-            - key: IS_ADDED
-              value: '{{ .trigger.isAdded }}'
-              type: PlainText
-            - key: IS_MODIFIED
-              value: '{{ .trigger.isModified }}'
-              type: PlainText
-            - key: IS_REMOVED
-              value: '{{ .trigger.isRemoved }}'
-              type: PlainText
-            - key: ADD_CLUSTER_SPEC
-              value: '{{ .trigger.addClusterSpec }}'
-              type: PlainText
-            - key: MOD_CLUSTER_SPEC
-              value: '{{ .trigger.modClusterSpec }}'
-              type: PlainText
-            - key: REM_CLUSTER_SPEC
-              value: '{{ .trigger.remClusterSpec }}'
-              type: PlainText
-            backendConfig: null
-        gitRevision: main
-        useWorkingDirFrom: ""
-        persistWorkingDir: false
-        agentNames:
-        - gitops-eks-agent
-    variables: []
-    preConditions:
-    - conditionType: EvaluateExpression
-      config:
-        parentName: ""
-        parents: []
-        expression: trigger.name == "gitops-eks-trigger" && trigger.isModified ==
-          true
-  - name: delete-cluster
-    stageType: InfraProvisionerStage
-    stageConfig:
-      approval: null
-      deployment: null
-      onFailure: Stop
-      workdloadTemplate: null
-      infraProvisioner:
-        infraProvisionerName: gitops-eks-infraprovisioner
-        actionConfig:
-          terraform:
-            type: TerraformActionApply
-            norefresh: false
-            targets: []
-            destroy: false
-        config:
-          terraform:
-            version: 0.15.0
-            inputVars: []
-            tfvarsFile: ""
-            envVars:
-            - key: IS_ADDED
-              value: '{{ .trigger.isAdded }}'
-              type: PlainText
-            - key: IS_MODIFIED
-              value: '{{ .trigger.isModified }}'
-              type: PlainText
-            - key: IS_REMOVED
-              value: '{{ .trigger.isRemoved }}'
-              type: PlainText
-            - key: ADD_CLUSTER_SPEC
-              value: '{{ .trigger.addClusterSpec }}'
-              type: PlainText
-            - key: MOD_CLUSTER_SPEC
-              value: '{{ .trigger.modClusterSpec }}'
-              type: PlainText
-            - key: REM_CLUSTER_SPEC
-              value: '{{ .trigger.remClusterSpec }}'
-              type: PlainText
-            backendConfig: null
-        gitRevision: main
-        useWorkingDirFrom: ""
-        persistWorkingDir: false
-        agentNames:
-        - gitops-eks-agent
-    variables: []
-    preConditions:
-    - conditionType: EvaluateExpression
-      config:
-        parentName: ""
-        parents: []
-        expression: trigger.name == "gitops-eks-trigger" && trigger.isRemoved == true
 ---
 apiVersion: pipeline.rafay.dev/v2
 kind: Trigger
@@ -194,14 +64,14 @@ metadata:
   name: gitops-eks-repo
 spec:
   repositoryType: GitRepository
-  endpoint: https://github.com/timrafay/eks-gitops.git
+  endpoint: <Endpoint>
   insecure: false
   caCert: ""
   credentialType: UserPassCredential
   credentials:
     userPass:
-      username: timrafay
-      password: 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
+      username: <Username>
+      password: <Password>
   agentNames:
   - "gitops-eks-agent"
 ---

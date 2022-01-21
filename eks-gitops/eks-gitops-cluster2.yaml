@@ -1,6 +1,6 @@
 kind: Cluster
 metadata:
-  name: gitops-eks-cluster2
+  name: eks-gitops-cluster2
   project: defaultproject
 spec:
   blueprint: default
@@ -16,7 +16,7 @@ availabilityZones:
 - us-west-2b
 kind: ClusterConfig
 metadata:
-  name: gitops-eks-cluster2
+  name: eks-gitops-cluster2
   region: us-west-2
   version: "1.20"
 managedNodeGroups:

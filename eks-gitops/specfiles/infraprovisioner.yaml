@@ -28,4 +28,16 @@ spec:
       - key: RCTL_PROJECT
         value: defaultproject
         type: PlainText
+      - key: access_key 
+        value: <Rafay Key>
+        type: SecureText
+      - key: secret_key
+        value: <Rafay Secret>
+        type: SecureText
+      - key: AWS_ACCESS_KEY_ID
+        value: <AWS Key>
+        type: SecureText
+      - key: AWS_SECRET_ACCESS_KEY
+        value: <AWS Secret>
+        type: SecureText
       backendconfig: null

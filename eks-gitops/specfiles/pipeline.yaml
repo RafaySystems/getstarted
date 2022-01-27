@@ -1,0 +1,85 @@
+apiVersion: pipeline.rafay.dev/v2
+kind: Pipeline
+metadata:
+  name: gitops-eks-pipeline
+spec:
+  edges: []
+  stages:
+  - name: cluster-action
+    stageType: InfraProvisionerStage
+    stageConfig:
+      approval: null
+      deployment: null
+      onFailure: Stop
+      workdloadTemplate: null
+      infraProvisioner:
+        infraProvisionerName: gitops-eks-infraprovisioner
+        actionConfig:
+          terraform:
+            type: TerraformActionApply
+            norefresh: false
+            targets: []
+            destroy: false
+        config:
+          terraform:
+            version: 0.15.0
+            inputVars: []
+            tfvarsFile: ""
+            envVars: null
+            backendConfig: null
+        gitRevision: main
+        useWorkingDirFrom: ""
+        persistWorkingDir: false
+        agentNames:
+        - gitops-eks-agent
+    variables: []
+    preConditions:
+    - conditionType: EvaluateExpression
+      config:
+        parentname: ""
+        parents: []
+---
+apiVersion: pipeline.rafay.dev/v2
+kind: Trigger
+metadata:
+  name: gitops-eks-trigger
+spec:
+  triggerType: WebhookTrigger
+  pipelineRef: gitops-eks-pipeline
+  repositoryRef: gitops-eks-repo
+  triggerConfig:
+    webhook:
+      configType: Github
+  repositoryConfig:
+    git:
+      revision: main
+      paths:
+      - specfiles/
+    helm: null
+  variables: []
+---
+apiVersion: config.rafay.dev/v2
+kind: Repository
+metadata:
+  name: gitops-eks-repo
+spec:
+  repositoryType: GitRepository
+  endpoint: <Endpoint>
+  insecure: false
+  caCert: ""
+  credentialType: UserPassCredential
+  credentials:
+    userPass:
+      username: <Username>
+      password: <Password>
+  agentNames:
+  - "gitops-eks-agent"
+---
+apiVersion: config.rafay.dev/v2
+kind: Agent
+metadata:
+  name: gitops-eks-agent
+spec:
+  template:
+    type: ClusterAgent
+    clusterName: gitops-eks-cluster

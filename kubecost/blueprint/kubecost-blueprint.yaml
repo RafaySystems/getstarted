@@ -1,0 +1,6 @@
+kind: Blueprint
+metadata:
+  # blueprint name
+  name: kubecost-blueprint
+  #project name
+  project: defaultproject

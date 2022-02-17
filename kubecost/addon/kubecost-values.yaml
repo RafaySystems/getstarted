@@ -1,0 +1,5 @@
+## Custom values for kubecost
+reporting:
+  valuesReporting: false
+## Change to your kubecost token below. Instructions on how to obtain the token can be found here https://www.kubecost.com/install#show-instructions
+kubecostToken: "bW9oYW5AcmFmYXkuY28=xm343yadf98"

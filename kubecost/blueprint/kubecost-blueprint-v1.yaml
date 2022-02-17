@@ -1,0 +1,19 @@
+kind: BlueprintVersion
+metadata:
+  name: v1
+  project: defaultproject
+  description: Kubecost Blueprint
+spec:
+  blueprint: kubecost-blueprint
+  baseSystemBlueprint: minimal
+  baseSystemBlueprintVersion: ""
+  addons:
+    - name: kubecost-addon
+      version: v1
+  # cluster-scoped or namespace-scoped
+  pspScope: cluster-scoped
+  rafayIngress: true
+  rafayMonitoringAndAlerting: false
+  kubevirt: false
+  # BlockAndNotify or DetectAndNotify
+  driftAction: BlockAndNotify

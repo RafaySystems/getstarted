@@ -1,0 +1,14 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: kubecost-addon
+  namespace: kubecost
+  template:
+    type: Helm3
+    valuesFile: kubecost-values.yaml
+    repository_ref: kubecost-repo
+    repo_artifact_meta:
+      helm:
+       chartName: cost-analyzer

@@ -3,10 +3,8 @@ metadata:
   name: cloudwatch-cluster
   project: defaultproject
 spec:
-  blueprint: cloudwatch-blueprint
-  blueprintversion: v1
+  blueprint: default
   cloudprovider: aws-cloud-credential
-  cniprovider: aws-cni
   type: eks
 ---
 apiVersion: rafay.io/v1alpha5
@@ -20,9 +18,3 @@ managedNodeGroups:
   - name: ng-1
     instanceType: t3.large
     desiredCapacity: 2
-    iam:
-     withAddonPolicies:
-      albIngress: true
-      autoScaler: true
-      efs: true
-      cloudWatch: true

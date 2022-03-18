@@ -1,0 +1,6 @@
+name: metallb-test-workload
+namespace: metallb-test-workload
+project: defaultproject
+type: NativeYaml
+clusters: metallb-cluster
+payload: metallb-nginx.yaml

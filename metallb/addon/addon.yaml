@@ -1,0 +1,14 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: metallb-addon
+  namespace: metallb
+  template:
+    type: Helm3
+    valuesFile: custom-values.yaml
+    repository_ref: metallb-repo
+    repo_artifact_meta:
+      helm:
+       chartName: metallb

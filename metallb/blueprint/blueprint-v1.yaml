@@ -1,0 +1,19 @@
+kind: BlueprintVersion
+metadata:
+  name: v1
+  project: defaultproject
+  description: metallb
+spec:
+  blueprint: metallb-blueprint
+  baseSystemBlueprint: default
+  baseSystemBlueprintVersion: ""
+  addons:
+    - name: metallb-addon
+      version: v1
+  # cluster-scoped or namespace-scoped
+  pspScope: cluster-scoped
+  rafayIngress: true
+  rafayMonitoringAndAlerting: false
+  kubevirt: false
+  # BlockAndNotify or DetectAndNotify
+  driftAction: BlockAndNotify 

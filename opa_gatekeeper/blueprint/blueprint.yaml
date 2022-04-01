@@ -1,0 +1,6 @@
+kind: Blueprint
+metadata:
+  # blueprint name
+  name: opa-gs-blueprint
+  #project name
+  project: defaultproject

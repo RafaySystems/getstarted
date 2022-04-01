@@ -1,0 +1,15 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAConstraint
+metadata:
+  labels:
+    rafay.dev/opa: constraint
+  name: rafay-request-limit-ratio-constraint
+  project: defaultproject
+spec:
+  artifact:
+    artifact:
+      paths:
+      - name: file://rafay-request-limit-ratio-constraint.yaml
+    options: {}
+    type: Yaml
+  templateName: rafay-request-limit-ratio-constraint-template

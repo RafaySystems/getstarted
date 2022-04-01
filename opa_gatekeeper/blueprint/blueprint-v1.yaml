@@ -1,0 +1,20 @@
+kind: BlueprintVersion
+metadata:
+  name: v1
+  project: defaultproject
+  description: opa getting started blueprint
+spec:
+  blueprint: opa-gs-blueprint
+  baseSystemBlueprint: default
+  baseSystemBlueprintVersion: ""
+  # cluster-scoped or namespace-scoped
+  pspScope: cluster-scoped
+  rafayIngress: true
+  rafayMonitoringAndAlerting: true
+  kubevirt: false
+  # BlockAndNotify or DetectAndNotify
+  driftAction: BlockAndNotify
+  opaPolicy:
+   enabled: true
+   name: opa-gs-policy
+   version: opa-gs-policy-version

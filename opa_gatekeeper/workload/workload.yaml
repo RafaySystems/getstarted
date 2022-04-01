@@ -1,0 +1,6 @@
+name: opa-gs-workload
+namespace: default
+project: defaultproject
+type: NativeYaml
+clusters: opa-gs-cluster
+payload: nginx.yaml

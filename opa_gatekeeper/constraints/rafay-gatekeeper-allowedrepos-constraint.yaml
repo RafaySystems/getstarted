@@ -1,0 +1,17 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: OPAK8sAllowedRepos
+metadata:
+  name: opa-allowed-repos
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    repos:
+      - "amazonaws.com" # ECR registry for EKS cluster
+      - "artifactory.arlocloud.com" # Arlo artifactory registry
+      - "k8s.gcr.io" # Kubernetes registry
+      - "registry.rafay-edge.net" # Rafay registry
+      - "docker.io" # bitnami registry

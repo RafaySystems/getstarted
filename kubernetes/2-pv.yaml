@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: 2-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: slow
+  claimRef:
+    name: 2-pvc
+    namespace: test
+  hostPath:
+    path: /var/lib/pv

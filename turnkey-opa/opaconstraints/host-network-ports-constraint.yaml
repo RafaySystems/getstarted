@@ -1,0 +1,15 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAConstraint
+metadata:
+  labels:
+    rafay.dev/opa: constraint
+  name: host-network-ports-custom
+  project: defaultproject
+spec:
+  artifact:
+    artifact:
+      paths:
+      - name: file://artifacts/host-network-ports-custom/host-network-ports.yaml
+    options: {}
+    type: Yaml
+  templateName: host-network-ports-custom

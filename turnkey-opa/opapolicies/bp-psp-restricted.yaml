@@ -1,0 +1,42 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAPolicy
+metadata:
+  name: bp-psp-restricted
+  project: defaultproject
+spec:
+  constraintList:
+  - name: allow-privilege-escalation-container-custom 
+  - name: allowed-users-custom                        
+  - name: app-armor-custom                            
+  - name: flex-volumes-custom                         
+  - name: forbidden-sysctls-custom                    
+  - name: host-filesystem-custom                      
+  - name: host-namespace-custom                       
+  - name: host-network-ports-custom                   
+  - name: linux-capabilities-custom                   
+  - name: privileged-container-custom                 
+  - name: proc-mount-custom                           
+  - name: read-only-root-filesystem-custom            
+  - name: se-linux-custom                             
+  - name: seccomp-custom                              
+  - name: volume-types-custom
+  excludedNamespaces:
+  - namespaces:
+    - name: namespace-1
+    processes:
+    - '*'
+  installationParams:
+    auditFromCache: false
+    auditInterval: 60
+    auditMatchKindOnly: false
+    constraintViolationsLimit: 20
+    enableDeleteOperations: false
+  sharing:
+    enabled: true
+    projects:
+    - name: defaultproject
+  syncObjects:
+  - group: extentions
+    kind: Pod
+    version: v1
+  version: v1

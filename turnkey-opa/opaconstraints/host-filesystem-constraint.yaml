@@ -1,0 +1,15 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAConstraint
+metadata:
+  labels:
+    rafay.dev/opa: constraint
+  name: host-filesystem-custom
+  project: defaultproject
+spec:
+  artifact:
+    artifact:
+      paths:
+      - name: file://artifacts/host-filesystem-custom/host-filesystem.yaml
+    options: {}
+    type: Yaml
+  templateName: host-filesystem-custom

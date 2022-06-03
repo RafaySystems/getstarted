@@ -1,0 +1,15 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAConstraint
+metadata:
+  labels:
+    rafay.dev/opa: constraint
+  name: flex-volumes-custom
+  project: defaultproject
+spec:
+  artifact:
+    artifact:
+      paths:
+      - name: file://artifacts/flexvolume-drivers-custom/flexvolume-drivers.yaml
+    options: {}
+    type: Yaml
+  templateName: flex-volumes-custom

@@ -1,0 +1,32 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAPolicy
+metadata:
+  name: bp-reliability
+  project: defaultproject
+spec:
+  constraintList:
+  - name: disallowed-tags-custom
+  - name: replica-limits-custom
+  - name: required-annotations-custom
+  - name: required-labels-custom
+  - name: required-probes-custom  
+  excludedNamespaces:  
+  - namespaces:
+    - name: namespace-1
+    processes:
+    - '*'
+  installationParams:
+    auditFromCache: false
+    auditInterval: 60
+    auditMatchKindOnly: false
+    constraintViolationsLimit: 20
+    enableDeleteOperations: false
+  sharing:
+    enabled: true
+    projects:
+    - name: defaultproject
+  syncObjects:
+  - group: extentions
+    kind: Pod
+    version: v1
+  version: v1

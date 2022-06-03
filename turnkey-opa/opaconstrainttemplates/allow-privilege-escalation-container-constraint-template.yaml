@@ -1,0 +1,15 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAConstraintTemplate
+metadata:
+  labels:
+    rafay.dev/opa: template
+  name: allow-privilege-escalation-container-custom
+  project: defaultproject
+spec:
+  artifact:
+    artifact:
+      paths:
+      - name: file://artifacts/allow-privilege-escalation-container-custom/allow-privilege-escalation-container.yaml
+    options: {}
+    type: Yaml
+

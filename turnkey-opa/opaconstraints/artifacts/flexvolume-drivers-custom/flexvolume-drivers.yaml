@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: Flex-Volumes
+metadata:
+  name: flexvolume-drivers
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    allowedFlexVolumes: #[]
+    - driver: "example/lvm"
+    - driver: "example/cifs"

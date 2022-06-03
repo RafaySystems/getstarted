@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: Forbidden-Sysctls
+metadata:
+  name: forbidden-sysctls
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    forbiddenSysctls:
+    # - "*" # * may be used to forbid all sysctls
+    - kernel.*

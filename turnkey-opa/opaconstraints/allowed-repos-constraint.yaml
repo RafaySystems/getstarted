@@ -1,0 +1,15 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAConstraint
+metadata:
+  labels:
+    rafay.dev/opa: constraint
+  name: allowed-repos-custom
+  project: defaultproject
+spec:
+  artifact:
+    artifact:
+      paths:
+      - name: file://artifacts/allowed-repos-custom/allowed-repos.yaml
+    options: {}
+    type: Yaml
+  templateName: allowed-repos-custom

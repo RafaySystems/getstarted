@@ -1,0 +1,15 @@
+apiVersion: opa.k8smgmt.io/v3
+kind: OPAConstraintTemplate
+metadata:
+  labels:
+    rafay.dev/opa: template
+  name: forbidden-sysctls-custom
+  project: defaultproject
+spec:
+  artifact:
+    artifact:
+      paths:
+      - name: file://artifacts/forbidden-sysctls-custom/forbidden-sysctls.yaml
+    options: {}
+    type: Yaml
+

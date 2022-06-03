@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: Linux-Capabilities
+metadata:
+  name: linux-capabilities-drop-all
+spec:
+  enforcementAction: deny
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    namespaces:
+      - "default"
+  parameters:
+    requiredDropCapabilities: ["AUDIT_CONTROL","AUDIT_READ","AUDIT_WRITE","BLOCK_SUSPEND","BPF","SYS_ADMIN","CHECKPOINT_RESTORE","SYS_ADMIN","CHOWN","DAC_OVERRIDE","DAC_READ_SEARCH","FOWNER","DAC_OVERRIDE","DAC_READ_SEARCH","FSETID","IPC_LOCK","IPC_OWNER","KILL","LEASE","LINUX_IMMUTABLE","MAC_ADMIN","MAC_OVERRIDE","MKNOD","NET_ADMIN","NET_BIND_SERVICE","NET_BROADCAST","NET_RAW","PERFMON","SYS_ADMIN","SETGID","SETFCAP","SETPCAP","SETPCAP","SETPCAP","SETUID","SYS_ADMIN","SYSLOG","CHECKPOINT_RESTORE","BPF","PERFMON","SYS_ADMIN","SYS_BOOT","SYS_CHROOT","SYS_MODULE","SYS_NICE","SYS_PACCT","SYS_PTRACE","SYS_RAWIO","SYS_RESOURCE","SYS_RESOURCE","SYS_TIME","SYS_TTY_CONFIG","SYSLOG","WAKE_ALARM"]

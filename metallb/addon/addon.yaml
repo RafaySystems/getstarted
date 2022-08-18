@@ -12,3 +12,4 @@ spec:
     repo_artifact_meta:
       helm:
        chartName: metallb
+       tag: 0.11.0

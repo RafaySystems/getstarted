@@ -6,26 +6,15 @@ metadata:
 spec:
   constraintList:
   - name: allowed-repos-custom
+    version: v1
   - name: block-nodeport-services-custom
+    version: v1
   - name: https-only-custom
+    version: v1
   - name: image-digests-custom
-  excludedNamespaces:  
-  - namespaces:
-    - name: namespace-1
-    processes:
-    - '*'
-  installationParams:
-    auditFromCache: false
-    auditInterval: 60
-    auditMatchKindOnly: false
-    constraintViolationsLimit: 20
-    enableDeleteOperations: false
+    version: v1
   sharing:
     enabled: true
     projects:
     - name: defaultproject
-  syncObjects:
-  - group: extentions
-    kind: Pod
-    version: v1
   version: v1

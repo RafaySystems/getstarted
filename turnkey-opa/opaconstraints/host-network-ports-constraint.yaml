@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/host-network-ports-custom/host-network-ports.yaml
     options: {}
     type: Yaml
+  published: true     
   templateName: host-network-ports-custom
+  version: v1

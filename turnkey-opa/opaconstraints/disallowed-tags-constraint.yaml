@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/disallowed-tags-custom/disallowed-tags.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: disallowed-tags-custom
+  version: v1

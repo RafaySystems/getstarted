@@ -6,37 +6,37 @@ metadata:
 spec:
   constraintList:
   - name: allow-privilege-escalation-container-custom 
-  - name: allowed-users-custom                        
-  - name: app-armor-custom                            
-  - name: flex-volumes-custom                         
-  - name: forbidden-sysctls-custom                    
-  - name: host-filesystem-custom                      
-  - name: host-namespace-custom                       
-  - name: host-network-ports-custom                   
-  - name: linux-capabilities-custom                   
-  - name: privileged-container-custom                 
-  - name: proc-mount-custom                           
-  - name: read-only-root-filesystem-custom            
-  - name: se-linux-custom                             
-  - name: seccomp-custom                              
+    version: v1
+  - name: allowed-users-custom         
+    version: v1  
+  - name: app-armor-custom  
+    version: v1  
+  - name: flex-volumes-custom
+    version: v1  
+  - name: forbidden-sysctls-custom
+    version: v1  
+  - name: host-filesystem-custom   
+    version: v1  
+  - name: host-namespace-custom     
+    version: v1  
+  - name: host-network-ports-custom 
+    version: v1  
+  - name: linux-capabilities-custom 
+    version: v1  
+  - name: privileged-container-custom 
+    version: v1  
+  - name: proc-mount-custom   
+    version: v1  
+  - name: read-only-root-filesystem-custom   
+    version: v1  
+  - name: se-linux-custom       
+    version: v1  
+  - name: seccomp-custom   
+    version: v1  
   - name: volume-types-custom
-  excludedNamespaces:
-  - namespaces:
-    - name: namespace-1
-    processes:
-    - '*'
-  installationParams:
-    auditFromCache: false
-    auditInterval: 60
-    auditMatchKindOnly: false
-    constraintViolationsLimit: 20
-    enableDeleteOperations: false
+    version: v1
   sharing:
     enabled: true
     projects:
     - name: defaultproject
-  syncObjects:
-  - group: extentions
-    kind: Pod
-    version: v1
   version: v1

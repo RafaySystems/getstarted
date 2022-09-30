@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/flexvolume-drivers-custom/flexvolume-drivers.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: flex-volumes-custom
+  version: v1

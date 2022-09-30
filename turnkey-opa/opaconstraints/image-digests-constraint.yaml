@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/image-digests-custom/image-digests.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: image-digests-custom
+  version: v1

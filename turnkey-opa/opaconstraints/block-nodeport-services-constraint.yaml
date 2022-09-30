@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/block-nodeport-services-custom/block-nodeport-services.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: block-nodeport-services-custom
+  version: v1

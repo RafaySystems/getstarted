@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/read-only-root-filesystem-custom/read-only-root-filesystem.yaml
     options: {}
     type: Yaml
+  published: true   
   templateName: read-only-root-filesystem-custom
+  version: v1

@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/linux-capabilities-custom/linux-capabilities.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: linux-capabilities-custom
+  version: v1

@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/se-linux-custom/se-linux.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: se-linux-custom
+  version: v1

@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/forbidden-sysctls-custom/forbidden-sysctls.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: forbidden-sysctls-custom
+  version: v1

@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/seccomp-custom/seccomp.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: seccomp-custom
+  version: v1

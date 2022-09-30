@@ -12,4 +12,8 @@ spec:
       - name: file://artifacts/host-filesystem-custom/host-filesystem.yaml
     options: {}
     type: Yaml
+  published: true  
   templateName: host-filesystem-custom
+  version: v1
+  
+  

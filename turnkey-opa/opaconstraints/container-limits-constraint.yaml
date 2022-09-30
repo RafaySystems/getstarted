@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/container-limits-custom/container-limits.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: container-limits-custom
+  version: v1

@@ -12,4 +12,6 @@ spec:
       - name: file://rafay-gatekeeper-allowedrepos-constraint.yaml
     options: {}
     type: Yaml
+  published: true
   templateName: rafay-gatekeeper-allowedrepos-constraint-template
+  version: v1

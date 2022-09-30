@@ -6,24 +6,11 @@ metadata:
 spec:
   constraintList:
   - name: rafay-request-limit-ratio-constraint
+    version: v1
   - name: rafay-gatekeeper-allowedrepos-constraint
-  excludedNamespaces:
-  - namespaces:
-    - name: namespace-1
-    processes:
-    - '*'
-  installationParams:
-    auditFromCache: false
-    auditInterval: 60
-    auditMatchKindOnly: false
-    constraintViolationsLimit: 20
-    enableDeleteOperations: false
+    version: v1
   sharing:
     enabled: true
     projects:
     - name: defaultproject
-  syncObjects:
-  - group: extentions
-    kind: Pod
-    version: v1
   version: opa-gs-policy-version

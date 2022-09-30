@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/container-resource-ratios-custom/container-resource-ratios.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: container-resource-ratios-custom
+  version: v1

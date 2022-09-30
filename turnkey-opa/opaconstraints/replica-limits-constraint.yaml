@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/replica-limits-custom/replica-limits.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: replica-limits-custom
+  version: v1

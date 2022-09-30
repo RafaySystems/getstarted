@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/host-namespace-custom/host-namespace.yaml
     options: {}
     type: Yaml
+  published: true  
   templateName: host-namespace-custom
+  version: v1

@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/required-annotations-custom/required-annotations.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: required-annotations-custom
+  version: v1

@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/required-probes-custom/required-probes.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: required-probes-custom
+  version: v1

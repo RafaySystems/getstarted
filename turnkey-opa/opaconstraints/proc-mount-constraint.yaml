@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/proc-mount-custom/proc-mount.yaml
     options: {}
     type: Yaml
+  published: true   
   templateName: proc-mount-custom
+  version: v1

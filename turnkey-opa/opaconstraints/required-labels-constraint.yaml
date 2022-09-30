@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/required-labels-custom/required-labels.yaml
     options: {}
     type: Yaml
+  published: true 
   templateName: required-labels-custom
+  version: v1

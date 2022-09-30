@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/allowed-repos-custom/allowed-repos.yaml
     options: {}
     type: Yaml
+  published: true  
   templateName: allowed-repos-custom
+  version: v1

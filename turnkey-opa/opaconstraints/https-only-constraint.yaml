@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/https-only-custom/https-only.yaml
     options: {}
     type: Yaml
+  published: true  
   templateName: https-only-custom
+  version: v1

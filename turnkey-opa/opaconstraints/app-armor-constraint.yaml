@@ -12,4 +12,6 @@ spec:
       - name: file://artifacts/app-armor-custom/app-armor.yaml
     options: {}
     type: Yaml
+  published: true   
   templateName: app-armor-custom
+  version: v1

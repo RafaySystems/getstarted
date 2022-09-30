@@ -12,5 +12,7 @@ spec:
       - name: file://artifacts/allow-privilege-escalation-container-custom/allow-privilege-escalation-container.yaml
     options: {}
     type: Yaml
+  published: true   
   templateName: allow-privilege-escalation-container-custom
+  version: v1
 

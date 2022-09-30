@@ -12,4 +12,6 @@ spec:
       - name: file://rafay-request-limit-ratio-constraint.yaml
     options: {}
     type: Yaml
+  published: true    
   templateName: rafay-request-limit-ratio-constraint-template
+  version: v1

@@ -3,6 +3,7 @@ kind: Blueprint
 metadata:
   name: opa-gs-blueprint
   project: defaultproject
+  description: opa getting started blueprint
 spec:
   base:
     name: default

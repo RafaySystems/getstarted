@@ -44,9 +44,5 @@ cluster_location       =  "<CLUSTER_LOCATION>"
 
   If validate is success, that means all the configuration is valid, then we can apply with terraform
 ```
-  terraform apply -var-file=terraform.tfvars
-```
-  or
-```
-  terraform apply -var-file=terraform.tfvars -auto-approve
+  terraform apply
 ```

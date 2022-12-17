@@ -32,4 +32,4 @@ node_labels = {
 
 #Blueprint/Addons specific variables
 blueprint_name         = "minimal"
-blueprint_version      = ""
+blueprint_version      = "1.21.0"

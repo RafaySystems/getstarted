@@ -1,6 +1,0 @@
-project_name = "demo-2"
-rafay_cloud_credential_name    = "eks-demo"
-rafay_aws_account_id = "ABCDEFG"
-cluster_name = "demo-cluster-2"
-aws_iam_role_name = "rafay-eks-role"
-aws_iam_policy_name = "rafay-eks-policy"

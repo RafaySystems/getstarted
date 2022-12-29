@@ -73,33 +73,33 @@ resource "rafay_aks_cluster" "cluster" {
             }
           }
           type = "Microsoft.ContainerService/managedClusters"
-          tags = var.cluster_tags
         }
-        node_pools {
-          apiversion = "2021-05-01"
-          name       = var.nodepool_name
-          location = var.cluster_location
-          properties {
-            count                = var.node_count
-            enable_auto_scaling  = true
-            enable_node_public_ip = false
-            max_count		         = var.node_max_count
-            min_count		         = var.node_min_count
-            max_pods             = 40
-            mode                 = "System"
-            orchestrator_version = var.k8s_version
-            os_type              = "Linux"
-            os_disk_size_gb      = 30
-            availability_zones   = [1, 2, 3]
-            type                 = "VirtualMachineScaleSets"
-            upgrade_settings {
-              max_surge = "40%"
+        dynamic "node_pools" {
+          for_each = var.nodePools
+          content {
+            apiversion = "2021-05-01"
+            name       = node_pools.value.name
+            location   = node_pools.value.location
+            properties {
+              count                = node_pools.value.count
+              enable_auto_scaling  = true
+              enable_node_public_ip = false
+              max_count		         = node_pools.value.maxCount
+              min_count		         = node_pools.value.minCount
+              max_pods             = 110
+              mode                 = node_pools.value.mode
+              orchestrator_version = node_pools.value.k8sVersion
+              os_type              = "Linux"
+              os_disk_size_gb      = 30
+              availability_zones   = [1, 2, 3]
+              type                 = "VirtualMachineScaleSets"
+              upgrade_settings {
+                max_surge = "40%"
+              }
+              vm_size = node_pools.value.vmSize
             }
-            vm_size = var.vm_size
-            node_labels = var.node_labels
-            tags = var.node_tags
+            type = "Microsoft.ContainerService/managedClusters/agentPools"
           }
-          type = "Microsoft.ContainerService/managedClusters/agentPools"
         }
       }
     }

@@ -30,34 +30,15 @@ variable "k8s_version" {
   type = string
 }
 
-variable "nodepool_name" {
-  type = string
-}
-
-variable "node_count" {
-  type = string
-}
-
-variable "node_max_count" {
-  type = string
-}
-
-variable "node_min_count" {
-  type = string
-}
-
-variable "vm_size" {
-  type = string
-}
-
-variable "cluster_tags" {
-  type = map
-}
-
-variable "node_tags" {
-  type = map
-}
-
-variable "node_labels" {
-  type = map
+variable "nodePools" {
+  type = map(object({
+    name          = string
+    location      = string
+    count         = number
+    maxCount      = string
+    minCount      = string
+    mode          = string
+    k8sVersion    = string
+    vmSize        = string
+  }))
 }

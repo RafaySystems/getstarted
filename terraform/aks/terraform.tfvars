@@ -23,20 +23,10 @@ nodePools = {
   "pool1" = {
     name          = "pool1"
     location      = "centralindia"
-    count         = 2
-    maxCount      = 3
-    minCount      = 2
-    mode          = "System"
-    k8sVersion    = "1.23.8"
-    vmSize        = "Standard_DS2_v2"
-  }
-  "pool2" = {
-    name          = "pool2"
-    location      = "centralindia"
     count         = 1
     maxCount      = 3
     minCount      = 1
-    mode          = "User"
+    mode          = "System"
     k8sVersion    = "1.23.8"
     vmSize        = "Standard_DS2_v2"
   }

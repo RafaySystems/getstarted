@@ -6,12 +6,12 @@ resource "rafay_eks_cluster" "cluster" {
       project = var.project
     }
     spec {
-      type           = "eks"
-      blueprint      = var.blueprint_name
+      type              = "eks"
+      blueprint         = var.blueprint_name
       blueprint_version = var.blueprint_version
-      cloud_provider = var.cloud_credentials_name
-      cni_provider   = "aws-cni"
-      proxy_config   = {}
+      cloud_provider    = var.cloud_credentials_name
+      cni_provider      = "aws-cni"
+      proxy_config      = {}
     }
   }
   cluster_config {
@@ -33,14 +33,14 @@ resource "rafay_eks_cluster" "cluster" {
       }
     }
     dynamic "managed_nodegroups" {
-	  for_each = var.managed_nodegroups
-	  content {
-	    name       = managed_nodegroups.value.ng_name
+	    for_each = var.managed_nodegroups
+	    content {
+	      name       = managed_nodegroups.value.ng_name
         ami_family = "AmazonLinux2"
         iam {
           iam_node_group_with_addon_policies {
             image_builder = true
-            cloud_watch = true
+            cloud_watch   = true
             }
         }
         instance_type    = managed_nodegroups.value.instance_type
@@ -53,7 +53,7 @@ resource "rafay_eks_cluster" "cluster" {
         volume_iops      = 3000
         volume_throughput = 125
         private_networking = true
-	  }
+	    }
     }
   }
 }

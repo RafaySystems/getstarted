@@ -21,7 +21,6 @@ resource "rafay_eks_cluster" "cluster" {
       name    = var.cluster_name
       region  = var.cluster_location
       version = var.k8s_version
-      tags = var.cluster_tags
     }
     vpc {
       cidr = "192.168.0.0/16"
@@ -33,27 +32,28 @@ resource "rafay_eks_cluster" "cluster" {
         gateway = "Single"
       }
     }
-    managed_nodegroups {
-      name       = var.ng_name
-      ami_family = "AmazonLinux2"
-      iam {
-        iam_node_group_with_addon_policies {
-          image_builder = true
-          cloud_watch = true
-          }
-     }
-      instance_type    = var.instance_type
-      desired_capacity = var.node_count
-      min_size         = var.node_min_count
-      max_size         = var.node_max_count
-      version          = var.k8s_version
-      volume_size      = 80
-      volume_type      = "gp3"
-      volume_iops      = 3000
-      volume_throughput = 125
-      private_networking = true
-      labels = var.node_labels
-      tags = var.node_tags
+    dynamic "managed_nodegroups" {
+	  for_each = var.managed_nodegroups
+	  content {
+	    name       = managed_nodegroups.value.ng_name
+        ami_family = "AmazonLinux2"
+        iam {
+          iam_node_group_with_addon_policies {
+            image_builder = true
+            cloud_watch = true
+            }
+        }
+        instance_type    = managed_nodegroups.value.instance_type
+        desired_capacity = managed_nodegroups.value.node_count
+        min_size         = managed_nodegroups.value.node_min_count
+        max_size         = managed_nodegroups.value.node_max_count
+        version          = managed_nodegroups.value.k8s_version
+        volume_size      = 80
+        volume_type      = "gp3"
+        volume_iops      = 3000
+        volume_throughput = 125
+        private_networking = true
+	  }
     }
   }
 }

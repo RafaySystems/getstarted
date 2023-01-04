@@ -31,34 +31,6 @@ variable "k8s_version" {
   type = string
 }
 
-variable "nodepool_name" {
-  type = string
-}
-
-variable "node_count" {
-  type = string
-}
-
-variable "node_max_count" {
-  type = string
-}
-
-variable "node_min_count" {
-  type = string
-}
-
-variable "cluster_tags" {
-  type = map
-}
-
-variable "node_tags" {
-  type = map
-}
-
-variable "node_labels" {
-  type = map
-}
-
 variable "rolearn" {
   type = string
 }
@@ -67,10 +39,13 @@ variable "externalid" {
   type = string
 }
 
-variable "ng_name" {
-  type = string
-}
-
-variable "instance_type" {
-  type = string
+variable "managed_nodegroups" {
+  type = map(object({
+    ng_name = string
+	node_count = string
+	node_max_count = string
+	node_min_count = string
+	instance_type = string
+	k8s_version    = string
+  }))
 }

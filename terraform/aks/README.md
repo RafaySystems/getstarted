@@ -1,15 +1,29 @@
 # Rafay terraform provider examples
 
-This exercise includes examples of a Rafay project, cloud credentials, cluster, & blueprint.
+This Getting Started exercise uses Terraform with Azure AKS to provision a cluster. You can view your results in the Console.
+
+For more exercises, go to the [Documentation site](https://docs.rafay.co/learn/quickstart/aks/clusterlifecycle/overview/) to see the following:
+
+- Provisiong a cluster
+- Scaling the number of nodes
+- Adding a node group
+- Upgrading the Kubernetes version for the cluster
+- Deprovisiong (deleting) a cluster
 
 # Setup
 
-- Update Rafay API & SECRET
+- Update API key, the API secret, and the Project ID in the Config JSON file.
+
+    - The key, secret, and ID can be found in the RCTL CLI configuration file.
+	- In the Console, go to My Tools > Download CLI Config.
+
 ```
 artifacts/credentials/config.json
 ```
 
 - Update tfvars file with following variables. Please review other variables and update as required.
+- Note: For the purposes of this exercise, the number of variables has been limited.
+
 ```
 terraform.tfvars
 
@@ -32,17 +46,20 @@ cluster_location       =  "<CLUSTER_LOCATION>"
 
 ## BUILD & RUN
 
-  Execute below command to init with terraform
+Use the following command to init with Terraform.
+
 ```
-  terraform init
+terraform init
 ```
 
-  For validating your configuration run below command
+Use the following command to validate your configuration.
+
 ```
-  terraform validate
+terraform validate
 ```
 
-  If validate is success, that means all the configuration is valid, then we can apply with terraform
+If validation is successful, use the following command to apply the cluster configuration using Terraform.
+
 ```
-  terraform apply
+terraform apply
 ```

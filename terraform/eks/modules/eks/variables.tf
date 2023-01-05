@@ -29,10 +29,10 @@ variable "k8s_version" {
 variable "managed_nodegroups" {
   type = map(object({
     ng_name        = string
-	node_count     = string
-	node_max_count = string
-	node_min_count = string
-	instance_type  = string
-	k8s_version    = string
+	  node_count     = string
+	  node_max_count = string
+	  node_min_count = string
+	  instance_type  = string
+	  k8s_version    = string
   }))
 }

@@ -1,6 +1,7 @@
 # Usage
 
 export KUBECONFIG=kubeconfig.file
+
 bash k8s-insights.sh CLUSTER_NAME
 
 # What does the discovery script do? 

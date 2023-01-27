@@ -10,6 +10,8 @@ spec:
   addons:
     - name: metallb-addon
       version: v1
+    - name: metallbyaml-addon
+      version: v1    
   # cluster-scoped or namespace-scoped
   pspScope: cluster-scoped
   rafayIngress: true

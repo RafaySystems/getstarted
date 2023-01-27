@@ -1,0 +1,11 @@
+apiVersion: infra.k8smgmt.io/v3
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: metallbyaml-addon
+  namespace: metallb
+  template:
+    type: yaml
+    yamlFile: ./metallb-cm.yaml

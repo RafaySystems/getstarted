@@ -1,7 +1,12 @@
 # Usage
 
+## Step 1
+
+
+## Step 2
 export KUBECONFIG=kubeconfig.file
 
+## Step 3 
 bash k8s-insights.sh CLUSTER_NAME
 
 ---

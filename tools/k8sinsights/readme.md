@@ -1,7 +1,11 @@
 # Usage
 
 ## Step 1
+Clone this repository and update the permissions so that the script can be executed 
 
+```
+chmod +x the_file_name
+```
 
 ## Step 2
 export KUBECONFIG=kubeconfig.file

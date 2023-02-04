@@ -4,18 +4,26 @@
 Clone this repository and update the permissions so that the script can be executed 
 
 ```
-chmod +x the_file_name
+chmod +x k8sinsights.sh 
 ```
 
 ## Step 2
+Download the kubeconfig file and add it to the KUBECONFIG environment variable. The kubeconfig file can contain details for multiple clusters in your fleet. 
+
+```
 export KUBECONFIG=kubeconfig.file
+```
 
 ## Step 3 
+Execute the "k8s-insights" script and provide the cluster name as input 
+
+```
 bash k8s-insights.sh CLUSTER_NAME
+```
 
 ---
 
-# How does this work? 
+# How it Works
 
 ## Step 1 
 

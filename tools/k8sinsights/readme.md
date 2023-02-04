@@ -10,7 +10,7 @@ bash k8s-insights.sh CLUSTER_NAME
 
 ## Step 1 
 
-Verifies if given user inputs are valid. Cluster name & kuneconfig to access the cluster for discovery
+Verifies if given user inputs are valid i.e. cluster name & kubeconfig to access the cluster for discovery
 
 ## Step 2 
 

@@ -1,5 +1,8 @@
 serviceAccount:
   create: false
-controller:
-  clusterName: karpenter-cluster
-  clusterEndpoint: https://C167D39D46B39390254F6E0AF5CEE5E5.gr7.us-west-2.eks.amazonaws.com
+  name: karpenter
+settings:
+  aws:
+    clusterName: {{{ .global.Rafay.ClusterName }}}
+    clusterEndpoint: https://6BFE5782F47E2E1C1C376CC669AF0E52.gr7.us-west-2.eks.amazonaws.com
+    defaultInstanceProfile: eks-e6c318f9-234d-e417-f31b-d4917cca76b9

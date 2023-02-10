@@ -1,8 +1,0 @@
-apiVersion: config.rafay.dev/v2
-kind: Repository
-metadata:
-  name: karpenter-repo
-spec:
-  repositoryType: HelmRepository
-  endpoint:  https://charts.karpenter.sh
-  credentialType: CredentialTypeNotSet

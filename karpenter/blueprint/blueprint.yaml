@@ -1,6 +1,16 @@
+apiVersion: infra.k8smgmt.io/v3
 kind: Blueprint
 metadata:
-  # blueprint name
   name: karpenter-blueprint
-  #project name
   project: defaultproject
+spec:
+  base:
+    name: minimal
+    version: 1.22.0
+  type: custom
+  customAddons:
+  - name: karpenter-addon
+    version: v1
+  - name: provisioner-addon
+    version: v1
+  version: v1

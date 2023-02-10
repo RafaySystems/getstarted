@@ -1,14 +1,21 @@
-kind: AddonVersion
+apiVersion: infra.k8smgmt.io/v3
+kind: Addon
 metadata:
-  name: v1
+  name: karpenter-addon
   project: defaultproject
 spec:
-  addon: karpenter-addon
+  artifact:
+    artifact:
+      catalog: default-rafay
+      chartName: karpenter
+      chartVersion: v0.23.0
+      valuesPaths:
+      - name: file://custom-values.yaml
+    options:
+      maxHistory: 1
+      timeout: 1m0s
+    type: Helm
   namespace: karpenter
-  template:
-    type: Helm3
-    valuesFile: custom-values.yaml
-    repository_ref: karpenter-repo
-    repo_artifact_meta:
-      helm:
-       chartName: karpenter
+  sharing:
+    enabled: false
+  version: v0

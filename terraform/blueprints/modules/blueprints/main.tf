@@ -20,7 +20,7 @@ resource "rafay_blueprint" "blueprint" {
     sharing {
       enabled = false
       projects {
-        name = "terraform"
+        name = "defaultprooject"
       }
     }
     placement {

@@ -10,4 +10,5 @@ module "blueprint" {
   blueprint_version      = var.blueprint_version
   base_blueprint         = var.base_blueprint
   base_blueprint_version = var.base_blueprint_version
+  depends_on             = [module.project]
 }

@@ -31,12 +31,20 @@ spec:
             - "ec2:DescribeInstanceTypeOfferings"
             - "ec2:DescribeAvailabilityZones"
             - "ssm:GetParameter"
+            - "eks:DescribeCluster"
             Effect: Allow
             Resource: "*"
           Version: "2012-10-17"
         metadata:
           name: karpenter
-          namespace: karpenter      
+          namespace: karpenter  
+    identityMappings:
+      arns:
+      - arn: "arn:aws:iam::<ACCOUNT-NUMBER>:role/KarpenterNodeRole-Rafay"
+        username: system:node:{{EC2PrivateDNSName}}
+        group:
+        - system:bootstrappers
+        - system:nodes	  
     managedNodeGroups:
     - amiFamily: AmazonLinux2
       desiredCapacity: 2

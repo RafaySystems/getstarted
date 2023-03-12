@@ -4,5 +4,4 @@ serviceAccount:
 settings:
   aws:
     clusterName: {{{ .global.Rafay.ClusterName }}}
-    clusterEndpoint: https://6BFE5782F47E2E1C1C376CC669AF0E52.gr7.us-west-2.eks.amazonaws.com
-    defaultInstanceProfile: eks-e6c318f9-234d-e417-f31b-d4917cca76b9
+    defaultInstanceProfile: KarpenterNodeRole-Rafay 

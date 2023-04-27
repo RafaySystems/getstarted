@@ -1,0 +1,15 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: gpu-operator
+  namespace: gpu-operator-resources
+  template:
+    type: Helm3
+    valuesFile: values.yaml
+    repository_ref: gpu
+    repo_artifact_meta:
+      helm:
+       tag: v23.3.1
+       chartName: gpu-operator

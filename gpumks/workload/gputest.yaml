@@ -1,0 +1,6 @@
+name: gputest
+namespace: gputest
+project: defaultproject
+type: NativeYaml
+clusters: demo-gpu-mks
+payload: ./gpu-job.yaml

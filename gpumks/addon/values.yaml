@@ -1,0 +1,8 @@
+driver:
+  enabled: true
+dcgmExporter:
+  repository: nvcr.io/nvidia/k8s
+  image: dcgm-exporter
+  version: 3.1.7-3.1.4-ubuntu20.04
+operator:
+  defaultRuntime: containerd

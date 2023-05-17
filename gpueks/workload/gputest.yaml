@@ -2,5 +2,5 @@ name: gputest
 namespace: gputest
 project: defaultproject
 type: NativeYaml
-clusters: demo-gpueks
+clusters: demo-gpu-eks
 payload: ./gpu-job.yaml

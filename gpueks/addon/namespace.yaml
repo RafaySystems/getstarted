@@ -1,7 +1,7 @@
 kind: ManagedNamespace
 apiVersion: config.rafay.dev/v2
 metadata:
-  name: nvidia
+  name: gpu-operator-resources
   description: namespace for gpu-operator
   labels:
   annotations:

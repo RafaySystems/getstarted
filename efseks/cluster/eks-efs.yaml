@@ -1,0 +1,55 @@
+kind: Cluster
+metadata:
+  name: eks-efs-cluster
+  project: defaultproject
+spec:
+  blueprint: default
+  cloudprovider: aws-cloud-credential
+  type: eks
+---
+apiVersion: rafay.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-efs-cluster
+  region: us-west-2
+  tags:
+    email: tim@rafay.co
+    env: qa
+  version: "1.24"
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - attachPolicy:
+      Statement:
+      - Action:		
+        - elasticfilesystem:DescribeAccessPoints
+        - elasticfilesystem:DescribeFileSystems
+        - elasticfilesystem:DescribeMountTargets
+        - ec2:DescribeAvailabilityZones
+        - elasticfilesystem:CreateAccessPoint
+        - elasticfilesystem:DeleteAccessPoint
+        Effect: Allow
+        Resource: '*'
+      Version: "2012-10-17"
+    metadata:
+      name: efs-csi-controller-sa
+      namespace: kube-system
+managedNodeGroups:
+- amiFamily: AmazonLinux2
+  desiredCapacity: 2
+  instanceType: t3.xlarge
+  maxSize: 2
+  minSize: 2
+  name: ng-1
+  tags:
+    email: tim@rafay.co
+    env: qa
+  volumeSize: 80
+  volumeType: gp3
+vpc:
+  cidr: 192.168.0.0/16
+  clusterEndpoints:
+    privateAccess: true
+    publicAccess: false
+  nat:
+    gateway: Single

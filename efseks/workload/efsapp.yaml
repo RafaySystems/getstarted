@@ -1,0 +1,6 @@
+name: efsapp
+namespace: efstest
+project: defaultproject
+type: NativeYaml
+clusters: eks-efs-cluster
+payload: ./efsappspec.yaml

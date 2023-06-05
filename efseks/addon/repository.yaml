@@ -1,0 +1,8 @@
+apiVersion: config.rafay.dev/v2
+kind: Repository
+metadata:
+  name: efs
+spec:
+  repositoryType: HelmRepository
+  endpoint:  https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+  credentialType: CredentialTypeNotSet

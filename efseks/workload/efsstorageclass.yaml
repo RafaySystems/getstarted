@@ -1,0 +1,6 @@
+name: efsstorageclass
+namespace: efstest
+project: defaultproject
+type: NativeYaml
+clusters: eks-efs-cluster
+payload: ./efsstorageclassspec.yaml

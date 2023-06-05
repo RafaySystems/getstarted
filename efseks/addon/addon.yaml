@@ -1,0 +1,15 @@
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: efs-csi-driver
+  namespace: kube-system
+  template:
+    type: Helm3
+    valuesFile: values.yaml
+    repository_ref: efs
+    repo_artifact_meta:
+      helm:
+       tag: v2.4.4
+       chartName: aws-efs-csi-driver

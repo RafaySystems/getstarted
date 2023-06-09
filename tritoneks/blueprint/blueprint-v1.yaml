@@ -1,0 +1,19 @@
+kind: BlueprintVersion
+metadata:
+  name: v1
+  project: defaultproject
+  description: Nvidia GPU Operator 
+spec:
+  blueprint: gpu-blueprint
+  baseSystemBlueprint: default
+  baseSystemBlueprintVersion: ""
+  addons:
+    - name: gpu-operator
+      version: v1
+  # cluster-scoped or namespace-scoped
+  pspScope: cluster-scoped
+  rafayIngress: false
+  rafayMonitoringAndAlerting: true
+  kubevirt: false
+  # BlockAndNotify or DetectAndNotify
+  driftAction: BlockAndNotify

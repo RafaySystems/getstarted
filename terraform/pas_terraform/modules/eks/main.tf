@@ -12,14 +12,6 @@ resource "rafay_eks_cluster" "cluster" {
       cloud_provider = var.cloud_credentials_name
       cni_provider   = "aws-cni"
       proxy_config   = {}
-      sharing {
-        enabled = var.sharing ? true : false
-        dynamic "projects" {
-          for_each = var.application_projects
-          content {
-            name = projects.value.name
-          }
-       }
       }
     }
   }

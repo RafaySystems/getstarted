@@ -65,7 +65,6 @@ module "cloud-credentials" {
    node_tags              = var.node_tags
    node_labels            = var.node_labels
    sharing                = var.sharing
-   application_projects   = var.application_projects
    depends_on             = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
  }
 
@@ -88,6 +87,5 @@ module "cloud-credentials" {
   node_tags              = var.node_tags
   node_labels            = var.node_labels
   sharing                = var.sharing
-  application_projects   = var.application_projects
   depends_on             = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
 } */

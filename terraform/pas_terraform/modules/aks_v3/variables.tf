@@ -65,15 +65,3 @@ variable "node_labels" {
 variable "sharing" {
   type = bool
 }
-
-variable "application_projects" {
-  type = map(object({
-    name          = string
-    description   = string
-    size          = string
-    groups        = map(object({
-         name  = string
-         roles = list(string)
-        }))
-  }))
-}

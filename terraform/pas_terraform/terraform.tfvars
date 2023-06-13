@@ -25,7 +25,7 @@ cluster_location       =  "centralindia"
 
 # Cluster specific variables (AKS)
 cluster_resource_group =  "my-resource-group"
-nodepool_name          =  "rafay-aks-nodepool"
+nodepool_name          =  "rafay-np"
 # VM Size for AKS
 vm_size                =  "Standard_DS2_v2"
 

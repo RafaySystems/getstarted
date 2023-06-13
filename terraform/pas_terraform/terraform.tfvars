@@ -4,16 +4,16 @@ project               = "my-terraform-project"
 # Cloud Credentials specific variables
 cloud_credentials_name  = "cloud-credentials"
 # Specify Service prinicipal info below for AKS.
-subscription_id         = "a2252eb2-7a25-432b-a5ec-e18eba6f26b1"
-tenant_id               = "38d77531-9d10-484f-9c1d-3e3484cd9c34"
-client_id               = "968ce636-d857-4d58-a4d5-301b232fa3f5"
-client_secret           = "PMG7Q~54T1Y6.naxP7KGlYrEIMzvHdCOqAkHR"
+subscription_id         = ""
+tenant_id               = ""
+client_id               = ""
+client_secret           = ""
 # Specify Role ARN & externalid info below for EKS.
 rolearn                 = ""
 externalid              = ""
 
 # Cluster variables (Common)
-cluster_name           =  "dreta-aks-cluster-6-12-1"
+cluster_name           =  "rafay-managed-cluster"
 k8s_version            =  "1.25.6"
 node_count             =  "2"
 node_max_count         =  "3"
@@ -24,13 +24,13 @@ cluster_location       =  "centralindia"
 #cluster_location       =  "us-west-2"
 
 # Cluster specific variables (AKS)
-cluster_resource_group =  "dreta-private"
+cluster_resource_group =  "my-resource-group"
 nodepool_name          =  "rafay-aks-nodepool"
 # VM Size for AKS
 vm_size                =  "Standard_DS2_v2"
 
 # Cluster specific variables (EKS)
-instance_type          = "t3.xlarge"
+instance_type          = "t3.large"
 # EKS Nodegroup 
 ng_name                = "rafay-eks-ng"
 
@@ -39,11 +39,12 @@ sharing = false
 
 # TAGS
 cluster_tags           = {
-    "created-by" = "user"
-    "to-test"    = "terraform"
+    "email" = "user@rafay.co"
+    "env"    = "dev"
+    "orchestrator" = "rafay"
 }
 node_tags = {
-    "env" = "prod"
+    "env" = "dev"
 
 }
 node_labels = {

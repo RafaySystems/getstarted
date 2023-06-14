@@ -17,8 +17,15 @@ module "cloud-credentials" {
 }
 
 module "group" {
-  source      =  "./modules/group"
-  project     = "${var.project}-project-admin"
+  source      = "./modules/group"
+  group       = "${var.project}-project-admin"
+}
+
+module "group-association" {
+  source      = "./modules/group-association"
+  group       = "${var.project}-project-admin"
+  project     = var.project
+  depends_on  = [ module.group]
 }
 
  module "repositories" {

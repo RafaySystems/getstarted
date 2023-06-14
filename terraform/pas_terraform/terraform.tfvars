@@ -14,6 +14,7 @@ externalid              = ""
 
 # Cluster variables (Common)
 cluster_name           =  "rafay-managed-cluster"
+# K8S Version formats: (AKS: 1.25.6, EKS: 1.25)
 k8s_version            =  "1.25.6"
 node_count             =  "2"
 node_max_count         =  "3"

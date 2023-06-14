@@ -1,31 +1,29 @@
 # Poject name variable
-project               = "my-terraform-project"
+project               = "<PROJECT_NAME>"
 
 # Cloud Credentials specific variables
-cloud_credentials_name  = "cloud-credentials"
+cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Service prinicipal info below for AKS.
-subscription_id         = ""
-tenant_id               = ""
-client_id               = ""
-client_secret           = ""
+subscription_id         = "<AZURE_SUBSCRIPTION_ID>"
+tenant_id               = "<AZURE_TENANT_ID>"
+client_id               = "<AZURE_CLIENT_ID>"
+client_secret           = "<AZURE_CLIENT_SECRET>"
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = ""
-externalid              = ""
+rolearn                 = "<ROLEARN>"
+externalid              = "<EXTERNAL_ID>"
 
 # Cluster variables (Common)
-cluster_name           =  "rafay-managed-cluster"
-# K8S Version formats: (AKS: 1.25.6, EKS: 1.25)
-k8s_version            =  "1.25.6"
+cluster_name           =  "<CLUSTER_NAME>"
+# K8S Version (AKS: 1.25.6, EKS: 1.25)
+k8s_version            =  "<K8S_VERSION>"
 node_count             =  "2"
 node_max_count         =  "3"
 node_min_count         =  "1"
-# Azure Region
-cluster_location       =  "centralindia"
-# AWS Region
-#cluster_location       =  "us-west-2"
+# Cluster Location (AKS: centralindia, EKS: us-west-2)
+cluster_location       =  "<CLUSTER_LOCATION>"
 
 # Cluster specific variables (AKS)
-cluster_resource_group =  "my-resource-group"
+cluster_resource_group =  "<AZURE_RESOURCE_GROUP>"
 nodepool_name          =  "rafaynp"
 # VM Size for AKS
 vm_size                =  "Standard_DS2_v2"
@@ -34,9 +32,6 @@ vm_size                =  "Standard_DS2_v2"
 instance_type          = "t3.large"
 # EKS Nodegroup 
 ng_name                = "rafay-eks-ng"
-
-# Cluster Sharing
-sharing = false
 
 # TAGS
 cluster_tags           = {

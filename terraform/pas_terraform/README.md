@@ -1,10 +1,14 @@
 # Rafay terraform provider examples
 
-This includes examples of Rafay project, cloud_credentials, aks_cluster, repository, addons, blueprint & cluster overrides.
+This includes examples of Rafay project, cloud_credentials, aks_cluster or eks_cluster, repository, addons, blueprint & cluster overrides.
 
 # Setup
 
-- Update Rafay API & SECRET
+- Update the API key, the API secret, and the Project ID in the Config JSON file.
+
+    - The key, secret, and ID can be found in the RCTL CLI configuration file.
+	- In the Console, go to My Tools > Download CLI Config.
+
 ```
 artifacts/credentials/config.json
 ```
@@ -13,20 +17,37 @@ artifacts/credentials/config.json
 ```
 terraform.tfvars
 
-#Poject name variable
-project                 = "<PROJECT_NAME>"
+# Poject name variable
+project               = "<PROJECT_NAME>"
 
-#Cloud Credentials specific varaibles
-cloud_credentials_name  = "<CLOUD_CREDENTIAL_NAME>"
-subscription_id         = "<SUBSCRIPTION_ID>"
-tenant_id               = "<TENANT_ID>"
-client_id               = "<CLIENT_ID>"
-client_secret           = "<CLIENT_SECRET>"
+# Specify Service prinicipal info below for AKS.
+subscription_id         = "<AZURE_SUBSCRIPTION_ID>"
+tenant_id               = "<AZURE_TENANT_ID>"
+client_id               = "<AZURE_CLIENT_ID>"
+client_secret           = "<AZURE_CLIENT_SECRET>"
 
-#Cluster specific varaibles
+# Specify Role ARN & externalid info below for EKS.
+rolearn                 = "<ROLEARN>"
+externalid              = "<EXTERNAL_ID>"
+
+# Cluster variables (Common)
 cluster_name           =  "<CLUSTER_NAME>"
-cluster_resource_group =  "<RESOURCE_GROUP_NAME>"
+
+# K8S Version (AKS: 1.25.6, EKS: 1.25)
+k8s_version            =  "<K8S_VERSION>"
+
+# Cluster Location (AKS: centralindia, EKS: us-west-2)
 cluster_location       =  "<CLUSTER_LOCATION>"
+
+# Cluster specific variables (AKS)
+cluster_resource_group =  "<AZURE_RESOURCE_GROUP>"
+
+# TAGS
+cluster_tags           = {
+    "email" = "user@rafay.co"
+    "env"    = "dev"
+    "orchestrator" = "rafay"
+}
 ```
 
 - Update any custom values for addons as required.

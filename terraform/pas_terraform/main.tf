@@ -16,6 +16,11 @@ module "cloud-credentials" {
   depends_on              = [ module.project]
 }
 
+module "group" {
+  source      =  "./modules/group"
+  project     = "${var.project}-project-admin"
+}
+
  module "repositories" {
    source               = "./modules/repositories"
    project              = var.project
@@ -45,9 +50,9 @@ module "cloud-credentials" {
    infra_addons           = var.infra_addons
    depends_on           = [ module.addons ]
  }
- module aks_cluster_v3 {
+ module aks_cluster {
    count                  = var.subscription_id == "" ? 0 : 1
-   source                 = "./modules/aks_v3"
+   source                 = "./modules/aks"
    cluster_name           = var.cluster_name
    cluster_tags           = var.cluster_tags
    project                = var.project
@@ -68,7 +73,7 @@ module "cloud-credentials" {
    depends_on             = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
  }
 
- /* module eks_cluster {
+ module eks_cluster {
   count                  = var.rolearn == "" ? 0 : 1
   source                 = "./modules/eks"
   cluster_name           = var.cluster_name
@@ -88,4 +93,4 @@ module "cloud-credentials" {
   node_labels            = var.node_labels
   sharing                = var.sharing
   depends_on             = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
-} */
+}

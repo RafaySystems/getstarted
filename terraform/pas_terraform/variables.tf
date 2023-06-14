@@ -138,7 +138,3 @@ variable "ng_name" {
 variable "instance_type" {
   type = string
 }
-
-variable "sharing" {
-  type = bool
-}

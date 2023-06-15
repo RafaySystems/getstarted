@@ -1,6 +1,6 @@
 # Rafay terraform provider examples
 
-This includes examples of Rafay project, cloud_credentials, aks_cluster or eks_cluster, repository, addons, blueprint & cluster overrides.
+This includes examples of Rafay project, group, group_association, cloud_credentials, aks_cluster or eks_cluster, repository, addons, blueprint & cluster overrides.
 
 # Setup
 

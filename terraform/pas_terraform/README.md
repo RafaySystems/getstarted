@@ -1,6 +1,8 @@
-# Rafay terraform provider examples
+# Project as a Service 
 
-This includes examples of Rafay project, group, group_association, cloud_credentials, aks_cluster or eks_cluster, repository, addons, blueprint & cluster overrides.
+This is Terraform Infrastructure as Code (IaC) supporting a [Getting Started](https://docs.rafay.co/learn/quickstart/use_cases/pas_terraform/overview/) Exercise for "Project as a Service". In this example, we will use Rafay's Terraform Provider to provision an RBAC-controlled, dedicated operating environment aka project for an application team/business unit, bootstrap it with an EKS or AKS cluster and bring the cluster to a standardized baseline (aka cluster blueprint). 
+
+---
 
 # Setup
 
@@ -13,7 +15,7 @@ This includes examples of Rafay project, group, group_association, cloud_credent
 artifacts/credentials/config.json
 ```
 
-- Update tfvars file with following variables. Please review other variables and update as required.
+- Update tfvars file with the following variables. Please review other variables and update as required.
 ```
 terraform.tfvars
 

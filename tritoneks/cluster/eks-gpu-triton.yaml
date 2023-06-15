@@ -1,0 +1,63 @@
+kind: Cluster
+metadata:
+  name: eks-gpu-triton
+  project: defaultproject
+spec:
+  blueprint: default
+  cloudprovider: aws-cloud-credential
+  cniprovider: aws-cni
+  proxyconfig: {}
+  type: eks
+---
+apiVersion: rafay.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-gpu-triton
+  region: us-west-1
+  tags:
+    email: tim@rafay.co
+    env: qa
+  version: "1.24"
+managedNodeGroups:
+- amiFamily: AmazonLinux2
+  desiredCapacity: 1
+  iam:
+    withAddonPolicies:
+      albIngress: true
+      autoScaler: true
+      efs: true
+      externalDNS: true
+      imageBuilder: true
+  instanceType: t3.large
+  labels:
+    NodeType: t3-node
+  maxSize: 1
+  minSize: 1
+  name: t3-nodegroup
+  privateNetworking: true
+  tags:
+    email: tim@rafay.co
+    env: qa
+  volumeSize: 100
+  volumeType: gp3
+- name: gpu-nodegroup
+  # grab AMI ID for Ubuntu EKS AMI here: https://cloud-images.ubuntu.com/aws-eks/
+  # using AMI ID for us-west-1 region: ami-00687acd80b7a620a
+  ami: ami-0114d85734fee93fb
+  instanceType: g4dn.xlarge
+  minSize: 1
+  maxSize: 1
+  volumeSize: 100
+  tags:
+    email: tim@rafay.co
+    env: qa
+  desiredCapacity: 1
+  overrideBootstrapCommand: |
+    [Ubuntu]
+vpc:
+  cidr: 192.168.0.0/16
+  clusterEndpoints:
+    privateAccess: true
+    publicAccess: false
+  nat:
+    gateway: Single

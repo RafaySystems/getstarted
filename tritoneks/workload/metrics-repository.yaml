@@ -1,0 +1,8 @@
+apiVersion: config.rafay.dev/v2
+kind: Repository
+metadata:
+  name: triton-metrics
+spec:
+  repositoryType: GitRepository
+  endpoint:  https://github.com/prometheus-community/helm-charts.git
+  credentialType: CredentialTypeNotSet

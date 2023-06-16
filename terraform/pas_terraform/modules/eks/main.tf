@@ -14,7 +14,6 @@ resource "rafay_eks_cluster" "cluster" {
       proxy_config   = {}
       }
     }
-  }
   cluster_config {
     apiversion = "rafay.io/v1alpha5"
     kind       = "ClusterConfig"
@@ -42,7 +41,7 @@ resource "rafay_eks_cluster" "cluster" {
           image_builder = true
           cloud_watch = true
           }
-     }
+      }
       instance_type    = var.instance_type
       desired_capacity = var.node_count
       min_size         = var.node_min_count

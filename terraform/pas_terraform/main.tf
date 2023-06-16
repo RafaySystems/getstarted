@@ -80,7 +80,6 @@ module aks_cluster {
  vm_size                = var.vm_size
  node_tags              = var.node_tags
  node_labels            = var.node_labels
- sharing                = var.sharing
  depends_on             = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
 }
 
@@ -102,6 +101,5 @@ node_min_count         = var.node_min_count
 instance_type          = var.instance_type
 node_tags              = var.node_tags
 node_labels            = var.node_labels
-sharing                = var.sharing
 depends_on             = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
 } 

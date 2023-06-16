@@ -61,7 +61,3 @@ variable "node_tags" {
 variable "node_labels" {
   type = map
 }
-
-variable "sharing" {
-  type = bool
-}

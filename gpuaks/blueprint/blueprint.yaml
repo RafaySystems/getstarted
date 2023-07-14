@@ -1,0 +1,36 @@
+apiVersion: infra.k8smgmt.io/v3
+kind: Blueprint
+metadata:
+  name: gpu-blueprint
+  project: defaultproject
+spec:
+  base:
+    name: default-aks
+  customAddons:
+  - name: gpu-operator
+    version: v1
+  defaultAddons:
+    enableIngress: false
+    enableLogging: true
+    enableMonitoring: true
+    enableVM: false
+    monitoring:
+      helmExporter:
+        discovery: {}
+        enabled: true
+      kubeStateMetrics:
+        discovery: {}
+        enabled: true
+      metricsServer:
+        enabled: false
+      nodeExporter:
+        discovery: {}
+        enabled: true
+      prometheusAdapter:
+        enabled: false
+      resources: {}
+  drift:
+    enabled: true
+  sharing:
+    enabled: false
+  version: v1

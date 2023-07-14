@@ -1,0 +1,50 @@
+apiVersion: rafay.io/v1alpha1
+kind: Cluster
+metadata:
+  name: demo-gpu-aks
+  project: defaultproject
+spec:
+  blueprint: default-aks
+  cloudprovider: azure-cc
+  clusterConfig:
+    apiVersion: rafay.io/v1alpha1
+    kind: aksClusterConfig
+    metadata:
+      name: demo-gpu-aks
+    spec:
+      managedCluster:
+        apiVersion: "2022-07-01"
+        identity:
+          type: SystemAssigned
+        location: northcentralus
+        properties:
+          apiServerAccessProfile:
+            enablePrivateCluster: true
+          dnsPrefix: demo-gpu-aks-dns
+          kubernetesVersion: 1.25.6
+          networkProfile:
+            loadBalancerSku: standard
+            networkPlugin: kubenet
+        sku:
+          name: Basic
+          tier: Free
+        type: Microsoft.ContainerService/managedClusters
+      nodePools:
+      - apiVersion: "2022-07-01"
+        location: northcentralus
+        name: primary
+        properties:
+          count: 1
+          enableAutoScaling: true
+          maxCount: 1
+          maxPods: 110
+          minCount: 1
+          mode: System
+          orchestratorVersion: 1.25.6
+          osType: Linux
+          type: VirtualMachineScaleSets
+          vmSize: Standard_NC4as_T4_v3
+        type: Microsoft.ContainerService/managedClusters/agentPools
+      resourceGroupName: Tim-RG
+  proxyconfig: {}
+  type: aks

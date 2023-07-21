@@ -4,13 +4,13 @@ project               = "<PROJECT_NAME>"
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Service prinicipal info below for AKS.
-subscription_id         = "<AZURE_SUBSCRIPTION_ID>"
-tenant_id               = "<AZURE_TENANT_ID>"
-client_id               = "<AZURE_CLIENT_ID>"
-client_secret           = "<AZURE_CLIENT_SECRET>"
+subscription_id         = ""
+tenant_id               = ""
+client_id               = ""
+client_secret           = ""
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = "<ROLEARN>"
-externalid              = "<EXTERNAL_ID>"
+rolearn                 = ""
+externalid              = ""
 
 # Cluster variables (Common)
 cluster_name           =  "<CLUSTER_NAME>"

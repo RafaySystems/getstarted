@@ -1,0 +1,15 @@
+kind: ManagedNamespace
+apiVersion: config.rafay.dev/v2
+metadata:
+  name: vm
+  description: namespace for the VM workload
+  labels:
+  annotations:
+spec:
+  type: RafayWizard
+  resourceQuota:
+  placement:
+    placementType: ClusterSpecific
+    clusterLabels:
+    - key: rafay.dev/clusterName
+      value: kubevirt-cluster

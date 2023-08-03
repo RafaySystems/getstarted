@@ -1,0 +1,11 @@
+apiVersion: infra.k8smgmt.io/v3
+kind: AddonVersion
+metadata:
+  name: v1
+  project: defaultproject
+spec:
+  addon: kubevirt-operator-addon
+  namespace: kubevirt
+  template:
+    type: yaml
+    yamlFile: ./kubevirt-operator.yaml

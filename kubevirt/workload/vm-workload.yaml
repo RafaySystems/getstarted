@@ -1,0 +1,6 @@
+name: vm
+namespace: vm
+project: defaultproject
+type: NativeYaml
+clusters: kubevirt-cluster
+payload: ./vm.yaml

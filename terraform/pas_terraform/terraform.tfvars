@@ -9,8 +9,8 @@ tenant_id               = "<AZURE_TENANT_ID>"
 client_id               = "<AZURE_CLIENT_ID>"
 client_secret           = "<AZURE_CLIENT_SECRET>"
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = "<ROLEARN>"
-externalid              = "<EXTERNAL_ID>"
+rolearn                 = ""
+externalid              = ""
 
 # Cluster variables (Common)
 cluster_name           =  "<CLUSTER_NAME>"

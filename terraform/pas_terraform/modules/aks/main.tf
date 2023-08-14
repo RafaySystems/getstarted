@@ -26,7 +26,7 @@ resource "rafay_aks_cluster_v3" "cluster" {
           identity {
             type = "SystemAssigned"
           }
-          location = "centralindia"
+          location = var.cluster_location
           tags = var.cluster_tags
           properties {
             api_server_access_profile {

@@ -2,7 +2,7 @@ kind: FleetPlan
 apiVersion: infra.k8smgmt.io/v3
 metadata:
   name: eks-fleet1-plan-1-23
-  project: demofleet
+  project: defaultproject
 spec:
   fleet:
     kind: clusters
@@ -10,7 +10,7 @@ spec:
       rafay.dev/clusterType: aws-eks
       rafay.dev/k8sVersion: '1.23'
     projects:
-      - name: demofleet
+      - name: defaultproject
   operationWorkflow:
     operations:
       - name: eks-1-23-plan

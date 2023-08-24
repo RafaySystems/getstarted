@@ -2,7 +2,7 @@ kind: FleetPlan
 apiVersion: infra.k8smgmt.io/v3
 metadata:
   name: fleet-eks-upgrade-ng-customami
-  project: demofleet
+  project: defaultproject
 spec:
   fleet:
     kind: clusters
@@ -10,8 +10,7 @@ spec:
       cluster-type: eks
       env: eks-demo
     projects:
-      - name: demofleet
-      - name: platform
+      - name: defaultproject
   operationWorkflow:
     operations:
       - name: update-linux-ng-custom-ami

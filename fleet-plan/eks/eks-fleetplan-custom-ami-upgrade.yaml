@@ -1,0 +1,54 @@
+kind: FleetPlan
+apiVersion: infra.k8smgmt.io/v3
+metadata:
+  name: fleet-eks-upgrade-ng-customami
+  project: demofleet
+spec:
+  fleet:
+    kind: clusters
+    labels:
+      cluster-type: eks
+      env: eks-demo
+    projects:
+      - name: demofleet
+      - name: platform
+  operationWorkflow:
+    operations:
+      - name: update-linux-ng-custom-ami
+        prehooks:
+          - description: get-all-nodes-linux
+            inject:
+              - KUBECONFIG
+            name: get-all-nodes-linux
+            containerConfig:
+              runner: cluster
+              image: alpine/k8s:1.24.16
+              arguments:
+                - '-c'
+                - kubectl get nodes -o wide
+              commands:
+                - /bin/sh
+        action:
+          type: patch
+          description: update-linux-ng-ami
+          name: update-linux-ng-ami
+          patchConfig:
+            - op: replace
+              path: >-
+                .spec.config.managedNodeGroups[] | select(.name |
+                test("custom-ami-managed-linux")).ami
+              value: ami-0fbbadb91fafd8047
+        posthooks:
+          - description: recheck-get-all-nodes-linux
+            inject:
+              - KUBECONFIG
+            name: recheck-get-all-nodes-linux
+            containerConfig:
+              runner: cluster
+              image: alpine/k8s:1.24.16
+              arguments:
+                - '-c'
+                - kubectl get nodes -o wide
+              commands:
+                - /bin/sh
+

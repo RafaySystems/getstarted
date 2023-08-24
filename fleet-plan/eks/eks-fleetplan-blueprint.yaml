@@ -1,0 +1,56 @@
+kind: FleetPlan
+apiVersion: infra.k8smgmt.io/v3
+metadata:
+  name: eks-fleet-plan-1-23
+  project: demofleet
+spec:
+  fleet:
+    kind: clusters
+    labels:
+      rafay.dev/clusterType: aws-eks
+      rafay.dev/k8sVersion: '1.23'
+    projects:
+      - name: demofleet
+  operationWorkflow:
+    operations:
+      - name: eks-1-23-plan
+        prehooks:
+          - description: Deprecated APIs Check
+            inject:
+              - KUBECONFIG
+            name: deprecated-api-check
+            containerConfig:
+              runner: cluster
+              image: ghcr.io/doitintl/kube-no-trouble:latest
+              arguments:
+                - '-o'
+                - json
+                - '-e'
+          - description: >-
+              deprecated API's and will verify the current context against
+              v1.24.15  version
+            name: pre-upgrade-checker
+            containerConfig:
+              runner: cluster
+              image: ctadeu/kubepug:latest
+              arguments:
+                - '--k8s-version=v1.24.15'
+          - inject:
+              - KUBECONFIG
+            name: docker-socket-detector-check
+            containerConfig:
+              runner: cluster
+              image: registry.dev.rafay-edge.net/rafay/dockersocketdetector:v1
+              arguments:
+                - '-e'
+        action:
+          type: patch
+          name: blueprint-update
+          patchConfig:
+            - op: replace
+              path: .spec.blueprintConfig.name
+              value: minimal
+            - op: replace
+              path: .spec.blueprintConfig.version
+              value: latest
+

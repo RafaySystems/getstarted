@@ -1,3 +1,0 @@
-variable "group" {
-  type = string
-}

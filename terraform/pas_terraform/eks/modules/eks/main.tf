@@ -6,7 +6,6 @@ resource "rafay_eks_cluster" "cluster" {
       project = var.project
       labels = {
         cluster = "test-label"
-        region  = "us-west-2"
       }
     }
     spec {
@@ -18,9 +17,9 @@ resource "rafay_eks_cluster" "cluster" {
       proxy_config   = {}
       system_components_placement {      
         tolerations {
-          key       = "node/infra"
-          operator  = "Exists"
-          effect    = "NoSchedule"
+          key       = var.rafay_tol_key
+          operator  = var.rafay_tol_operator
+          effect    = var.rafay_tol_effect
         }
         tolerations {
             key       = var.ds_tol_key

@@ -32,17 +32,6 @@ managed_nodegroups = {
     taint_key       = "node/infra"
     taint_operator  = "Exists"
     taint_effect    = "NoSchedule"
-  },
-  "ng-2" = {
-    ng_name         = "worker-ng-terraform"
-    node_count      = 2
-    node_max_count  = 3
-    node_min_count  = 1
-    k8s_version     = "1.25"
-    instance_type   = "t3.large"
-    taint_key       = "node/infra"
-    taint_operator  = "Exists"
-    taint_effect    = "NoSchedule"
   }
 }
 

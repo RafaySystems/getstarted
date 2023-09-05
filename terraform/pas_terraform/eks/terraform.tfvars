@@ -15,6 +15,9 @@ cluster_location       =  "cluster-location-aws-region-changeme"
 k8s_version            =  "1.25"
 
 # Systems Components Placement
+rafay_tol_key         = "node/infra"
+rafay_tol_operator    = "Exists"
+rafay_tol_effect      = "NoSchedule"
 # Daemonset Overrides
 ds_tol_key             = "cluster-node"
 ds_tol_operator        = "Exists"

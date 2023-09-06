@@ -45,18 +45,6 @@ variable "rafay_tol_effect" {
   type = string
 }
 
-variable "rafay_tol_key" {
-  type = string
-}
-
-variable "rafay_tol_operator" {
-  type = string
-}
-
-variable "rafay_tol_effect" {
-  type = string
-}
-
 variable "ds_tol_key" {
   type = string
 }

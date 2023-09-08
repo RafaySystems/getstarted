@@ -1,0 +1,53 @@
+kind: FleetPlan
+apiVersion: infra.k8smgmt.io/v3
+metadata:
+  name: eks-fleet1-plan-1-24
+  project: demofleet
+spec:
+  fleet:
+    kind: clusters
+    labels:
+      rafay.dev/clusterType: aws-eks
+      rafay.dev/k8sVersion: '1.24'
+    projects:
+      - name: demofleet
+  operationWorkflow:
+    operations:
+      - name: eks-1-24-plan
+        prehooks:
+          - description: Deprecated APIs Check
+            inject:
+              - KUBECONFIG
+            name: deprecated-api-check
+            containerConfig:
+              runner: cluster
+              image: ghcr.io/doitintl/kube-no-trouble:latest
+              arguments:
+                - '-o'
+                - json
+                - '-e'
+          - description: >-
+              deprecated API's and will verify the current context against
+              v1.25.13 version
+            name: pre-upgrade-checker
+            containerConfig:
+              runner: cluster
+              image: ctadeu/kubepug:latest
+              arguments:
+                - '--k8s-version=v1.25.13'
+          - inject:
+              - KUBECONFIG
+            name: check-aws-load-balancer
+            containerConfig:
+              runner: cluster
+              image: >-
+                registry.rafay-edge.net/rafay/check-aws-load-balancer-controller:v1
+              arguments:
+                - aws-load-balancer-controller-name # This is the AWS Load Balancer Controller deployment name 
+                - aws-namespace                     # This is the namespace of AWS Load Balancer Controller deployment
+        action:
+          type: nodeGroupsAndControlPlaneUpgrade
+          description: upgrade to 1.25
+          name: eks-cluster-upgrade
+          nodeGroupsAndControlPlaneUpgradeConfig:
+            version: '1.25'

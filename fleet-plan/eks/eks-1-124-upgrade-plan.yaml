@@ -1,19 +1,19 @@
 kind: FleetPlan
 apiVersion: infra.k8smgmt.io/v3
 metadata:
-  name: eks-fleet1-plan-1-23
+  name: eks-fleet1-plan-1-24
   project: defaultproject
 spec:
   fleet:
     kind: clusters
     labels:
       rafay.dev/clusterType: aws-eks
-      rafay.dev/k8sVersion: '1.23'
+      rafay.dev/k8sVersion: '1.24'
     projects:
       - name: defaultproject
   operationWorkflow:
     operations:
-      - name: eks-1-23-plan
+      - name: eks-1-24-plan
         prehooks:
           - name: deprecated-api-check
             description: Deprecated APIs Check
@@ -33,7 +33,7 @@ spec:
           - name: pre-upgrade-checker
             description: >-
               deprecated API's and will verify the current context against
-              v1.24.15  version
+              v1.25.13 version
             inject:
               - KUBECONFIG
             containerConfig:
@@ -41,26 +41,28 @@ spec:
                 type: cluster
               image: ctadeu/kubepug:latest
               arguments:
-                - '--k8s-version=v1.24.15'
+                - '--k8s-version=v1.25.13'
               cpuLimitMilli: '4'
               memoryLimitMb: '100'
             timeoutSeconds: 60
-          - name: docker-socket-detector-check
+          - name: check-aws-load-balancer
             description: ''
             inject:
               - KUBECONFIG
             containerConfig:
               runner:
                 type: cluster
-              image: registry.rafay-edge.net/rafay/dockersocketdetector:v1
+              image: >-
+                registry.rafay-edge.net/rafay/check-aws-load-balancer-controller:v1
               arguments:
-                - '-e'
+                - aws-load-balancer-controller-name       # This is the AWS Load Balancer Controller deployment name 
+                - aws-namespace                           # This is the namespace of AWS Load Balancer Controller deployment
               cpuLimitMilli: '4'
               memoryLimitMb: '100'
-            timeoutSeconds: 100
+            timeoutSeconds: 60
         action:
           type: nodeGroupsAndControlPlaneUpgrade
-          description: upgrade to 1.24
+          description: upgrade to 1.25
           name: eks-cluster-upgrade
           nodeGroupsAndControlPlaneUpgradeConfig:
-            version: '1.24'
+            version: '1.25'

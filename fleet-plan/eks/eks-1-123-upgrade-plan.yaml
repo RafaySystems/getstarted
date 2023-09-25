@@ -15,38 +15,52 @@ spec:
     operations:
       - name: eks-1-23-plan
         prehooks:
-          - description: Deprecated APIs Check
+          - name: deprecated-api-check
+            description: Deprecated APIs Check
             inject:
               - KUBECONFIG
-            name: deprecated-api-check
             containerConfig:
-              runner: cluster
+              runner:
+                type: cluster
               image: ghcr.io/doitintl/kube-no-trouble:latest
               arguments:
                 - '-o'
                 - json
                 - '-e'
-          - description: >-
+              cpuLimitMilli: '4'
+              memoryLimitMb: '100'
+            timeoutSeconds: 60
+          - name: pre-upgrade-checker
+            description: >-
               deprecated API's and will verify the current context against
               v1.24.15  version
-            name: pre-upgrade-checker
+            inject:
+              - KUBECONFIG
             containerConfig:
-              runner: cluster
+              runner:
+                type: cluster
               image: ctadeu/kubepug:latest
               arguments:
                 - '--k8s-version=v1.24.15'
-          - inject:
+              cpuLimitMilli: '4'
+              memoryLimitMb: '100'
+            timeoutSeconds: 60
+          - name: docker-socket-detector-check
+            description: ''
+            inject:
               - KUBECONFIG
-            name: docker-socket-detector-check
             containerConfig:
-              runner: cluster
-              image: registry.dev.rafay-edge.net/rafay/dockersocketdetector:v1
+              runner:
+                type: cluster
+              image: registry.rafay-edge.net/rafay/dockersocketdetector:v1
               arguments:
                 - '-e'
+              cpuLimitMilli: '4'
+              memoryLimitMb: '100'
+            timeoutSeconds: 100
         action:
           type: nodeGroupsAndControlPlaneUpgrade
           description: upgrade to 1.24
           name: eks-cluster-upgrade
           nodeGroupsAndControlPlaneUpgradeConfig:
             version: '1.24'
-

@@ -20,7 +20,8 @@ spec:
               - KUBECONFIG
             name: get-all-nodes-linux
             containerConfig:
-              runner: cluster
+              runner:
+                type: cluster
               image: alpine/k8s:1.24.16
               arguments:
                 - '-c'
@@ -43,7 +44,8 @@ spec:
               - KUBECONFIG
             name: recheck-get-all-nodes-linux
             containerConfig:
-              runner: cluster
+              runner:
+                type: cluster
               image: alpine/k8s:1.24.16
               arguments:
                 - '-c'

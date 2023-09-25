@@ -20,7 +20,8 @@ spec:
               - KUBECONFIG
             name: deprecated-api-check
             containerConfig:
-              runner: cluster
+              runner:
+                type: cluster
               image: ghcr.io/doitintl/kube-no-trouble:latest
               arguments:
                 - '-o'
@@ -31,7 +32,8 @@ spec:
               v1.24.15  version
             name: pre-upgrade-checker
             containerConfig:
-              runner: cluster
+              runner: 
+                type: cluster
               image: ctadeu/kubepug:latest
               arguments:
                 - '--k8s-version=v1.24.15'
@@ -39,7 +41,8 @@ spec:
               - KUBECONFIG
             name: docker-socket-detector-check
             containerConfig:
-              runner: cluster
+              runner: 
+                type: cluster
               image: registry.dev.rafay-edge.net/rafay/dockersocketdetector:v1
               arguments:
                 - '-e'

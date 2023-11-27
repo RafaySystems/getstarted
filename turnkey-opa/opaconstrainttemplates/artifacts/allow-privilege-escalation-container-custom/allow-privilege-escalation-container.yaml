@@ -1,18 +1,18 @@
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
-  name: allow-privilege-escalation-container
+  name: allow-privilege-escalation-container-custom
   annotations:
     description: Controls restricting escalation to root privileges.
 spec:
   crd:
     spec:
       names:
-        kind: Allow-Privilege-Escalation-Container
+        kind: Allow-Privilege-Escalation-Container-Custom
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
-        package allowprivilegeescalationcontainer
+        package allowprivilegeescalationcontainercustom
 
         violation[{"msg": msg, "details": {}}] {
             c := input_containers[_]

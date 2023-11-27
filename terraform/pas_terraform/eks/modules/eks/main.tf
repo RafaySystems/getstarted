@@ -46,14 +46,42 @@ resource "rafay_eks_cluster" "cluster" {
       version = var.k8s_version
       tags = var.cluster_tags
     }
+    identity_mappings {
+      dynamic "arns" {
+        for_each = toset(var.cluster_admin_iam_roles)
+        content {
+          arn      = arns.value
+          group    = ["system:masters"] #k8s group
+          username = "cluster-admin"
+        }
+      }
+      arns {
+        arn   = "arn:aws:iam::679196758854:user/abhinav@rafay.co"
+        #arn = "arn:aws:iam::387046989863:role/aws-auth-updater20230616225325548900000001"
+        group = ["aws-auth-cm-manager"]
+        username = "aws-auth-cm-manager"
+      }
+    }
     vpc {
-      cidr = "192.168.0.0/16"
+      subnets {
+        dynamic "private" {
+          for_each = var.private_subnet_ids
+          content {
+            name = private.value
+            id   = private.key
+          }
+        }
+        dynamic "public" {
+          for_each = var.public_subnet_ids
+          content {
+            name = public.value
+            id   = public.key
+          }
+        }
+      }
       cluster_endpoints {
         private_access = true
         public_access  = false
-      }
-      nat {
-        gateway = "Single"
       }
     }
     dynamic "managed_nodegroups" {

@@ -1,18 +1,35 @@
 # Poject name variable
-project               = "pas-gs-changeme"
+project               = "pas-dreta-11-22-2"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = "my-iam-arn-changeme"
-externalid              = "my-external-id-changeme"
+rolearn                 = "arn:aws:iam::679196758854:role/dreta-provisioning-role"
+externalid              = "c685-9ce7-7fbe-c971-5163"
 
 # Cluster variables ()
-cluster_name           =  "cluster-name-changeme"
+cluster_name           =  "pas-dreta-11-22-2"
 # Cluster Location
-cluster_location       =  "cluster-location-aws-region-changeme"
+cluster_location       =  "us-west-2"
 # K8S Version
-k8s_version            =  "1.25"
+k8s_version            =  "1.26"
+
+#cluster_admin_iam_roles = 
+#["arn:aws:iam::387046989863:role/Broad-access-role"]
+
+cluster_admin_iam_roles = ["arn:aws:iam::679196758854:user/david@rafay.co", "arn:aws:iam::679196758854:role/abhinavm-eks-role", "arn:aws:iam::679196758854:role/km-demo-role"]
+
+# VPC Configuration
+private_subnet_ids = {
+  "subnet-01bc23afc0744c4aa" = "us-west-2a",
+  "subnet-04e1e5616bde25473" = "us-west-2b"
+}
+
+# VPC Configuration Public Subnet IDs
+public_subnet_ids = {
+  "subnet-0cde3009a8e9b04f2" = "us-west-2a",
+  "subnet-02d30b8e8c56b142a" = "us-west-2b"
+}
 
 # Systems Components Placement
 rafay_tol_key         = "node/infra"
@@ -30,7 +47,7 @@ managed_nodegroups = {
     node_count      = 1
     node_max_count  = 3
     node_min_count  = 1
-    k8s_version     = "1.25"
+    k8s_version     = "1.26"
     instance_type   = "t3.large"
     taint_key       = "node/infra"
     taint_operator  = "Exists"
@@ -56,8 +73,8 @@ node_labels = {
 blueprint_name         = "custom-blueprint"
 blueprint_version      = "v0"
 base_blueprint         = "minimal"
-base_blueprint_version = "1.27.0"
-namespaces              = ["ingress-nginx", "cert-manager"]
+base_blueprint_version = "2.1.0"
+namespaces             = ["ingress-nginx", "cert-manager"]
 infra_addons = {
     "addon1" = {
          name          = "cert-manager"
@@ -80,6 +97,8 @@ infra_addons = {
          depends_on    = ["cert-manager"]
     }
 }
+
+constraint_templates   = ["allow-privilege-escalation-container-custom"]
 
 # Repository specific variables
 public_repositories = {

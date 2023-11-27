@@ -1,6 +1,7 @@
 variable "rafay_config_file" {
   type    = string
   default = "../artifacts/credentials/config.json"
+  description = "The config file containing the credentials to authenticate"
 }
 
 variable "project" {
@@ -23,14 +24,30 @@ variable "externalid" {
 
 variable "cluster_name" {
     type = string
+    description = "The name of the Rafay managed kubernetes cluster."
 }
 
 variable "cluster_location" {
   type = string
 }
 
+variable "cluster_admin_iam_roles" {
+  type        = list(string)
+  description = "IAM Roles to be granted cluster-admin access."
+}
+
 variable "k8s_version" {
   type = string
+}
+
+variable "private_subnet_ids" {
+  type        = map(string)
+  description = "List of subnet ids for EKS Control Plane and Node Groups"
+}
+
+variable "public_subnet_ids" {
+  type        = map(string)
+  description = "List of subnet ids for EKS Control Plane and Node Groups"
 }
 
 variable "rafay_tol_key" {
@@ -100,6 +117,10 @@ variable "base_blueprint_version" {
 }
 
 variable "namespaces" {
+    type = list(string)
+}
+
+variable "constraint_templates" {
     type = list(string)
 }
 

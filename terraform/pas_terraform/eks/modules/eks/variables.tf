@@ -22,8 +22,23 @@ variable "cluster_location" {
   type = string
 }
 
+variable "cluster_admin_iam_roles" {
+  type        = list(string)
+  description = "IAM Roles to be granted cluster-admin access."
+}
+
 variable "k8s_version" {
   type = string
+}
+
+variable "private_subnet_ids" {
+  type        = map(string)
+  description = "List of subnet ids for EKS Control Plane and Node Groups"
+}
+
+variable "public_subnet_ids" {
+  type        = map(string)
+  description = "List of subnet ids for EKS Control Plane and Node Groups"
 }
 
 variable "rafay_tol_key" {

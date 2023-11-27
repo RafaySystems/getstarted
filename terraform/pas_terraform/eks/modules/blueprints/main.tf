@@ -20,11 +20,25 @@ resource "rafay_blueprint" "blueprint" {
     }
     default_addons {
       enable_ingress    = false
-      enable_monitoring = false
+      enable_monitoring = true
     }
     drift {
       action  = "Deny"
       enabled = true
+    }
+    cost_profile {
+      name = "default-cost-profile-aws"
+      version = "latest"
+    }
+    opa_policy {
+      opa_policy {
+        name = "policy-privileged"
+        version = "version-1697256653"
+      }
+      profile {
+        name = "default"
+        version = "latest"
+      }
     }
     sharing {
       enabled = false

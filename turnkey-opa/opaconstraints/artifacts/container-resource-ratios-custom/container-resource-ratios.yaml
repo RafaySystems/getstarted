@@ -4,7 +4,7 @@ metadata:
   name: container-must-meet-memory-and-cpu-ratio
 spec:
   match:
-    enforcementAction: deny
+    enforcementAction: warn
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]

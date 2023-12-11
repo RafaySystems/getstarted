@@ -27,8 +27,18 @@ variable "cluster_admin_iam_roles" {
   description = "IAM Roles to be granted cluster-admin access."
 }
 
+variable "instance_profile" {
+  type = string
+  default = "null"
+}
+
 variable "k8s_version" {
   type = string
+}
+
+variable "cluster_labels" {
+  type        = map(string)
+  description = "Map of cluster labels for cluster"
 }
 
 variable "private_subnet_ids" {
@@ -73,9 +83,9 @@ variable "managed_nodegroups" {
 	  node_min_count = string
 	  instance_type  = string
 	  k8s_version    = string
-    taint_key      = string
-    taint_operator = string
-    taint_effect   = string
+    taint_key      = optional(string)
+    taint_operator = optional(string)
+    taint_effect   = optional(string)
   }))
 }
 

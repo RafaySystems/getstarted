@@ -32,12 +32,12 @@ resource "rafay_blueprint" "blueprint" {
     }
     opa_policy {
       opa_policy {
-        name = "policy-privileged"
-        version = "version-1697256653"
+        name = "default-opa-policy"
+        version = "v1"
       }
       profile {
-        name = "default"
-        version = "latest"
+        name = "default-opa-profile"
+        version = "v1"
       }
     }
     sharing {

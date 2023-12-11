@@ -3,7 +3,7 @@ kind: Proc-Mount
 metadata:
   name: proc-mount
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

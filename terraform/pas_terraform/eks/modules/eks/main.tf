@@ -1,12 +1,16 @@
 resource "rafay_eks_cluster" "cluster" {
+
   cluster {
     kind = "Cluster"
     metadata {
       name    = var.cluster_name
       project = var.project
-      labels = {
-        cluster = "test-label"
-      }
+      #dynamic "labels" {
+      #  for_each = var.cluster_labels
+      #  content {
+      #    key = labels.key
+      #  }
+      #}
     }
     spec {
       type           = "eks"
@@ -21,11 +25,11 @@ resource "rafay_eks_cluster" "cluster" {
           operator  = var.rafay_tol_operator
           effect    = var.rafay_tol_effect
         }
-        tolerations {
+        /*tolerations {
             key       = var.ds_tol_key
             operator  = var.ds_tol_operator
             effect    = var.ds_tol_effect
-          }
+          }*/
         daemonset_override {
           node_selection_enabled = false
           tolerations {
@@ -56,12 +60,57 @@ resource "rafay_eks_cluster" "cluster" {
         }
       }
       arns {
-        arn   = "arn:aws:iam::679196758854:user/abhinav@rafay.co"
+        arn   = var.instance_profile
         #arn = "arn:aws:iam::387046989863:role/aws-auth-updater20230616225325548900000001"
-        group = ["aws-auth-cm-manager"]
-        username = "aws-auth-cm-manager"
+        group = ["system:bootstrappers", "system:nodes"]
+        username = "system:node:{{EC2PrivateDNSName}}r"
       }
     }
+    iam {
+      with_oidc = "true"
+      /*
+      service_accounts {
+        metadata {
+          name      = "karpenter"
+          namespace = "karpenter"
+        }
+        attach_policy = <<EOF
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateLaunchTemplate",
+                  "ec2:CreateFleet",
+                  "ec2:RunInstances",
+                  "ec2:CreateTags",
+                  "iam:PassRole",
+                  "ec2:TerminateInstances",
+                  "ec2:DescribeLaunchTemplates",
+                  "ec2:DescribeInstances",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeImages",
+                  "ec2:DescribeInstanceTypes",
+                  "ec2:DescribeInstanceTypeOfferings",
+                  "ec2:DescribeAvailabilityZones",
+                  "ec2:DeleteLaunchTemplate",
+                  "ssm:GetParameter",
+                  "eks:DescribeCluster",
+                  "pricing:GetProducts",
+                  "ec2:DescribeSpotPriceHistory"
+                ],
+                "Resource": [
+                  "*"
+                ]
+            }
+          ] 
+        }
+        EOF
+      }
+      */
+    }  
     vpc {
       subnets {
         dynamic "private" {
@@ -105,15 +154,20 @@ resource "rafay_eks_cluster" "cluster" {
         volume_iops      = 3000
         volume_throughput = 125
         private_networking = true
-        taints {
+        /*taints {
           key       = var.ds_tol_key
           effect    = var.ds_tol_effect
-        }
+        }*/
         taints {
           key       = managed_nodegroups.value.taint_key
           effect    = managed_nodegroups.value.taint_effect
         }
 	    }
     }
+    /*addons {
+      name = "vpc-cni"
+      version = "latest"
+      configuration_values = "{\"env\":{\"enableNetworkPolicy\":\"true\"}}"
+    }*/
   }
 }

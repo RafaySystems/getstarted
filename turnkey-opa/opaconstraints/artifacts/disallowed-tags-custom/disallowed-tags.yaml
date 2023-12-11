@@ -4,7 +4,7 @@ metadata:
   name: container-image-must-not-have-latest-tag
 spec:
   match:
-    enforcementAction: deny
+    enforcementAction: warn
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]

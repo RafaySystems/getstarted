@@ -3,7 +3,7 @@ kind: Forbidden-Sysctls
 metadata:
   name: forbidden-sysctls
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

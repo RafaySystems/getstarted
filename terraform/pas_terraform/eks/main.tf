@@ -45,6 +45,19 @@ module "opa-constraint-template" {
   depends_on            = [ module.project]
 }
 
+module "opa-constraint" {
+  source                = "./modules/opa-constraint"
+  project               = var.project
+  constraint_templates  = var.constraint_templates
+  depends_on            = [ module.opa-constraint-template]
+}
+
+module "opa_installation_profile" {
+  source      =  "./modules/opa-installation-profile"
+  project     = var.project
+  depends_on  = [ module.project]
+}
+
 module "addons" {
  source               = "./modules/addons"
  project              = var.project
@@ -60,10 +73,12 @@ module "cluster-overrides" {
  depends_on           = [ module.addons]
 }
 
-#module "opa-policy" {
-#  source              = ".modules/opa-policy"
-#  project                = var.project
-#}
+module "opa-policy" {
+  source               = "./modules/opa-policy"
+  project              = var.project
+  constraint_templates = var.constraint_templates
+  depends_on           = [ module.addons]
+}
 
 module "blueprint" {
  source                 = "./modules/blueprints"
@@ -73,7 +88,7 @@ module "blueprint" {
  base_blueprint         = var.base_blueprint
  base_blueprint_version = var.base_blueprint_version
  infra_addons           = var.infra_addons
- depends_on           = [ module.addons ]
+ depends_on           = [ module.addons, module.opa-policy ]
 }
 
 module eks_cluster {
@@ -84,7 +99,9 @@ module eks_cluster {
   blueprint_name          = var.blueprint_name
   blueprint_version       = var.blueprint_version
   cloud_credentials_name  = var.cloud_credentials_name
+  instance_profile        = var.instance_profile
   cluster_admin_iam_roles = var.cluster_admin_iam_roles
+  cluster_labels          = var.cluster_labels
   k8s_version             = var.k8s_version
   private_subnet_ids      = var.private_subnet_ids
   public_subnet_ids       = var.public_subnet_ids

@@ -1,16 +1,19 @@
-resource "rafay_project" "project" {
+resource "rafay_opa_policy" "opa-policy" {
   metadata {
     name           = "default-opa-policy"
     project        = var.project
   }
   spec {
-    constraint_list {
-      name = "tfdemoopaconstraint1"
-      version = "v1"
+    dynamic "constraint_list" {
+      for_each = var.constraint_templates
+      content {
+        name = constraint_list.value
+        version = "v1"
+      }
     }
     sharing {
       enabled = false
     }
-    version = "v0"
+    version = "v1"
   }
 }

@@ -3,7 +3,7 @@ kind: Flex-Volumes
 metadata:
   name: flexvolume-drivers
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

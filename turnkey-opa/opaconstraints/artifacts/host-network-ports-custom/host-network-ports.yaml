@@ -3,7 +3,7 @@ kind: Host-Networking-Ports
 metadata:
   name: host-network-ports
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

@@ -40,6 +40,38 @@ module "namespace" {
   depends_on           = [ module.project]
 }
 
+module "opa-constraint-template" {
+  source                = "./modules/opa-constraint-template"
+  project               = var.project
+  opa-repo              = var.opa-repo
+  opa-branch            = var.opa-branch  
+  constraint_templates  = var.constraint_templates
+  depends_on            = [ module.project, module.repositories ]
+}
+
+module "opa-constraint" {
+  source                = "./modules/opa-constraint"
+  project               = var.project
+  opa-repo              = var.opa-repo
+  opa-branch            = var.opa-branch  
+  constraint_templates  = var.constraint_templates
+  depends_on            = [ module.opa-constraint-template, module.repositories ]
+}
+
+module "opa_installation_profile" {
+  source      =  "./modules/opa-installation-profile"
+  project     = var.project
+  opa_excluded_namespaces = var.opa_excluded_namespaces
+  depends_on  = [ module.project, module.repositories ]
+}
+
+module "opa-policy" {
+  source               = "./modules/opa-policy"
+  project              = var.project
+  constraint_templates = var.constraint_templates
+  depends_on           = [ module.addons, module.repositories, module.opa_installation_profile, module.opa-constraint, module.opa-constraint-template ]
+}
+
 module "addons" {
  source               = "./modules/addons"
  project              = var.project
@@ -63,12 +95,13 @@ module "blueprint" {
  base_blueprint         = var.base_blueprint
  base_blueprint_version = var.base_blueprint_version
  infra_addons           = var.infra_addons
- depends_on             = [ module.addons ]
+ depends_on             = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
 
 module aks_cluster {
   source                 = "./modules/aks"
   cluster_name           = var.cluster_name
+  cluster_tags           = var.cluster_tags
   project                = var.project
   blueprint_name         = var.blueprint_name
   blueprint_version      = var.blueprint_version
@@ -77,5 +110,5 @@ module aks_cluster {
   k8s_version            = var.k8s_version
   cluster_location       = var.cluster_location
   nodePools              = var.nodePools
-  depends_on             = [ module.cloud-credentials, module.blueprint ]
+  depends_on             = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
 }

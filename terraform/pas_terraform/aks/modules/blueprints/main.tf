@@ -20,11 +20,25 @@ resource "rafay_blueprint" "blueprint" {
     }
     default_addons {
       enable_ingress    = false
-      enable_monitoring = false
+      enable_monitoring = true
     }
     drift {
       action  = "Deny"
       enabled = true
+    }
+    cost_profile {
+      name = "default-cost-profile-azure"
+      version = "latest"
+    }
+    opa_policy {
+      opa_policy {
+        name = "default-opa-policy"
+        version = "v1"
+      }
+      profile {
+        name = "default-opa-profile"
+        version = "v1"
+      }
     }
     sharing {
       enabled = false

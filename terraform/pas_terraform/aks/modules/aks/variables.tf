@@ -30,6 +30,10 @@ variable "k8s_version" {
   type = string
 }
 
+variable "cluster_tags" {
+  type = map
+}
+
 variable "nodePools" {
   type = map(object({
     name          = string

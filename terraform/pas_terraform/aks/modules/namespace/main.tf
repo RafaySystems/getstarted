@@ -3,6 +3,9 @@ resource "rafay_namespace" "namespace" {
   metadata {
     name    = each.key
     project = var.project
+    labels = {
+      "owner" = "kubernetes.agilebank.demo"
+    }
   }
   spec {
     drift {

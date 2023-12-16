@@ -11,8 +11,10 @@ resource "rafay_opa_constraint" "opa-constraint" {
     artifact {
       type = "Yaml"
       artifact {
+        repository = var.opa-repo
+        revision = var.opa-branch
         paths {
-          name = "file://../../../turnkey-opa/opaconstraints/artifacts/${each.key}/${trimsuffix(each.key, "-custom")}.yaml"
+          name = "turnkey-opa/opaconstraints/artifacts/${each.key}/${trimsuffix(each.key, "-custom")}.yaml"
         }
       }      
     }

@@ -11,11 +11,5 @@ resource "rafay_namespace" "namespace" {
     drift {
       enabled = false
     }
-    #placement {
-    #  labels {
-    #    key   = "rafay.dev/projectName"
-    #    value = var.project
-    #  }
-    #}
   }
 }

@@ -59,12 +59,14 @@ variable "cluster_labels" {
 
 variable "private_subnet_ids" {
   type        = map(string)
-  description = "List of private subnet ids for EKS Control Plane and Node Groups"
+  default     = {}
+  description = "List of private subnet ids for EKS Control Plane and Node Groups if customer provided"
 }
 
 variable "public_subnet_ids" {
   type        = map(string)
-  description = "List of public subnet ids for EKS Control Plane and Node Groups"
+  default     = {}
+  description = "List of public subnet ids for EKS Control Plane and Node Groups if customer provided"
 }
 
 variable "rafay_tol_key" {
@@ -79,18 +81,7 @@ variable "rafay_tol_operator" {
 
 variable "rafay_tol_effect" {
   type = string
-}
-
-variable "ds_tol_key" {
-  type = string
-}
-
-variable "ds_tol_operator" {
-  type = string
-}
-
-variable "ds_tol_effect" {
-  type = string
+  description = "toleration effect for placement of systems components"
 }
 
 variable "managed_nodegroups" {
@@ -105,42 +96,52 @@ variable "managed_nodegroups" {
     taint_operator = optional(string)
     taint_effect   = optional(string)
   }))
+  description = "configuration of EKS managed nodegroup"
 }
 
 variable "cluster_tags" {
   type = map
+  description = "tags for managed k8s cluster"
 }
 
 variable "node_tags" {
   type = map
+  description = "tags added to cloud infrastructure"
 }
 
 variable "node_labels" {
   type = map
+  description = "k8s node labels"
 }
 
 variable "blueprint_name" {
   type = string
+  description = "name of the blueprint"
 }
 
 variable "blueprint_version" {
   type = string
+  description = "version of the blueprint"
 }
 
 variable "base_blueprint" {
   type = string
+  description = "base blueprint to build custom blueprint off of, ex: (default, minimal, etc..)"
 }
 
 variable "base_blueprint_version" {
   type = string
+  description = "base blueprint version of managed components, ex: (2.1.0, 2.2.0)"
 }
 
 variable "namespaces" {
     type = list(string)
+    description = "namespaces to be added to the cluster"
 }
 
 variable "constraint_templates" {
     type = list(string)
+    description = "name of the constraints and constraint templates to deploy via a default opa policy"
 }
 
 variable "infra_addons" {
@@ -156,6 +157,7 @@ variable "infra_addons" {
     file_path     = string
     depends_on    = list(string)
   }))
+  description = "configuration of the addons to be added to the project"
 }
 
 variable "public_repositories" {
@@ -163,6 +165,23 @@ variable "public_repositories" {
     endpoint  = string
     type      = string
   }))
+  default     = {}
+  description = "configuration of repositories to be added to the project"
+}
+
+variable "opa-repo" {
+  type = string
+  description = "name of the repo housing opa constraint and constraint templates"
+}
+
+variable "opa-branch" {
+  type = string
+  description = "name of the repo housing opa constraint and constraint templates"
+}
+
+variable "opa_excluded_namespaces" {
+  type = list(string)
+  description = "namespaces to be excluded from OPA scanning"
 }
 
 variable "overrides_config" {
@@ -170,5 +189,7 @@ variable "overrides_config" {
     override_addon_name   = string
     override_values       = string
   }))
+  default     = {}
+  description = "configuration of the overrides for the addons"
 }
 

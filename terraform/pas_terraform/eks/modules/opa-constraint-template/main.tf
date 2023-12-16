@@ -7,8 +7,10 @@ resource "rafay_opa_constraint_template" "opa-constraint-template" {
   spec {
     artifact {
       artifact {
+        repository = var.opa-repo
+        revision = var.opa-branch
         paths {
-          name = "file://../../../turnkey-opa/opaconstrainttemplates/artifacts/${each.key}/${trimsuffix(each.key, "-custom")}.yaml"
+          name = "turnkey-opa/opaconstrainttemplates/artifacts/${each.key}/${trimsuffix(each.key, "-custom")}.yaml"
         }
       }
       options {

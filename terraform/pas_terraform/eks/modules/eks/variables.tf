@@ -43,11 +43,13 @@ variable "cluster_labels" {
 
 variable "private_subnet_ids" {
   type        = map(string)
+  default     = {}
   description = "List of subnet ids for EKS Control Plane and Node Groups"
 }
 
 variable "public_subnet_ids" {
   type        = map(string)
+  default     = {}
   description = "List of subnet ids for EKS Control Plane and Node Groups"
 }
 
@@ -60,18 +62,6 @@ variable "rafay_tol_operator" {
 }
 
 variable "rafay_tol_effect" {
-  type = string
-}
-
-variable "ds_tol_key" {
-  type = string
-}
-
-variable "ds_tol_operator" {
-  type = string
-}
-
-variable "ds_tol_effect" {
   type = string
 }
 

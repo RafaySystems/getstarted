@@ -13,21 +13,12 @@ resource "rafay_opa_installation_profile" "opa-installation-profile" {
       log_denies                  = true
       emit_audit_events           = true
     }
-    excluded_namespaces {
-      namespaces {
-        name = "default"
-      }
-      namespaces {
-        name = "kube-public"
-      }
-      namespaces {
-        name = "kube-node-lease"
-      }
-      namespaces {
-        name = "ingress-nginx"
-      }
-      namespaces {
-        name = "karpenter"
+    dynamic "excluded_namespaces" {
+      for_each = toset(var.opa_excluded_namespaces)
+      content {
+        namespaces {
+          name = excluded_namespaces.value
+        }
       }
     }
   }

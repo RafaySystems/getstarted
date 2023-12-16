@@ -1,21 +1,21 @@
 # Poject name variable
-project               = "terraform-caas-11"
+project               = "changeme"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = "arn:aws:iam::679196758854:role/dreta-provisioning-role"
-externalid              = "c685-9ce7-7fbe-c971-5163"
+rolearn                 = "changeme"
+externalid              = "changeme"
 
 # Instance profile Name for Karpenter nodes
-instance_profile       = "arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay"
+#instance_profile       = "changeme"
 
 # Cluster variables
-cluster_name           =  "terraform-caas-11"
+cluster_name           =  "changeme"
 # Cluster Region
-cluster_location       =  "us-west-2"
+cluster_location       =  "changeme"
 # K8S Version
-k8s_version            =  "1.28"
+k8s_version            =  "1.27"
 
 # K8s cluster labels
 cluster_labels = {
@@ -25,9 +25,10 @@ cluster_labels = {
 }
 
 # IAM Roles to access EKS provided endpoint
-cluster_admin_iam_roles = ["arn:aws:iam::679196758854:user/david@rafay.co"]
+cluster_admin_iam_roles = [""]
 
 # ID and AZ of private subnets
+/*
 private_subnet_ids = {
   "subnet-01bc23afc0744c4aa" = "us-west-2a",
   "subnet-04e1e5616bde25473" = "us-west-2b"
@@ -38,37 +39,23 @@ public_subnet_ids = {
   "subnet-0cde3009a8e9b04f2" = "us-west-2a",
   "subnet-02d30b8e8c56b142a" = "us-west-2b"
 }
+*/
 
 # Systems Components Placement
 rafay_tol_key         = "node/infra"
 rafay_tol_operator    = "Exists"
 rafay_tol_effect      = "NoSchedule"
-# Daemonset Overrides
-ds_tol_key             = "node/worker"
-ds_tol_operator        = "Exists"
-ds_tol_effect          = "NoSchedule"
 
 # EKS Nodegroups
 managed_nodegroups = {
   "ng-1" = {
     ng_name         = "infra-terraform"
-    node_count      = 3
+    node_count      = 1
     node_max_count  = 5
     node_min_count  = 1
-    k8s_version     = "1.28"
+    k8s_version     = "1.27"
     instance_type   = "t3.large"
     taint_key       = "node/infra"
-    taint_operator  = "Exists"
-    taint_effect    = "NoSchedule"
-  }
-  "ng-2" = {
-    ng_name         = "worker-terraform"
-    node_count      = 2
-    node_max_count  = 5
-    node_min_count  = 1
-    k8s_version     = "1.28"
-    instance_type   = "t3.large"
-    taint_key       = "node/worker"
     taint_operator  = "Exists"
     taint_effect    = "NoSchedule"
   }
@@ -151,6 +138,11 @@ constraint_templates   = ["allowed-users-custom",
                           "container-resource-ratios-custom"
 ]
 
+# repo housing OPA constraints and constraint templates
+opa-repo = "rafay-gs"
+opa-branch = "caas-eks-gen-2"
+opa_excluded_namespaces = ["default", "kube-node-lease", "kube-public"]
+
 # Repository specific variables
 public_repositories = {
     "nginx-controller" = {
@@ -160,6 +152,10 @@ public_repositories = {
     "cert-manager" = {
         type = "Helm"
         endpoint = "https://charts.jetstack.io"
+    }
+    "rafay-gs" = {
+        type = "Git"
+        endpoint = "https://github.com/RafaySystems/getstarted.git"
     }
 }
 

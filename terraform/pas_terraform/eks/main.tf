@@ -9,7 +9,7 @@ module "cloud-credentials" {
   project                 = var.project
   rolearn                 = var.rolearn
   externalid              = var.externalid
-  depends_on              = [ module.project]
+  depends_on              = [ module.project ]
 }
 
 module "group" {
@@ -41,21 +41,26 @@ module "namespace" {
 module "opa-constraint-template" {
   source                = "./modules/opa-constraint-template"
   project               = var.project
+  opa-repo              = var.opa-repo
+  opa-branch            = var.opa-branch  
   constraint_templates  = var.constraint_templates
-  depends_on            = [ module.project]
+  depends_on            = [ module.project, module.repositories ]
 }
 
 module "opa-constraint" {
   source                = "./modules/opa-constraint"
   project               = var.project
+  opa-repo              = var.opa-repo
+  opa-branch            = var.opa-branch  
   constraint_templates  = var.constraint_templates
-  depends_on            = [ module.opa-constraint-template]
+  depends_on            = [ module.opa-constraint-template, module.repositories ]
 }
 
 module "opa_installation_profile" {
   source      =  "./modules/opa-installation-profile"
   project     = var.project
-  depends_on  = [ module.project]
+  opa_excluded_namespaces = var.opa_excluded_namespaces
+  depends_on  = [ module.project, module.repositories ]
 }
 
 module "addons" {
@@ -77,7 +82,7 @@ module "opa-policy" {
   source               = "./modules/opa-policy"
   project              = var.project
   constraint_templates = var.constraint_templates
-  depends_on           = [ module.addons]
+  depends_on           = [ module.addons, module.repositories, module.opa_installation_profile, module.opa-constraint, module.opa-constraint-template ]
 }
 
 module "blueprint" {
@@ -88,7 +93,7 @@ module "blueprint" {
  base_blueprint         = var.base_blueprint
  base_blueprint_version = var.base_blueprint_version
  infra_addons           = var.infra_addons
- depends_on           = [ module.addons, module.opa-policy ]
+ depends_on           = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
 
 module eks_cluster {
@@ -108,9 +113,6 @@ module eks_cluster {
   rafay_tol_key           = var.rafay_tol_key
   rafay_tol_operator      = var.rafay_tol_operator
   rafay_tol_effect        = var.rafay_tol_effect
-  ds_tol_key              = var.ds_tol_key
-  ds_tol_operator         = var.ds_tol_operator
-  ds_tol_effect           = var.ds_tol_effect
   cluster_location        = var.cluster_location
   managed_nodegroups      = var.managed_nodegroups
   depends_on              = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]

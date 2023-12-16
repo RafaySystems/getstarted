@@ -25,22 +25,9 @@ resource "rafay_eks_cluster" "cluster" {
           operator  = var.rafay_tol_operator
           effect    = var.rafay_tol_effect
         }
-        /*tolerations {
-            key       = var.ds_tol_key
-            operator  = var.ds_tol_operator
-            effect    = var.ds_tol_effect
-          }*/
-        daemonset_override {
-          node_selection_enabled = false
-          tolerations {
-            key       = var.ds_tol_key
-            operator  = var.ds_tol_operator
-            effect    = var.ds_tol_effect
-          }
-        }
-      }
       }
     }
+  }
   cluster_config {
     apiversion = "rafay.io/v1alpha5"
     kind       = "ClusterConfig"
@@ -61,7 +48,6 @@ resource "rafay_eks_cluster" "cluster" {
       }
       arns {
         arn   = var.instance_profile
-        #arn = "arn:aws:iam::387046989863:role/aws-auth-updater20230616225325548900000001"
         group = ["system:bootstrappers", "system:nodes"]
         username = "system:node:{{EC2PrivateDNSName}}r"
       }
@@ -164,10 +150,10 @@ resource "rafay_eks_cluster" "cluster" {
         }
 	    }
     }
-    /*addons {
+    addons {
       name = "vpc-cni"
       version = "latest"
-      configuration_values = "{\"env\":{\"enableNetworkPolicy\":\"true\"}}"
-    }*/
+      configuration_values = "{\"enableNetworkPolicy\":\"true\"}"
+    }
   }
 }

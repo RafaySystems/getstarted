@@ -2,6 +2,4 @@ serviceAccount:
   create: false
   name: karpenter
 settings:
-  aws:
-    clusterName: {{{ .global.Rafay.ClusterName }}}
-    defaultInstanceProfile: KarpenterNodeRole-Rafay 
+  clusterName: {{{ .global.Rafay.ClusterName }}} 

@@ -3,8 +3,8 @@ metadata:
   name: v1
   project: defaultproject
 spec:
-  addon: provisioner-addon
+  addon: nodepool-addon
   namespace: karpenter
   template:
     type: NativeYaml
-    yamlFile: provisioner.yaml
+    yamlFile: nodepool.yaml

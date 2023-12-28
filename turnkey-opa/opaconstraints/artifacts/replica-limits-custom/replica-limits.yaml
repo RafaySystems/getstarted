@@ -4,7 +4,7 @@ metadata:
   name: replica-limits
 spec:
   match:
-    enforcementAction: deny
+    enforcementAction: warn
     kinds:
       - apiGroups: ["apps"]
         kinds: ["Deployment"]

@@ -3,8 +3,8 @@ kind: K8sBlockNodePort
 metadata:
   name: block-node-port
 spec:
+  enforcementAction: deny
   match:
-    enforcementAction: deny
     kinds:
       - apiGroups: [""]
         kinds: ["Service"]

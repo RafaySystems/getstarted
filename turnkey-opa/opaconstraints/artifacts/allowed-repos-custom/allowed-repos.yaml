@@ -3,8 +3,8 @@ kind: K8sAllowedRepos
 metadata:
   name: repo-is-openpolicyagent
 spec:
+  enforcementAction: deny
   match:
-    enforcementAction: deny
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]

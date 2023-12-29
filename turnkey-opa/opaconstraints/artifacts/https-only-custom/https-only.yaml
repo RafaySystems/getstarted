@@ -3,8 +3,8 @@ kind: K8sHttpsOnly
 metadata:
   name: ingress-https-only
 spec:
+  enforcementAction: deny
   match:
-    enforcementAction: deny
     kinds:
       - apiGroups: ["extensions", "networking.k8s.io"]
         kinds: ["Ingress"]

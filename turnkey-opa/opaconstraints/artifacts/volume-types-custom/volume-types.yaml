@@ -3,7 +3,7 @@ kind: Volume-Types
 metadata:
   name: volume-types
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

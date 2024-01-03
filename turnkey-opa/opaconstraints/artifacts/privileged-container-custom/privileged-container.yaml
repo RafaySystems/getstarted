@@ -3,7 +3,7 @@ kind: Privileged-Container
 metadata:
   name: privileged-container
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

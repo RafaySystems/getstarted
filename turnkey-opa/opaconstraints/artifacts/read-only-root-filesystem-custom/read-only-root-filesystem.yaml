@@ -3,7 +3,7 @@ kind: Read-Only-Root-Filesystem
 metadata:
   name: read-only-root-filesystem
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

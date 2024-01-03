@@ -3,7 +3,7 @@ kind: SE-Linux
 metadata:
   name: se-linux
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

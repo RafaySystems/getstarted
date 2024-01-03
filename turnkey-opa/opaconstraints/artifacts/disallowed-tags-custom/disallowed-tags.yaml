@@ -3,8 +3,8 @@ kind: K8sDisallowedTags
 metadata:
   name: container-image-must-not-have-latest-tag
 spec:
+  enforcementAction: warn
   match:
-    enforcementAction: deny
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]

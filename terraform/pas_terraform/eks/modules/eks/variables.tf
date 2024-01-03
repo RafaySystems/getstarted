@@ -22,8 +22,35 @@ variable "cluster_location" {
   type = string
 }
 
+variable "cluster_admin_iam_roles" {
+  type        = list(string)
+  description = "IAM Roles to be granted cluster-admin access."
+}
+
+variable "instance_profile" {
+  type = string
+  default = "null"
+}
+
 variable "k8s_version" {
   type = string
+}
+
+variable "cluster_labels" {
+  type        = map(string)
+  description = "Map of cluster labels for cluster"
+}
+
+variable "private_subnet_ids" {
+  type        = map(string)
+  default     = {}
+  description = "List of subnet ids for EKS Control Plane and Node Groups"
+}
+
+variable "public_subnet_ids" {
+  type        = map(string)
+  default     = {}
+  description = "List of subnet ids for EKS Control Plane and Node Groups"
 }
 
 variable "rafay_tol_key" {
@@ -38,18 +65,6 @@ variable "rafay_tol_effect" {
   type = string
 }
 
-variable "ds_tol_key" {
-  type = string
-}
-
-variable "ds_tol_operator" {
-  type = string
-}
-
-variable "ds_tol_effect" {
-  type = string
-}
-
 variable "managed_nodegroups" {
   type = map(object({
     ng_name        = string
@@ -58,9 +73,9 @@ variable "managed_nodegroups" {
 	  node_min_count = string
 	  instance_type  = string
 	  k8s_version    = string
-    taint_key      = string
-    taint_operator = string
-    taint_effect   = string
+    taint_key      = optional(string)
+    taint_operator = optional(string)
+    taint_effect   = optional(string)
   }))
 }
 

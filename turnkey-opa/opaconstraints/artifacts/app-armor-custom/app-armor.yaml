@@ -3,7 +3,7 @@ kind: App-Armor
 metadata:
   name: app-armor
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

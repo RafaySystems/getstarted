@@ -3,7 +3,7 @@ kind: Host-Filesystem
 metadata:
   name: host-filesystem
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

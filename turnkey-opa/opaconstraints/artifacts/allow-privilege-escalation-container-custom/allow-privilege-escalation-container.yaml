@@ -3,7 +3,7 @@ kind: Allow-Privilege-Escalation-Container
 metadata:
   name: allow-privilege-escalation-container
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

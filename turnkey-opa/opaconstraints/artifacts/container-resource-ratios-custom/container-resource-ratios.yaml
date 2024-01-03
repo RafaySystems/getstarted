@@ -3,8 +3,8 @@ kind: K8sContainerRatios
 metadata:
   name: container-must-meet-memory-and-cpu-ratio
 spec:
+  enforcementAction: warn
   match:
-    enforcementAction: deny
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]

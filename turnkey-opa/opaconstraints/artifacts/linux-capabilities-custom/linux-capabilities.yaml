@@ -3,7 +3,7 @@ kind: Linux-Capabilities
 metadata:
   name: linux-capabilities-drop-all
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

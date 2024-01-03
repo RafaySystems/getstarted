@@ -3,7 +3,7 @@ kind: Host-Namespace
 metadata:
   name: host-namespace
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

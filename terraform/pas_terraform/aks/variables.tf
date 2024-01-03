@@ -43,6 +43,11 @@ variable "k8s_version" {
   type = string
 }
 
+variable "cluster_labels" {
+  type        = map(string)
+  description = "Map of cluster labels for cluster"
+}
+
 variable "nodePools" {
   type = map(object({
     name          = string
@@ -88,14 +93,20 @@ variable "namespaces" {
     type = list(string)
 }
 
+variable "constraint_templates" {
+  type = list(string)
+}
+
 variable "infra_addons" {
   type = map(object({
     name          = string
     namespace     = string
+    type          = string
     addon_version = string
+    catalog       = optional(string)
     chart_name    = string
     chart_version = string
-    repository    = string
+    repository    = optional(string)
     file_path     = string
     depends_on    = list(string)
   }))
@@ -106,6 +117,21 @@ variable "public_repositories" {
     endpoint  = string
     type      = string
   }))
+}
+
+variable "opa-repo" {
+  type = string
+  description = "name of the repo housing opa constraint and constraint templates"
+}
+
+variable "opa-branch" {
+  type = string
+  description = "name of the repo housing opa constraint and constraint templates"
+}
+
+variable "opa_excluded_namespaces" {
+  type = list(string)
+  description = "namespaces to be excluded from OPA scanning"
 }
 
 variable "overrides_config" {

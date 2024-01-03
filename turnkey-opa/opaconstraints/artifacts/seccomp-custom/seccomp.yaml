@@ -3,7 +3,7 @@ kind: Seccomp
 metadata:
   name: seccomp
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

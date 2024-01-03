@@ -3,7 +3,7 @@ kind: Allowed-Users
 metadata:
   name: pods-allowed-user-ranges
 spec:
-  enforcementAction: deny
+  enforcementAction: warn
   match:
     kinds:
       - apiGroups: [""]

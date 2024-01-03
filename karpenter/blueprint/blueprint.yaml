@@ -6,11 +6,11 @@ metadata:
 spec:
   base:
     name: minimal
-    version: 1.22.0
+    version: 2.2.0
   type: custom
   customAddons:
   - name: karpenter-addon
     version: v1
-  - name: provisioner-addon
+  - name: nodepool-addon
     version: v1
   version: v1

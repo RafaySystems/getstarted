@@ -5,25 +5,19 @@ resource "rafay_eks_cluster" "cluster" {
     metadata {
       name    = var.cluster_name
       project = var.project
-      #dynamic "labels" {
-      #  for_each = var.cluster_labels
-      #  content {
-      #    key = labels.key
-      #  }
-      #}
     }
     spec {
-      type           = "eks"
-      blueprint      = var.blueprint_name
+      type              = "eks"
+      blueprint         = var.blueprint_name
       blueprint_version = var.blueprint_version
-      cloud_provider = var.cloud_credentials_name
-      cni_provider   = "aws-cni"
-      proxy_config   = {}
-      system_components_placement {      
+      cloud_provider    = var.cloud_credentials_name
+      cni_provider      = "aws-cni"
+      proxy_config      = {}
+      system_components_placement {
         tolerations {
-          key       = var.rafay_tol_key
-          operator  = var.rafay_tol_operator
-          effect    = var.rafay_tol_effect
+          key      = var.rafay_tol_key
+          operator = var.rafay_tol_operator
+          effect   = var.rafay_tol_effect
         }
       }
     }
@@ -35,7 +29,7 @@ resource "rafay_eks_cluster" "cluster" {
       name    = var.cluster_name
       region  = var.cluster_location
       version = var.k8s_version
-      tags = var.cluster_tags
+      tags    = var.cluster_tags
     }
     identity_mappings {
       dynamic "arns" {
@@ -47,56 +41,14 @@ resource "rafay_eks_cluster" "cluster" {
         }
       }
       arns {
-        arn   = var.instance_profile
-        group = ["system:bootstrappers", "system:nodes"]
+        arn      = var.instance_profile
+        group    = ["system:bootstrappers", "system:nodes"]
         username = "system:node:{{EC2PrivateDNSName}}r"
       }
     }
     iam {
       with_oidc = "true"
-      /*
-      service_accounts {
-        metadata {
-          name      = "karpenter"
-          namespace = "karpenter"
-        }
-        attach_policy = <<EOF
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": [
-                  "ec2:CreateLaunchTemplate",
-                  "ec2:CreateFleet",
-                  "ec2:RunInstances",
-                  "ec2:CreateTags",
-                  "iam:PassRole",
-                  "ec2:TerminateInstances",
-                  "ec2:DescribeLaunchTemplates",
-                  "ec2:DescribeInstances",
-                  "ec2:DescribeSecurityGroups",
-                  "ec2:DescribeSubnets",
-                  "ec2:DescribeImages",
-                  "ec2:DescribeInstanceTypes",
-                  "ec2:DescribeInstanceTypeOfferings",
-                  "ec2:DescribeAvailabilityZones",
-                  "ec2:DeleteLaunchTemplate",
-                  "ssm:GetParameter",
-                  "eks:DescribeCluster",
-                  "pricing:GetProducts",
-                  "ec2:DescribeSpotPriceHistory"
-                ],
-                "Resource": [
-                  "*"
-                ]
-            }
-          ] 
-        }
-        EOF
-      }
-      */
-    }  
+    }
     vpc {
       subnets {
         dynamic "private" {
@@ -120,44 +72,44 @@ resource "rafay_eks_cluster" "cluster" {
       }
     }
     dynamic "managed_nodegroups" {
-	    for_each = var.managed_nodegroups
-	    content {
-	      name       = managed_nodegroups.value.ng_name
+      for_each = var.managed_nodegroups
+      content {
+        name       = managed_nodegroups.value.ng_name
         ami_family = "AmazonLinux2"
         iam {
           iam_node_group_with_addon_policies {
             image_builder = true
             cloud_watch   = true
-            }
+          }
         }
-        instance_type    = managed_nodegroups.value.instance_type
-        desired_capacity = managed_nodegroups.value.node_count
-        min_size         = managed_nodegroups.value.node_min_count
-        max_size         = managed_nodegroups.value.node_max_count
-        version          = managed_nodegroups.value.k8s_version
-        volume_size      = 80
-        volume_type      = "gp3"
-        volume_iops      = 3000
-        volume_throughput = 125
+        instance_type      = managed_nodegroups.value.instance_type
+        desired_capacity   = managed_nodegroups.value.node_count
+        min_size           = managed_nodegroups.value.node_min_count
+        max_size           = managed_nodegroups.value.node_max_count
+        version            = managed_nodegroups.value.k8s_version
+        volume_size        = 80
+        volume_type        = "gp3"
+        volume_iops        = 3000
+        volume_throughput  = 125
         private_networking = true
         /*taints {
           key       = var.ds_tol_key
           effect    = var.ds_tol_effect
         }*/
         taints {
-          key       = managed_nodegroups.value.taint_key
-          effect    = managed_nodegroups.value.taint_effect
+          key    = managed_nodegroups.value.taint_key
+          effect = managed_nodegroups.value.taint_effect
         }
-	    }
+      }
     }
     addons {
-      name = "vpc-cni"
-      version = "latest"
+      name                 = "vpc-cni"
+      version              = "latest"
       configuration_values = "{\"enableNetworkPolicy\":\"true\"}"
     }
     addons {
-      name = "aws-ebs-csi-driver"
-      version = "latest" 
+      name                 = "aws-ebs-csi-driver"
+      version              = "latest"
       configuration_values = "{\"controller\":{\"tolerations\":[{\"key\":\"CriticalAddonsOnly\",\"operator\":\"Exists\"},{\"operator\":\"Exists\"}]}}"
     }
   }

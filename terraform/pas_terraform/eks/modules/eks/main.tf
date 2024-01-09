@@ -5,12 +5,7 @@ resource "rafay_eks_cluster" "cluster" {
     metadata {
       name    = var.cluster_name
       project = var.project
-      #dynamic "labels" {
-      #  for_each = var.cluster_labels
-      #  content {
-      #    key = labels.key
-      #  }
-      #}
+      labels = var.cluster_labels
     }
     spec {
       type           = "eks"
@@ -46,57 +41,120 @@ resource "rafay_eks_cluster" "cluster" {
           username = "cluster-admin"
         }
       }
-      arns {
-        arn   = var.instance_profile
-        group = ["system:bootstrappers", "system:nodes"]
-        username = "system:node:{{EC2PrivateDNSName}}r"
+      dynamic "arns" {
+        for_each = var.instance_profile != null ? [0] : []
+        content {
+          arn   = var.instance_profile
+          group = ["system:bootstrappers", "system:nodes"]
+          username = "system:node:{{EC2PrivateDNSName}}"
+        }
       }
     }
     iam {
       with_oidc = "true"
-      /*
-      service_accounts {
-        metadata {
-          name      = "karpenter"
-          namespace = "karpenter"
+      dynamic "service_accounts" {
+        for_each = var.instance_profile != null ? [0] : []
+        content {
+          metadata {
+            name      = "karpenter"
+            namespace = "karpenter"
+          }
+          attach_policy = <<EOF
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ec2:CreateLaunchTemplate",
+                    "ec2:CreateFleet",
+                    "ec2:RunInstances",
+                    "ec2:CreateTags",
+                    "iam:PassRole",
+                    "iam:CreateInstanceProfile",
+                    "iam:GetInstanceProfile",
+                    "iam:TagInstanceProfile",
+                    "iam:AddRoleToInstanceProfile",
+                    "iam:RemoveRoleFromInstanceProfile",
+                    "iam:DeleteInstanceProfile",
+                    "ec2:TerminateInstances",
+                    "ec2:DescribeLaunchTemplates",
+                    "ec2:DescribeInstances",
+                    "ec2:DescribeSecurityGroups",
+                    "ec2:DescribeSubnets",
+                    "ec2:DescribeImage",
+                    "ec2:DescribeImages",
+                    "ec2:DescribeInstanceTypes",
+                    "ec2:DescribeInstanceTypeOfferings",
+                    "ec2:DescribeAvailabilityZones",
+                    "ec2:DeleteLaunchTemplate",
+                    "ssm:GetParameter",
+                    "eks:DescribeCluster",
+                    "pricing:GetProducts",
+                    "pricing:DescribeServices",
+                    "pricing:GetAttributeValues",
+                    "ec2:DescribeSpotPriceHistory"
+                  ],
+                  "Resource": [
+                    "*"
+                  ]
+              }
+            ] 
+          }
+          EOF
         }
-        attach_policy = <<EOF
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": [
-                  "ec2:CreateLaunchTemplate",
-                  "ec2:CreateFleet",
-                  "ec2:RunInstances",
-                  "ec2:CreateTags",
-                  "iam:PassRole",
-                  "ec2:TerminateInstances",
-                  "ec2:DescribeLaunchTemplates",
-                  "ec2:DescribeInstances",
-                  "ec2:DescribeSecurityGroups",
-                  "ec2:DescribeSubnets",
-                  "ec2:DescribeImages",
-                  "ec2:DescribeInstanceTypes",
-                  "ec2:DescribeInstanceTypeOfferings",
-                  "ec2:DescribeAvailabilityZones",
-                  "ec2:DeleteLaunchTemplate",
-                  "ssm:GetParameter",
-                  "eks:DescribeCluster",
-                  "pricing:GetProducts",
-                  "ec2:DescribeSpotPriceHistory"
-                ],
-                "Resource": [
-                  "*"
-                ]
-            }
-          ] 
-        }
-        EOF
       }
-      */
-    }  
+      dynamic "service_accounts" {
+        for_each = var.s3_bucket != null ? [0] : []
+        content {
+          metadata {
+            name      = "velero"
+            namespace = "rafay-system"
+          }
+          attach_policy = <<EOF
+          {
+              "Version": "2012-10-17",
+              "Statement": [
+                  {
+                      "Effect": "Allow",
+                      "Action": [
+                          "ec2:DescribeVolumes",
+                          "ec2:DescribeSnapshots",
+                          "ec2:CreateTags",
+                          "ec2:CreateVolume",
+                          "ec2:CreateSnapshot",
+                          "ec2:DeleteSnapshot"
+                      ],
+                      "Resource": "*"
+                  },
+                  {
+                      "Effect": "Allow",
+                      "Action": [
+                          "s3:GetObject",
+                          "s3:DeleteObject",
+                          "s3:PutObject",
+                          "s3:AbortMultipartUpload",
+                          "s3:ListMultipartUploadParts"
+                      ],
+                      "Resource": [
+                          "arn:aws:s3:::${var.cluster_name}/*"
+                      ]
+                  },
+                  {
+                      "Effect": "Allow",
+                      "Action": [
+                          "s3:ListBucket"
+                      ],
+                      "Resource": [
+                          "arn:aws:s3:::${var.cluster_name}"
+                      ]
+                  }
+              ]
+          }
+          EOF
+        }
+      }
+    }
     vpc {
       subnets {
         dynamic "private" {
@@ -140,14 +198,11 @@ resource "rafay_eks_cluster" "cluster" {
         volume_iops      = 3000
         volume_throughput = 125
         private_networking = true
-        /*taints {
-          key       = var.ds_tol_key
-          effect    = var.ds_tol_effect
-        }*/
         taints {
           key       = managed_nodegroups.value.taint_key
           effect    = managed_nodegroups.value.taint_effect
         }
+        labels = managed_nodegroups.value.labels
 	    }
     }
     addons {

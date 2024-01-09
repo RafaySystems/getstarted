@@ -52,6 +52,12 @@ variable "k8s_version" {
   description = "The k8s version (ex: 1.26, 1.27)"
 }
 
+variable "s3_bucket" {
+  type = string
+  default = "null"
+  description = "The name of the AWS S3 bucket for storing backups"
+}
+
 variable "cluster_labels" {
   type        = map(string)
   description = "Map of cluster labels for cluster"
@@ -95,6 +101,7 @@ variable "managed_nodegroups" {
     taint_key      = optional(string)
     taint_operator = optional(string)
     taint_effect   = optional(string)
+    labels         = optional(map(string))
   }))
   description = "configuration of EKS managed nodegroup"
 }
@@ -107,11 +114,6 @@ variable "cluster_tags" {
 variable "node_tags" {
   type = map
   description = "tags added to cloud infrastructure"
-}
-
-variable "node_labels" {
-  type = map
-  description = "k8s node labels"
 }
 
 variable "blueprint_name" {
@@ -151,8 +153,8 @@ variable "infra_addons" {
     type          = string
     addon_version = string
     catalog       = optional(string)
-    chart_name    = string
-    chart_version = string
+    chart_name    = optional(string)
+    chart_version = optional(string)
     repository    = optional(string)
     file_path     = string
     depends_on    = list(string)

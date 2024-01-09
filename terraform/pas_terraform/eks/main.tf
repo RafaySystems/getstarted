@@ -108,6 +108,7 @@ module eks_cluster {
   cluster_admin_iam_roles = var.cluster_admin_iam_roles
   cluster_labels          = var.cluster_labels
   k8s_version             = var.k8s_version
+  s3_bucket               = var.s3_bucket
   private_subnet_ids      = var.private_subnet_ids
   public_subnet_ids       = var.public_subnet_ids
   rafay_tol_key           = var.rafay_tol_key

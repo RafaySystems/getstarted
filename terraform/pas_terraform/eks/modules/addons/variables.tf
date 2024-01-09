@@ -9,8 +9,8 @@ variable "infra_addons" {
     type          = string
     addon_version = string
     catalog       = optional(string)
-    chart_name    = string
-    chart_version = string
+    chart_name    = optional(string)
+    chart_version = optional(string)
     repository    = optional(string)
     file_path     = string
   }))

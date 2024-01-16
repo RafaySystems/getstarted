@@ -1,5 +1,5 @@
 # Poject name variable
-project               = "terraform-caas-35"
+project               = "terraform-caas-58"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
@@ -11,7 +11,7 @@ externalid              = "c685-9ce7-7fbe-c971-5163"
 instance_profile       = "arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay"
 
 # Cluster variables
-cluster_name           =  "terraform-caas-35"
+cluster_name           =  "terraform-caas-58"
 # Cluster Region
 cluster_location       =  "us-west-2"
 # K8S Version
@@ -22,11 +22,11 @@ cluster_tags = {
     "email" = "david@rafay.co"
     "env"    = "dev"
     "orchestrator" = "k8s"
-    "cluster-name" = "terraform-caas-35"
+    "cluster-name" = "terraform-caas-58"
 }
 
 # S3 bucket name for Backup/Restore
-s3_bucket = "terraform-caas-35"
+s3_bucket = "terraform-caas-58"
 
 # K8s cluster labels
 cluster_labels = {
@@ -38,7 +38,6 @@ cluster_labels = {
 # IAM Roles to access EKS provided endpoint
 cluster_admin_iam_roles = ["arn:aws:iam::679196758854:user/david@rafay.co"]
 
-/*
 # ID and AZ of private subnets (optional: must have proper permissions to create VPC)
 private_subnet_ids = {
   "subnet-01bc23afc0744c4aa" = "us-west-2a",
@@ -50,10 +49,9 @@ public_subnet_ids = {
   "subnet-0cde3009a8e9b04f2" = "us-west-2a",
   "subnet-02d30b8e8c56b142a" = "us-west-2b"
 }
-*/
 
 # Systems Components Placement
-rafay_tol_key         = "node/infra"
+rafay_tol_key         = "nodeInfra"
 rafay_tol_operator    = "Exists"
 rafay_tol_effect      = "NoSchedule"
 
@@ -66,17 +64,17 @@ managed_nodegroups = {
     node_min_count  = 1
     k8s_version     = "1.27"
     instance_type   = "t3.xlarge"
-    taint_key       = "node/infra"
+    taint_key       = "nodeInfra"
     taint_operator  = "Exists"
     taint_effect    = "NoSchedule"
     labels          = {
-                      "node" = "infra"
+      "node" = "infra"
     }
   }
 }
 
 node_tags = {
-    "env" = "dev"
+  "env" = "dev"
 }
 
 # Blueprint/Addons specific variables
@@ -84,13 +82,15 @@ blueprint_name         = "custom-blueprint"
 blueprint_version      = "v1"
 base_blueprint         = "minimal"
 base_blueprint_version = "2.2.0"
-namespaces             = ["ingress-nginx", 
-                          "cert-manager",
-                          "karpenter",
-                          "default",
-                          "kube-node-lease",
-                          "kube-public",
-                          "wordpress"]
+namespaces             = [
+  "ingress-nginx", 
+  "cert-manager",
+  "karpenter",
+  "default",
+  "kube-node-lease",
+  "kube-public",
+  "wordpress"
+]
 infra_addons = {
     "addon1" = {
          name          = "cert-manager"
@@ -139,7 +139,7 @@ infra_addons = {
 }
 
 constraint_templates   = ["allowed-users-custom",
-                          "app-armor-custom",
+                          /*"app-armor-custom",
                           "forbidden-sysctls-custom",
                           "host-filesystem-custom",
                           "host-namespace-custom",
@@ -160,7 +160,7 @@ constraint_templates   = ["allowed-users-custom",
                           "block-nodeport-services-custom",
                           "https-only-custom",
                           "image-digests-custom",
-                          "container-limits-custom",
+                          "container-limits-custom",*/
                           "container-resource-ratios-custom"
 ]
 
@@ -222,7 +222,7 @@ overrides_config = {
             a8r.io/owner: "user@k8s.com"
             a8r.io/runbook: "http://www.k8s.com"
         tolerations:
-        - key: node/infra
+        - key: nodeInfra
           operator: Exists
           effect: NoSchedule
         replicaCount: 3
@@ -233,12 +233,12 @@ overrides_config = {
               a8r.io/runbook: "http://www.k8s.com"
           patch:
             tolerations:
-            - key: node/infra
+            - key: nodeInfra
               operator: Exists
               effect: NoSchedule
       defaultBackend:
         tolerations:
-        - key: node/infra
+        - key: nodeInfra
           operator: Exists
           effect: NoSchedule
       EOT
@@ -247,22 +247,22 @@ overrides_config = {
       override_addon_name = "cert-manager"
       override_values = <<-EOT
       tolerations:
-      - key: node/infra
+      - key: nodeInfra
         operator: Exists
         effect: NoSchedule
       webhook:
         tolerations:
-        - key: node/infra
+        - key: nodeInfra
           operator: Exists
           effect: NoSchedule
       cainjector:
         tolerations:
-        - key: node/infra
+        - key: nodeInfra
           operator: Exists
           effect: NoSchedule
       startupapicheck:
         tolerations:
-        - key: node/infra
+        - key: nodeInfra
           operator: Exists
           effect: NoSchedule
       EOT
@@ -283,7 +283,7 @@ overrides_config = {
         a8r.io/runbook: "http://www.k8s.com"
       replicas: 1
       tolerations:
-      - key: node/infra
+      - key: nodeInfra
         operator: Exists
         effect: NoSchedule
       EOT

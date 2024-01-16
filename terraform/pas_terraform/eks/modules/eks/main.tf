@@ -205,11 +205,11 @@ resource "rafay_eks_cluster" "cluster" {
         labels = managed_nodegroups.value.labels
 	    }
     }
-    addons {
+    /*addons {
       name = "vpc-cni"
       version = "latest"
       configuration_values = "{\"enableNetworkPolicy\":\"true\"}"
-    }
+    }*/
     addons {
       name = "aws-ebs-csi-driver"
       version = "latest" 

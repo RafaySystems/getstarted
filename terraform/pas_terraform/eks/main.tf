@@ -32,10 +32,11 @@ module "repositories" {
 }
 
 module "namespace" {
-  source      = "./modules/namespace"
-  project     = var.project
-  namespaces  = var.namespaces
-  depends_on  = [ module.project]
+  source       = "./modules/namespace"
+  project      = var.project
+  namespaces   = var.namespaces
+  cluster_name = var.cluster_name
+  depends_on   = [ module.project]
 }
 
 module "opa-constraint-template" {
@@ -96,6 +97,14 @@ module "blueprint" {
  depends_on           = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
 
+module "backup-restore" {
+ source        = "./modules/backup-restore"
+ project       = var.project
+ cluster_name  = var.cluster_name
+ depends_on    = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
+}
+
+/*
 module eks_cluster {
   source                  = "./modules/eks"
   cluster_name            = var.cluster_name
@@ -118,3 +127,4 @@ module eks_cluster {
   managed_nodegroups      = var.managed_nodegroups
   depends_on              = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
 }
+*/

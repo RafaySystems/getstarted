@@ -159,6 +159,7 @@ variable "infra_addons" {
     file_path     = string
     depends_on    = list(string)
   }))
+  default = {}
   description = "configuration of the addons to be added to the project"
 }
 

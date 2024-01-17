@@ -1,5 +1,5 @@
 # Poject name variable
-project               = "terraform-caas-58"
+project               = "terraform-caas-63"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
@@ -11,7 +11,7 @@ externalid              = "c685-9ce7-7fbe-c971-5163"
 instance_profile       = "arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay"
 
 # Cluster variables
-cluster_name           =  "terraform-caas-58"
+cluster_name           =  "terraform-caas-63"
 # Cluster Region
 cluster_location       =  "us-west-2"
 # K8S Version
@@ -22,11 +22,11 @@ cluster_tags = {
     "email" = "david@rafay.co"
     "env"    = "dev"
     "orchestrator" = "k8s"
-    "cluster-name" = "terraform-caas-58"
+    "cluster-name" = "terraform-caas-63"
 }
 
 # S3 bucket name for Backup/Restore
-s3_bucket = "terraform-caas-58"
+s3_bucket = "terraform-caas-63"
 
 # K8s cluster labels
 cluster_labels = {
@@ -59,7 +59,7 @@ rafay_tol_effect      = "NoSchedule"
 managed_nodegroups = {
   "ng-1" = {
     ng_name         = "infra-terraform"
-    node_count      = 1
+    node_count      = 2
     node_max_count  = 5
     node_min_count  = 1
     k8s_version     = "1.27"
@@ -89,8 +89,10 @@ namespaces             = [
   "default",
   "kube-node-lease",
   "kube-public",
+  "kube-system",
   "wordpress"
 ]
+
 infra_addons = {
     "addon1" = {
          name          = "cert-manager"
@@ -126,7 +128,7 @@ infra_addons = {
          chart_version = "v0.32.1"
          repository    = ""
          file_path     = "file://../artifacts/karpenter/custom_values.yaml"
-         depends_on    = []
+         depends_on    = ["cert-manager"]
     }
     "addon4" = {
          name          = "karpenter-nodepool"
@@ -167,7 +169,7 @@ constraint_templates   = ["allowed-users-custom",
 # repo housing OPA constraints and constraint templates
 opa-repo = "rafay-gs"
 opa-branch = "caas-eks-gen-2"
-opa_excluded_namespaces = ["default", "kube-node-lease", "kube-public"]
+opa_excluded_namespaces = ["default", "kube-node-lease", "kube-public", "kube-system"]
 
 # Repository specific variables
 public_repositories = {

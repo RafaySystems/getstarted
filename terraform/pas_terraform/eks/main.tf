@@ -104,7 +104,6 @@ module "backup-restore" {
  depends_on    = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
 
-/*
 module eks_cluster {
   source                  = "./modules/eks"
   cluster_name            = var.cluster_name
@@ -127,4 +126,3 @@ module eks_cluster {
   managed_nodegroups      = var.managed_nodegroups
   depends_on              = [ module.cloud-credentials, module.blueprint, module.cluster-overrides]
 }
-*/

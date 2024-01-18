@@ -1,44 +1,48 @@
 # Poject name variable
-project               = "terraform-caas-63"
+project               = "tf-caas-1-18-3"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = "arn:aws:iam::679196758854:role/dreta-provisioning-role"
-externalid              = "c685-9ce7-7fbe-c971-5163"
+#rolearn                 = "arn:aws:iam::679196758854:role/dreta-provisioning-role"
+#externalid              = "c685-9ce7-7fbe-c971-5163"
+rolearn = "arn:aws:iam::679196758854:role/dreta-full-staging"
+externalid = "05a1-9e93-5019-3368-9669"
 
-# Instance profile Name for Karpenter nodes
+# Instance profile Name for Karpenter nodes (Optional: Installs IRSA)
+/*
 instance_profile       = "arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay"
+*/
 
 # Cluster variables
-cluster_name           =  "terraform-caas-63"
+cluster_name           =  "tf-caas-1-18-3"
 # Cluster Region
 cluster_location       =  "us-west-2"
 # K8S Version
 k8s_version            =  "1.27"
 
-# TAGS
+# TAGS (Optional)
 cluster_tags = {
     "email" = "david@rafay.co"
     "env"    = "dev"
     "orchestrator" = "k8s"
-    "cluster-name" = "terraform-caas-63"
+    "cluster-name" = "tf-caas-1-18-3"
 }
-
-# S3 bucket name for Backup/Restore
+/*
+# S3 bucket name for Backup/Restore (Optional: Installs IRSA & DR components)
 s3_bucket = "terraform-caas-63"
-
-# K8s cluster labels
+*/
+# K8s cluster labels (Optional)
 cluster_labels = {
   "nginx" = "",
   "karpenter" = "",
   "region" = "us-west-2"
 }
 
-# IAM Roles to access EKS provided endpoint
+# IAM Roles to access EKS provided endpoint (Optional)
 cluster_admin_iam_roles = ["arn:aws:iam::679196758854:user/david@rafay.co"]
-
-# ID and AZ of private subnets (optional: must have proper permissions to create VPC)
+/*
+# ID and AZ of private subnets (Optional: must have proper permissions to create VPC)
 private_subnet_ids = {
   "subnet-01bc23afc0744c4aa" = "us-west-2a",
   "subnet-04e1e5616bde25473" = "us-west-2b"
@@ -49,7 +53,7 @@ public_subnet_ids = {
   "subnet-0cde3009a8e9b04f2" = "us-west-2a",
   "subnet-02d30b8e8c56b142a" = "us-west-2b"
 }
-
+*/
 # Systems Components Placement
 rafay_tol_key         = "nodeInfra"
 rafay_tol_operator    = "Exists"
@@ -73,6 +77,7 @@ managed_nodegroups = {
   }
 }
 
+# AWS tags for nodes (Optional)
 node_tags = {
   "env" = "dev"
 }
@@ -93,6 +98,7 @@ namespaces             = [
   "wordpress"
 ]
 
+# Addons for custom blueprint. (Optional)
 infra_addons = {
     "addon1" = {
          name          = "cert-manager"
@@ -118,7 +124,7 @@ infra_addons = {
          file_path     = null
          depends_on    = ["cert-manager"]
     }
-    "addon3" = {
+    /*"addon3" = {
          name          = "karpenter"
          namespace     = "karpenter"
          type          = "Helm"
@@ -138,9 +144,11 @@ infra_addons = {
          file_path     = "file://../artifacts/karpenter/nodepool.yaml"
          depends_on    = ["karpenter"]
     }
+    */
 }
 
-constraint_templates   = ["allowed-users-custom",
+# List of constraints for OPA Policy
+/*constraint_templates   = ["allowed-users-custom",
                           /*"app-armor-custom",
                           "forbidden-sysctls-custom",
                           "host-filesystem-custom",
@@ -162,7 +170,7 @@ constraint_templates   = ["allowed-users-custom",
                           "block-nodeport-services-custom",
                           "https-only-custom",
                           "image-digests-custom",
-                          "container-limits-custom",*/
+                          "container-limits-custom",
                           "container-resource-ratios-custom"
 ]
 
@@ -170,7 +178,7 @@ constraint_templates   = ["allowed-users-custom",
 opa-repo = "rafay-gs"
 opa-branch = "caas-eks-gen-2"
 opa_excluded_namespaces = ["default", "kube-node-lease", "kube-public", "kube-system"]
-
+*/
 # Repository specific variables
 public_repositories = {
     "nginx-controller" = {
@@ -269,7 +277,7 @@ overrides_config = {
           effect: NoSchedule
       EOT
     }
-    "karpenter" = {
+    /*"karpenter" = {
       override_addon_name = "karpenter"
       override_values = <<-EOT
       controller:
@@ -289,5 +297,5 @@ overrides_config = {
         operator: Exists
         effect: NoSchedule
       EOT
-    }
+    }*/
 }

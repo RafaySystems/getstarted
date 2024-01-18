@@ -108,7 +108,7 @@ resource "rafay_eks_cluster" "cluster" {
         for_each = var.s3_bucket != null ? [0] : []
         content {
           metadata {
-            name      = "velero"
+            name      = "velero-rafay"
             namespace = "rafay-system"
           }
           attach_policy = <<EOF
@@ -137,7 +137,7 @@ resource "rafay_eks_cluster" "cluster" {
                           "s3:ListMultipartUploadParts"
                       ],
                       "Resource": [
-                          "arn:aws:s3:::${var.cluster_name}/*"
+                          "arn:aws:s3:::${var.s3_bucket}/*"
                       ]
                   },
                   {
@@ -146,7 +146,7 @@ resource "rafay_eks_cluster" "cluster" {
                           "s3:ListBucket"
                       ],
                       "Resource": [
-                          "arn:aws:s3:::${var.cluster_name}"
+                          "arn:aws:s3:::${var.s3_bucket}"
                       ]
                   }
               ]
@@ -205,11 +205,11 @@ resource "rafay_eks_cluster" "cluster" {
         labels = managed_nodegroups.value.labels
 	    }
     }
-    /*addons {
+    addons {
       name = "vpc-cni"
       version = "latest"
       configuration_values = "{\"enableNetworkPolicy\":\"true\"}"
-    }*/
+    }
     addons {
       name = "aws-ebs-csi-driver"
       version = "latest" 

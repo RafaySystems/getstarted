@@ -22,3 +22,6 @@ echo "CLUSTER_NAME: " ${CLUSTER_NAME}
 ./rctl config show
 
 ./rctl get projects
+
+./rctl download kubeconfig --cluster terraform-caas-63 -p terraform-caas-63 -f terraform-caas-63.yam
+

@@ -18,6 +18,10 @@ variable "base_blueprint_version" {
   type = string
 }
 
+variable "opa-repo" {
+  type = string
+}
+
 variable "infra_addons" {
   type = map(object({
     name          = string

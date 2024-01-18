@@ -94,14 +94,17 @@ module "blueprint" {
  base_blueprint         = var.base_blueprint
  base_blueprint_version = var.base_blueprint_version
  infra_addons           = var.infra_addons
- depends_on           = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
+ opa-repo               = var.opa-repo
+ depends_on             = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
 
 module "backup-restore" {
- source        = "./modules/backup-restore"
- project       = var.project
- cluster_name  = var.cluster_name
- depends_on    = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
+ source           = "./modules/backup-restore"
+ project          = var.project
+ cluster_name     = var.cluster_name
+ s3_bucket        = var.s3_bucket
+ cluster_location = var.cluster_location
+ depends_on    = [ module.eks_cluster ]
 }
 
 module eks_cluster {

@@ -1,21 +1,17 @@
 # Poject name variable
-project               = "tf-caas-1-18-3"
+project               = "changeme"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Role ARN & externalid info below for EKS.
-#rolearn                 = "arn:aws:iam::679196758854:role/dreta-provisioning-role"
-#externalid              = "c685-9ce7-7fbe-c971-5163"
-rolearn = "arn:aws:iam::679196758854:role/dreta-full-staging"
-externalid = "05a1-9e93-5019-3368-9669"
+rolearn                 = "changeme"
+externalid              = "changeme"
 
 # Instance profile Name for Karpenter nodes (Optional: Installs IRSA)
-/*
-instance_profile       = "arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay"
-*/
+instance_profile       = "changeme"
 
 # Cluster variables
-cluster_name           =  "tf-caas-1-18-3"
+cluster_name           =  "changeme"
 # Cluster Region
 cluster_location       =  "us-west-2"
 # K8S Version
@@ -23,15 +19,15 @@ k8s_version            =  "1.27"
 
 # TAGS (Optional)
 cluster_tags = {
-    "email" = "david@rafay.co"
+    "email" = "docs@rafay.co"
     "env"    = "dev"
     "orchestrator" = "k8s"
-    "cluster-name" = "tf-caas-1-18-3"
+    "cluster-name" = "changeme"
 }
-/*
+
 # S3 bucket name for Backup/Restore (Optional: Installs IRSA & DR components)
-s3_bucket = "terraform-caas-63"
-*/
+s3_bucket = "changeme"
+
 # K8s cluster labels (Optional)
 cluster_labels = {
   "nginx" = "",
@@ -40,18 +36,18 @@ cluster_labels = {
 }
 
 # IAM Roles to access EKS provided endpoint (Optional)
-cluster_admin_iam_roles = ["arn:aws:iam::679196758854:user/david@rafay.co"]
+cluster_admin_iam_roles = ["changeme"]
 /*
 # ID and AZ of private subnets (Optional: must have proper permissions to create VPC)
 private_subnet_ids = {
-  "subnet-01bc23afc0744c4aa" = "us-west-2a",
-  "subnet-04e1e5616bde25473" = "us-west-2b"
+  "subnet-changeme" = "us-west-2a",
+  "subnet-changeme" = "us-west-2b"
 }
 
 # ID and AZ of public subnets (optional)
 public_subnet_ids = {
-  "subnet-0cde3009a8e9b04f2" = "us-west-2a",
-  "subnet-02d30b8e8c56b142a" = "us-west-2b"
+  "subnet-changeme" = "us-west-2a",
+  "subnet-changeme" = "us-west-2b"
 }
 */
 # Systems Components Placement
@@ -63,7 +59,7 @@ rafay_tol_effect      = "NoSchedule"
 managed_nodegroups = {
   "ng-1" = {
     ng_name         = "infra-terraform"
-    node_count      = 2
+    node_count      = 1
     node_max_count  = 5
     node_min_count  = 1
     k8s_version     = "1.27"
@@ -86,7 +82,7 @@ node_tags = {
 blueprint_name         = "custom-blueprint"
 blueprint_version      = "v1"
 base_blueprint         = "minimal"
-base_blueprint_version = "2.2.0"
+base_blueprint_version = "2.3.0"
 namespaces             = [
   "ingress-nginx", 
   "cert-manager",
@@ -124,7 +120,7 @@ infra_addons = {
          file_path     = null
          depends_on    = ["cert-manager"]
     }
-    /*"addon3" = {
+    "addon3" = {
          name          = "karpenter"
          namespace     = "karpenter"
          type          = "Helm"
@@ -144,12 +140,11 @@ infra_addons = {
          file_path     = "file://../artifacts/karpenter/nodepool.yaml"
          depends_on    = ["karpenter"]
     }
-    */
 }
 
 # List of constraints for OPA Policy
-/*constraint_templates   = ["allowed-users-custom",
-                          /*"app-armor-custom",
+constraint_templates   = ["allowed-users-custom",
+                          "app-armor-custom",
                           "forbidden-sysctls-custom",
                           "host-filesystem-custom",
                           "host-namespace-custom",
@@ -171,14 +166,13 @@ infra_addons = {
                           "https-only-custom",
                           "image-digests-custom",
                           "container-limits-custom",
-                          "container-resource-ratios-custom"
-]
+                          "container-resource-ratios-custom"]
 
 # repo housing OPA constraints and constraint templates
 opa-repo = "rafay-gs"
-opa-branch = "caas-eks-gen-2"
+opa-branch = "master"
 opa_excluded_namespaces = ["default", "kube-node-lease", "kube-public", "kube-system"]
-*/
+
 # Repository specific variables
 public_repositories = {
     "nginx-controller" = {
@@ -231,11 +225,12 @@ overrides_config = {
           annotations:
             a8r.io/owner: "user@k8s.com"
             a8r.io/runbook: "http://www.k8s.com"
+          type: ClusterIP
         tolerations:
         - key: nodeInfra
           operator: Exists
           effect: NoSchedule
-        replicaCount: 3
+        replicaCount: 2
         admissionWebhooks:
           service:
             annotations:
@@ -277,7 +272,7 @@ overrides_config = {
           effect: NoSchedule
       EOT
     }
-    /*"karpenter" = {
+    "karpenter" = {
       override_addon_name = "karpenter"
       override_values = <<-EOT
       controller:
@@ -297,5 +292,5 @@ overrides_config = {
         operator: Exists
         effect: NoSchedule
       EOT
-    }*/
+    }
 }

@@ -97,7 +97,7 @@ module "blueprint" {
  opa-repo               = var.opa-repo
  depends_on             = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
-
+/*
 module "backup-restore" {
  source           = "./modules/backup-restore"
  project          = var.project
@@ -106,7 +106,7 @@ module "backup-restore" {
  cluster_location = var.cluster_location
  depends_on    = [ module.eks_cluster ]
 }
-
+*/
 module eks_cluster {
   source                  = "./modules/eks"
   cluster_name            = var.cluster_name

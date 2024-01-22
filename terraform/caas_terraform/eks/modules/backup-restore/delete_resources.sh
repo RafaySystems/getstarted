@@ -23,5 +23,11 @@ echo "CLUSTER_NAME: " ${CLUSTER_NAME}
 
 ./rctl get projects
 
-./rctl download kubeconfig --cluster terraform-caas-63 -p terraform-caas-63 -f terraform-caas-63.yam
+echo "./rctl undeploy dp-agent ${CLUSTER_NAME} --cluster-name ${CLUSTER_NAME} -p ${PROJECT_NAME} --wait"
+./rctl undeploy dp-agent ${CLUSTER_NAME} --cluster-name ${CLUSTER_NAME} -p ${PROJECT_NAME} --wait
+
+sleep 120
+
+./rctl delete dp-agent ${CLUSTER_NAME} -p ${PROJECT_NAME} --wait
+
 

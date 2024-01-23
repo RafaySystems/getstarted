@@ -134,7 +134,7 @@ variable "base_blueprint" {
 
 variable "base_blueprint_version" {
   type = string
-  description = "base blueprint version of managed components, ex: (2.1.0, 2.2.0)"
+  description = "base blueprint version of managed components, ex: (2.1.0, 2.2.0, 2.3.0)"
 }
 
 variable "namespaces" {

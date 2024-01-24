@@ -103,6 +103,11 @@ resource "rafay_eks_cluster" "cluster" {
       }
     }
     addons {
+      name                 = "vpc-cni"
+      version              = "latest"
+      configuration_values = "{\"enableNetworkPolicy\":\"true\"}"
+    }
+    addons {
       name                 = "aws-ebs-csi-driver"
       version              = "latest"
       configuration_values = "{\"controller\":{\"tolerations\":[{\"key\":\"CriticalAddonsOnly\",\"operator\":\"Exists\"},{\"operator\":\"Exists\"}]}}"

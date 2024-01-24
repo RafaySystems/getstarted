@@ -16,20 +16,18 @@ variable "cloud_credentials_name" {
 
 variable "rolearn" {
   type = string
-  default = "null"
   description = "The ARN of the IAM role used to provision clusters"
 }
 
 variable "externalid" {
   type = string
-  default = "null"
   description = "The external id of the IAM role's trust relationship"
 }
 
 variable "instance_profile" {
   type = string
-  default = "null"
-  description = "The name of the IAM instance profile for Karpenter"
+  default = null
+  description = "The name of the IAM instance profile for Karpenter. This also deploys an IRSA!"
 }
 
 variable "cluster_name" {
@@ -44,12 +42,19 @@ variable "cluster_location" {
 
 variable "cluster_admin_iam_roles" {
   type        = list(string)
+  default = []
   description = "IAM Roles to be granted cluster-admin access"
 }
 
 variable "k8s_version" {
   type = string
   description = "The k8s version (ex: 1.26, 1.27)"
+}
+
+variable "s3_bucket" {
+  type = string
+  default = null
+  description = "The name of the AWS S3 bucket for storing backups. This also installs an IRSA!"
 }
 
 variable "cluster_labels" {
@@ -95,23 +100,21 @@ variable "managed_nodegroups" {
     taint_key      = optional(string)
     taint_operator = optional(string)
     taint_effect   = optional(string)
+    labels         = optional(map(string))
   }))
   description = "configuration of EKS managed nodegroup"
 }
 
 variable "cluster_tags" {
   type = map
+  default = {}
   description = "tags for managed k8s cluster"
 }
 
 variable "node_tags" {
   type = map
+  default = {}
   description = "tags added to cloud infrastructure"
-}
-
-variable "node_labels" {
-  type = map
-  description = "k8s node labels"
 }
 
 variable "blueprint_name" {
@@ -131,7 +134,7 @@ variable "base_blueprint" {
 
 variable "base_blueprint_version" {
   type = string
-  description = "base blueprint version of managed components, ex: (2.1.0, 2.2.0)"
+  description = "base blueprint version of managed components, ex: (2.1.0, 2.2.0, 2.3.0)"
 }
 
 variable "namespaces" {
@@ -141,6 +144,7 @@ variable "namespaces" {
 
 variable "constraint_templates" {
     type = list(string)
+    default = []
     description = "name of the constraints and constraint templates to deploy via a default opa policy"
 }
 
@@ -151,12 +155,13 @@ variable "infra_addons" {
     type          = string
     addon_version = string
     catalog       = optional(string)
-    chart_name    = string
-    chart_version = string
+    chart_name    = optional(string)
+    chart_version = optional(string)
     repository    = optional(string)
     file_path     = string
     depends_on    = list(string)
   }))
+  default = {}
   description = "configuration of the addons to be added to the project"
 }
 
@@ -171,16 +176,19 @@ variable "public_repositories" {
 
 variable "opa-repo" {
   type = string
+  default = null
   description = "name of the repo housing opa constraint and constraint templates"
 }
 
 variable "opa-branch" {
   type = string
+  default = null
   description = "name of the repo housing opa constraint and constraint templates"
 }
 
 variable "opa_excluded_namespaces" {
   type = list(string)
+  default = []
   description = "namespaces to be excluded from OPA scanning"
 }
 

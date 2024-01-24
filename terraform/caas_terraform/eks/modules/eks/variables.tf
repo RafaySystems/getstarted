@@ -36,6 +36,12 @@ variable "k8s_version" {
   type = string
 }
 
+variable "s3_bucket" {
+  type = string
+  default = "null"
+  description = "The name of the AWS S3 bucket for storing backups"
+}
+
 variable "cluster_labels" {
   type        = map(string)
   description = "Map of cluster labels for cluster"
@@ -76,6 +82,7 @@ variable "managed_nodegroups" {
     taint_key      = optional(string)
     taint_operator = optional(string)
     taint_effect   = optional(string)
+    labels         = optional(map(string))
   }))
 }
 

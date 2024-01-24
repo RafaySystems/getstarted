@@ -11,5 +11,11 @@ resource "rafay_namespace" "namespace" {
     drift {
       enabled = false
     }
+    /*placement {
+      labels {
+        key   = "rafay.dev/clusterName"
+        value = var.cluster_name
+      }
+    }*/
   }
 }

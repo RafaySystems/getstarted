@@ -5,3 +5,7 @@ variable "project" {
 variable "namespaces" {
     type = list(string)
 }
+
+variable "cluster_name" {
+  type = string
+}

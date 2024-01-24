@@ -32,10 +32,11 @@ module "repositories" {
 }
 
 module "namespace" {
-  source      = "./modules/namespace"
-  project     = var.project
-  namespaces  = var.namespaces
-  depends_on  = [ module.project]
+  source       = "./modules/namespace"
+  project      = var.project
+  namespaces   = var.namespaces
+  cluster_name = var.cluster_name
+  depends_on   = [ module.project]
 }
 
 module "opa-constraint-template" {
@@ -93,9 +94,19 @@ module "blueprint" {
  base_blueprint         = var.base_blueprint
  base_blueprint_version = var.base_blueprint_version
  infra_addons           = var.infra_addons
- depends_on           = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
+ opa-repo               = var.opa-repo
+ depends_on             = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
-
+/*
+module "backup-restore" {
+ source           = "./modules/backup-restore"
+ project          = var.project
+ cluster_name     = var.cluster_name
+ s3_bucket        = var.s3_bucket
+ cluster_location = var.cluster_location
+ depends_on    = [ module.eks_cluster ]
+}
+*/
 module eks_cluster {
   source                  = "./modules/eks"
   cluster_name            = var.cluster_name
@@ -108,6 +119,7 @@ module eks_cluster {
   cluster_admin_iam_roles = var.cluster_admin_iam_roles
   cluster_labels          = var.cluster_labels
   k8s_version             = var.k8s_version
+  s3_bucket               = var.s3_bucket
   private_subnet_ids      = var.private_subnet_ids
   public_subnet_ids       = var.public_subnet_ids
   rafay_tol_key           = var.rafay_tol_key

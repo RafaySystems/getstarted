@@ -1,6 +1,6 @@
 # Project as a Service 
 
-This is Terraform Infrastructure as Code (IaC) supporting a [Getting Started](https://docs.rafay.co/refarch/caas/aks/terraform/overview/) Exercise for "Project as a Service". In this example, we will use Rafay's Terraform Provider to provision an RBAC-controlled, dedicated operating environment aka project for an application team/business unit, bootstrap it with an EKS cluster and bring the cluster to a standardized baseline (aka cluster blueprint). 
+This is Terraform Infrastructure as Code (IaC) supporting a [Getting Started](https://docs.rafay.co/learn/quickstart/use_cases/caas_terraform/overview/) Exercise for "Project as a Service". In this example, we will use Rafay's Terraform Provider to provision an RBAC-controlled, dedicated operating environment aka project for an application team/business unit, bootstrap it with an EKS cluster and bring the cluster to a standardized baseline (aka cluster blueprint). 
 
 ---
 

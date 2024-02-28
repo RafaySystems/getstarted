@@ -13,7 +13,7 @@ Following needs to be installed on the system where you plan to run this tool.
 
 Export following environment variables.
 ```
-export USER=rafay_consol_username
+export USER=rafay_console_username
 export PASSWORD=rafay_console_password
 export PROJECT=rafay_project_name
 export CLUSTER=cluster_name

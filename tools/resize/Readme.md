@@ -302,3 +302,11 @@ The current version of the utility
 - Cannot resize pods with multiple containers 
 - User can belong to a single Rafay Org
 
+--- 
+
+# Support
+
+Please contact [support](mailto:support@rafay.co) if you have questions about this tool. 
+
+<a href="#top">Back to top</a>
+

@@ -295,7 +295,6 @@ def main():
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
             # Do not update values.
             else:
-                print("loop4")
                 appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
                 csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
 

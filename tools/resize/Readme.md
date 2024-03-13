@@ -5,11 +5,10 @@ This utility is designed to help users perform the following:
 - Identify applications with **over-allocated resources** on a Kubernetes cluster 
 - Optimize the resource allocation for applications by resizing them 
 
-# Demonstration
+![Resize in CLI](images/resize-animated.gif)
 
-Watch a brief demonstration video of the resize tool in action. 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/m5n6xcBpYog?si=rnMx3qNjpnxCM2_y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+You can also [watch](https://www.youtube.com/watch?v=m5n6xcBpYog) a brief video showcasing the resize tool in action. 
 
 # Prerequisites
 

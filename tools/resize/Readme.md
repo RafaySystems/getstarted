@@ -27,6 +27,8 @@ The image below shows an imported cluster called "microk8s" operating the projec
 
 ![Imported Cluster](images/cluster.png)
 
+<a href="#top">Back to top</a>
+
 ---
 
 # Design & Architecture 
@@ -34,6 +36,8 @@ The image below shows an imported cluster called "microk8s" operating the projec
 The diagram below describes what the overall system would look like for a scenario with two Kubernetes clusters targeted for application resizing. 
 
 ![Architecture](images/architecture.png)
+
+<a href="#top">Back to top</a>
 
 
 In order to identify over provisioned resources, the resize tool needs to perform the following: 
@@ -75,6 +79,8 @@ For resources that have **zero** actual resource usage, resize will provide a re
 
 The tool automatically generates a CSV file with the findings and recommendations. Users can then share this csv file with others internally. 
 
+<a href="#top">Back to top</a>
+
 ---
 
 # One Time Setup 
@@ -107,6 +113,8 @@ Note that you can download the Rafay ZTKA kubeconfig file by following the steps
 - Login into your Rafay Org
 - Click on My Tools 
 - Click on Download Kubeconfig
+
+<a href="#top">Back to top</a>
 
 --- 
 
@@ -156,6 +164,8 @@ python3 resize.py
 # Output
 
 The tool always prints output clearly showing resource usage "before" and "after" resizing the resources. 
+
+<a href="#top">Back to top</a>
 
 ---
 
@@ -293,6 +303,8 @@ Following pods/applications have not configured cpu/memory requests
 +-----------+-----+-----------+--------------+
 ```
 
+<a href="#top">Back to top</a>
+
 --- 
 
 # Limitations 
@@ -301,6 +313,8 @@ The current version of the utility
 
 - Cannot resize pods with multiple containers 
 - User can belong to a single Rafay Org
+
+<a href="#top">Back to top</a>
 
 --- 
 

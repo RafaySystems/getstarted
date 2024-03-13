@@ -25,7 +25,7 @@ Ensure you import your Kubernetes cluster into a [Project](https://docs.rafay.co
 
 The image below shows an imported cluster called "microk8s" operating the project called "resize". 
 
-![Imported Cluster](cluster.png)
+![Imported Cluster](images/cluster.png)
 
 ---
 
@@ -33,7 +33,7 @@ The image below shows an imported cluster called "microk8s" operating the projec
 
 The diagram below describes what the overall system would look like for a scenario with two Kubernetes clusters targeted for application resizing. 
 
-![Architecture](architecture.png)
+![Architecture](images/architecture.png)
 
 
 In order to identify over provisioned resources, the resize tool needs to perform the following: 
@@ -131,7 +131,7 @@ The dry-run mode is useful to get a **read-only** view of current resource alloc
 
 The diagram below describes the various steps involved in this mode. 
 
-![Dry Run Mode](dryrun.png)
+![Dry Run Mode](images/dryrun.png)
 
 To run a command with the dry-run option. 
 
@@ -145,7 +145,7 @@ This is the **default** mode. It updates the resource configurations (CPU/Memory
 
 The diagram below describes the various steps involved in this mode. 
 
-![Resize Mode](resize.png)
+![Resize Mode](images/resize.png)
 
 To run this command
 
@@ -169,13 +169,13 @@ Create a custom blueprint with "minimal" as the base blueprint and with the "vis
 
 The image below shows an imported cluster called "microk8s" operating the project called "resize". 
 
-![Imported Cluster](cluster.png)
+![Imported Cluster](images/cluster.png)
 
 ## Step 2: Download Kubeconfig 
 
 In this step, you will download the Kubeconfig file for your cluster. In the Rafay Console, click on the gear icon on the right of your cluster and download the Kubeconfig file to your laptop. Once you have downloaded the file, export the kubeconfig file to your path so that you can use it for ongoing kubectl operations. 
 
-![Download Kubeconfig](kubeconfig.png)
+![Download Kubeconfig](images/kubeconfig.png)
 
 
 ```
@@ -297,5 +297,8 @@ Following pods/applications have not configured cpu/memory requests
 
 # Limitations 
 
-The current version of the utility cannot resize pods with multiple containers. 
+The current version of the utility 
+
+- Cannot resize pods with multiple containers 
+- User can belong to a single Rafay Org
 

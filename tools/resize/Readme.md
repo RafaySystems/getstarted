@@ -1,3 +1,46 @@
+Table of Contents
+=================
+
+* [Introduction](#introduction)
+* [Prerequisites](#prerequisites)
+   * [Python 3.x](#python-3x)
+   * [Python Libraries](#python-libraries)
+   * [Import Cluster to Rafay Org](#import-cluster-to-rafay-org)
+* [Design &amp; Architecture](#design--architecture)
+   * [Step 1](#step-1)
+   * [Step 2](#step-2)
+   * [Step 3](#step-3)
+   * [Frequently Asked Questions (FAQs)](#frequently-asked-questions-faqs)
+      * [Resources with No Requests/Limits](#resources-with-no-requestslimits)
+   * [Filter by Namespace](#filter-by-namespace)
+      * [Zero Usage](#zero-usage)
+      * [Export Data](#export-data)
+      * [Overwriting Specs](#overwriting-specs)
+* [One Time Setup](#one-time-setup)
+   * [Import Cluster](#import-cluster)
+   * [Configure Resize](#configure-resize)
+* [Usage](#usage)
+   * [Help](#help)
+   * [Dry Run Mode](#dry-run-mode)
+   * [Resize Mode](#resize-mode)
+* [Output](#output)
+* [Get Started](#get-started)
+   * [Step 1: Import Cluster](#step-1-import-cluster)
+   * [Step 2: Download Kubeconfig](#step-2-download-kubeconfig)
+   * [Step 3: Deploy Test Applications](#step-3-deploy-test-applications)
+   * [Step 4: Dry Run with Resize](#step-4-dry-run-with-resize)
+      * [CPU](#cpu)
+      * [Memory](#memory)
+      * [Sample Output](#sample-output)
+   * [Step 5: Resize Applications](#step-5-resize-applications)
+      * [CPU](#cpu-1)
+      * [Memory](#memory-1)
+      * [Sample Output](#sample-output-1)
+* [Limitations](#limitations)
+* [Support](#support)
+
+---
+
 # Introduction
 
 This utility is designed to help users perform the following:

@@ -68,13 +68,17 @@ The resize tool now compares data from "step 1 (configured resources)" and "step
 
 If the dry-run mode is specified, no changes of any kind are made to the target cluster. If not enabled, the resize tool will apply the updated requests/limits to the identified resources on the target cluster. 
 
-## FAQ
+## Frequently Asked Questions (FAQs)
 
 This section captures behavior of the resize tool for very specific scenarios. 
 
-### No Requests/Limits 
+### Resources with No Requests/Limits 
 
-For resources that are not originally specified with requests and/or limits, resize will provide resource recommendations. 
+For resources that are not specified with requests and/or limits, resize will provide resource request recommendations and set them on the cluster.
+
+## Filter by Namespace 
+
+Users can specify the tool to operate only on resources in a specific namespace. This allows users to focus on specific namespaces if they prefer to resize gradually. 
 
 ### Zero Usage 
 
@@ -83,6 +87,10 @@ For resources that have **zero** actual resource usage, resize will provide a re
 ### Export Data
 
 The tool automatically generates a CSV file with the findings and recommendations. Users can then share this csv file with others internally. 
+
+### Overwriting Specs
+
+Changes made directly on the cluster by the resize tool can potentially be overwritten by an application deployment pipeline or the app developer. We recommend that platform teams coordinate with the app developers to update their YAML in the Git repos based on the recommendations from the tool. 
 
 <a href="#top">Back to top</a>
 

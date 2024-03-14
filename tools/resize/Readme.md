@@ -70,7 +70,10 @@ This persona typically will only have access to their namespace(s) on a cluster.
 
 ## Video
 
-You can [watch](https://www.youtube.com/watch?v=m5n6xcBpYog) a brief video showcasing how a platform engineer or someone in Operations can use the resize tool to identify "over-provisioned" resources on a cluster and resize them. 
+As a platform engineer, [watch](https://www.youtube.com/watch?v=m5n6xcBpYog) how you can use the resize tool to identify "over-provisioned" resources on a cluster across all namespaces and resize them. 
+
+As an app developer, [watch](https://www.youtube.com/watch?v=CAYvSf0xY0o) how you can use the resize tool to identify "over-provisioned" resources in your namespace and resize them in minutes. 
+
 
 ## Blog
 Read more about this in our recent product [blog](https://docs.rafay.co/blog/2024/03/13/resize-and-right-size-applications-on-kubernetes/). 

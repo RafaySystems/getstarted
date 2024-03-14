@@ -2,6 +2,11 @@ Table of Contents
 =================
 
 * [Introduction](#introduction)
+   * [Target Personas](#target-personas)
+     * [Platform Engineer](#platform-engineer)
+     * [App Developer](#app-developer)
+   * [Video](#Video)
+   * [Blog](#Blog)
 * [Prerequisites](#prerequisites)
    * [Python 3.x](#python-3x)
    * [Python Libraries](#python-libraries)
@@ -15,7 +20,8 @@ Table of Contents
    * [Filter by Namespace](#filter-by-namespace)
       * [Zero Usage](#zero-usage)
       * [Export Data](#export-data)
-      * [Overwriting Specs](#overwriting-specs)
+      * [Overwriting Manifests](#overwriting-manifests)
+      * [GitOps](#gitops)
 * [One Time Setup](#one-time-setup)
    * [Import Cluster](#import-cluster)
    * [Configure Resize](#configure-resize)
@@ -50,8 +56,27 @@ This utility is designed to help users perform the following:
 
 ![Resize in CLI](images/resize-animated.gif)
 
+## Target Personas
 
-You can also [watch](https://www.youtube.com/watch?v=m5n6xcBpYog) a brief video showcasing the resize tool in action. 
+This tool is targeted at two personas in a typical organization. 
+
+### Platform Engineer
+
+This persona typically has cluster wide access privileges. This person may be entrusted with the task to find wastage across all app teams and eliminate wastage. 
+
+### App Developer 
+
+This persona typically will only have access to their namespace(s) on a cluster. App developers typically do not have the tools to profile their applications and as a result are unable to right size their applications. The ideal, long term solution for an organization is to provide the resize tool to the app developers as the means for them to **profile** their applications and **right size** their manifests directly in Git. 
+
+## Video
+
+You can [watch](https://www.youtube.com/watch?v=m5n6xcBpYog) a brief video showcasing how a platform engineer or someone in Operations can use the resize tool to identify "over-provisioned" resources on a cluster and resize them. 
+
+## Blog
+Read more about this in our recent product [blog](https://docs.rafay.co/blog/2024/03/13/resize-and-right-size-applications-on-kubernetes/). 
+
+
+---
 
 # Prerequisites
 
@@ -134,6 +159,12 @@ The tool automatically generates a CSV file with the findings and recommendation
 ### Overwriting Specs
 
 Changes made directly on the cluster by the resize tool can potentially be overwritten by an application deployment pipeline or the app developer. We recommend that platform teams coordinate with the app developers to update their YAML in the Git repos based on the recommendations from the tool. 
+
+### GitOps 
+
+If your developers are using GitOps tools (e.g. FluxCD or ArgoCD), any changes to the manifests made by the resize tool directly on the cluster will be seen by these tools as **drift**. These tools can be configured to perform "remediation" immediately once drift is detected. This can result in a race condition where the changes made by the resize tool will be reset by the deployed GitOps tool. This would be a situation where the left hand does not know what the right hand is doing. 
+
+If your app developers are deploying to clusters using these GitOps tools, we recommend that you work with your app developers to incorporate the resize tool in their deployment pipelines to **right size** their Kubernetes resources. 
 
 <a href="#top">Back to top</a>
 
@@ -368,7 +399,7 @@ Following pods/applications have not configured cpu/memory requests
 The current version of the utility 
 
 - Cannot resize pods with multiple containers 
-- User can belong to a single Rafay Org
+- Works for users with a single Rafay Org 
 
 <a href="#top">Back to top</a>
 

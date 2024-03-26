@@ -21,6 +21,7 @@ def getOptions(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(description="Rafay K8S Application resize tool based on usage..", formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-d", "--dry-run", help="Generate the report of resources Usage. It does not Update resources requests.", action='store_true')
     parser.add_argument("-n", "--namespace", help="Run the tool with namespace scope")
+    parser.add_argument("-A", "--all-namespaces", help="Run the tool with cluster scope", action='store_true')
     options = parser.parse_args(args)
     return options
 
@@ -121,6 +122,7 @@ def main():
     appTableNoReq = PrettyTable(app_wo_reqs)
 
     config.load_kube_config()
+    _, active_context = (config.list_kube_config_contexts())
     excluded_ns = ['kube-node-lease', 'kube-public', 'kube-system', 'rafay-infra', 'rafay-system']
 
     if not os.environ.get('PROJECT'):
@@ -174,11 +176,13 @@ def main():
     r1 = client.AppsV1Api()
     if options.namespace:
         all_ns = [options.namespace]
-    else:
+    elif options.all_namespaces:
         ret = v1.list_namespace()
         for i in ret.items:
             if i.metadata.name not in excluded_ns:
                 all_ns.append(i.metadata.name)
+    else:
+        all_ns = [active_context['context']['namespace']]
 
     #Preprare the map of all the pods with cpu/memory requests set.
     info = {}

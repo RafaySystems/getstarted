@@ -215,9 +215,9 @@ Note that you can download the Rafay ZTKA kubeconfig file by following the steps
 Once you have completed the one-time setup as described above, follow the steps below.
 
 > [!TIP]
-> The resize utility behaves exactly like "kubectl". \n
-> When no namespace is specified, it will use the namespace from the default context in the kubeconfig file.  \n
-> Users can specify a namespace by using the "-n" override (e.g. resize -n test). \n
+> The resize utility behaves exactly like "kubectl". \
+> When no namespace is specified, it will use the namespace from the default context in the kubeconfig file.  \
+> Users can specify a namespace by using the "-n" override (e.g. resize -n test). \
 > Users can specify all namespaces by using the "-A" override (e.g. resize -A). 
 
 ## Help

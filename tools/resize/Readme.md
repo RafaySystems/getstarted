@@ -139,6 +139,8 @@ The resize tool now compares data from "step 1 (configured resources)" and "step
 
 If the dry-run mode is specified, no changes of any kind are made to the target cluster. If not enabled, the resize tool will apply the updated requests/limits to the identified resources on the target cluster. 
 
+---
+
 ## Frequently Asked Questions (FAQs)
 
 This section captures behavior of the resize tool for very specific scenarios. 
@@ -210,7 +212,13 @@ Note that you can download the Rafay ZTKA kubeconfig file by following the steps
 
 # Usage 
 
-Once you have completed the one-time setup as described above, follow the steps below. 
+Once you have completed the one-time setup as described above, follow the steps below.
+
+> [!TIP]
+> The resize utility behaves exactly like "kubectl" 
+> When no namespace is specified, it will use the namespace from the default context in the kubeconfig file 
+> Users can specify a namespace by using the "-n" override (e.g. resize -n test)
+> Users can specify all namespaces by using the "-A" override (e.g. resize -A)
 
 ## Help
 

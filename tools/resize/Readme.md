@@ -216,9 +216,9 @@ Once you have completed the one-time setup as described above, follow the steps 
 
 > [!TIP]
 > The resize utility behaves exactly like "kubectl". \
-> When no namespace is specified, it will use the namespace from the default context in the kubeconfig file.  \
-> Users can specify a namespace by using the "-n" override (e.g. resize -n test). \
-> Users can specify all namespaces by using the "-A" override (e.g. resize -A). 
+> - When no namespace is specified, it will use the namespace from the default context in the kubeconfig file.  \
+> - Users can specify a namespace by using the "-n" override (e.g. resize -n test). \
+> - Users can specify all namespaces by using the "-A" override (e.g. resize -A). 
 
 ## Help
 

@@ -71,6 +71,8 @@ module "opa-policy" {
   source               = "./modules/opa-policy"
   project              = var.project
   constraint_templates = var.constraint_templates
+  opa-repo             = var.opa-repo
+  opa-branch           = var.opa-branch
   depends_on           = [ module.addons, module.repositories, module.opa_installation_profile, module.opa-constraint, module.opa-constraint-template ]
 }
 

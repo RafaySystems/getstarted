@@ -95,6 +95,7 @@ module "blueprint" {
  base_blueprint         = var.base_blueprint
  base_blueprint_version = var.base_blueprint_version
  infra_addons           = var.infra_addons
+ opa-repo               = var.opa-repo
  depends_on             = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
 

@@ -62,6 +62,8 @@ module "opa_installation_profile" {
   source      =  "./modules/opa-installation-profile"
   project     = var.project
   opa_excluded_namespaces = var.opa_excluded_namespaces
+  opa-repo              = var.opa-repo
+  opa-branch            = var.opa-branch  
   depends_on  = [ module.project, module.repositories ]
 }
 

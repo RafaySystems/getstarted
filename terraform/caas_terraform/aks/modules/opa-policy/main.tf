@@ -1,4 +1,5 @@
 resource "rafay_opa_policy" "opa-policy" {
+  count = var.opa-repo != "" ? 1 : 0
   metadata {
     name           = "default-opa-policy"
     project        = var.project

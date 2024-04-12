@@ -123,7 +123,7 @@ def main():
 
     config.load_kube_config()
     _, active_context = (config.list_kube_config_contexts())
-    excluded_ns = ['kube-node-lease', 'kube-public', 'kube-system', 'rafay-infra', 'rafay-system']
+    excluded_ns = ['kube-node-lease', 'kube-public', 'kube-system', 'rafay-infra', 'rafay-system', 'calico-system', 'cilium']
 
     if not os.environ.get('PROJECT'):
         project = "defaultproject"

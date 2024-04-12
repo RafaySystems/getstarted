@@ -407,9 +407,11 @@ Following pods/applications have not configured cpu/memory requests
 
 # Limitations 
 
-The current version of the utility 
+The current version of the utility has the following limitations: 
 
-- Cannot resize pods with multiple containers 
+- Limited to pods with a single container
+- Limited to Deployments (support for statefulsets and daemonsets coming soon)
+- Will report on usage for pods with Best Effort QoS, but will not update the manifests with requests 
 - Works for users with a single Rafay Org 
 
 <a href="#top">Back to top</a>

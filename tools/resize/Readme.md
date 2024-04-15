@@ -405,16 +405,25 @@ Following pods/applications have not configured cpu/memory requests
 
 --- 
 
-# Limitations 
+# Roadmap 
 
-The current version of the utility has the following limitations: 
+The near term roadmap is based on feedback from active users. It is focused on the following: 
 
-- Limited to pods with a single container
-- Limited to Deployments (support for statefulsets and daemonsets coming soon)
-- Will report on usage for pods with Best Effort QoS, but will not update the manifests with requests 
-- Works for users with a single Rafay Org 
+- Support for Pods with multiple containers 
+- Support for StatefulSets and DaemonSets 
+- Support for updating manifests for Deployments with best effort QoS (i.e. resource requests not specified)
 
 <a href="#top">Back to top</a>
+
+
+--- 
+
+# Limitations 
+
+- Users associated with multiple Rafay Orgs not supported. 
+
+<a href="#top">Back to top</a>
+
 
 --- 
 

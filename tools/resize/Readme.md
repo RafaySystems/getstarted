@@ -42,6 +42,7 @@ Table of Contents
       * [CPU](#cpu-1)
       * [Memory](#memory-1)
       * [Sample Output](#sample-output-1)
+* [Roadmap](#roadmap)
 * [Limitations](#limitations)
 * [Support](#support)
 

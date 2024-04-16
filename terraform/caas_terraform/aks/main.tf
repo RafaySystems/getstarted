@@ -62,6 +62,8 @@ module "opa_installation_profile" {
   source      =  "./modules/opa-installation-profile"
   project     = var.project
   opa_excluded_namespaces = var.opa_excluded_namespaces
+  opa-repo              = var.opa-repo
+  opa-branch            = var.opa-branch  
   depends_on  = [ module.project, module.repositories ]
 }
 
@@ -69,6 +71,8 @@ module "opa-policy" {
   source               = "./modules/opa-policy"
   project              = var.project
   constraint_templates = var.constraint_templates
+  opa-repo             = var.opa-repo
+  opa-branch           = var.opa-branch
   depends_on           = [ module.addons, module.repositories, module.opa_installation_profile, module.opa-constraint, module.opa-constraint-template ]
 }
 
@@ -95,6 +99,7 @@ module "blueprint" {
  base_blueprint         = var.base_blueprint
  base_blueprint_version = var.base_blueprint_version
  infra_addons           = var.infra_addons
+ opa-repo               = var.opa-repo
  depends_on             = [ module.addons, module.opa-policy, module.opa_installation_profile, module.repositories ]
 }
 

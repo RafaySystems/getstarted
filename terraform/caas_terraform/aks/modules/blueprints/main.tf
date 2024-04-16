@@ -30,14 +30,17 @@ resource "rafay_blueprint" "blueprint" {
       name = "default-cost-profile-azure"
       version = "latest"
     }
-    opa_policy {
-      opa_policy {
-        name = "default-opa-policy"
-        version = "v1"
-      }
-      profile {
-        name = "default-opa-profile"
-        version = "v1"
+    dynamic "opa_policy" {
+      for_each = var.opa-repo != null ? [0] : []
+      content {
+        opa_policy {
+          name = "default-opa-policy"
+          version = "v1"
+        }
+        profile {
+          name = "default-opa-profile"
+          version = "v1"
+        }
       }
     }
     sharing {

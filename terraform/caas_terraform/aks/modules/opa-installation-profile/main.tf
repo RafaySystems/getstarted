@@ -1,4 +1,5 @@
 resource "rafay_opa_installation_profile" "opa-installation-profile" {
+  count = var.opa-repo != "" ? 1 : 0
   metadata {
     name    = "default-opa-profile"
     project = var.project

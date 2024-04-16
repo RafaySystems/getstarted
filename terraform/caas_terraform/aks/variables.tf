@@ -121,16 +121,19 @@ variable "public_repositories" {
 
 variable "opa-repo" {
   type = string
+  default = null
   description = "name of the repo housing opa constraint and constraint templates"
 }
 
 variable "opa-branch" {
   type = string
+  default = null
   description = "name of the repo housing opa constraint and constraint templates"
 }
 
 variable "opa_excluded_namespaces" {
   type = list(string)
+  default = []
   description = "namespaces to be excluded from OPA scanning"
 }
 

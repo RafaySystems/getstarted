@@ -74,7 +74,11 @@ This persona typically will only have access to their namespace(s) on a cluster.
 
 As a platform engineer, [watch](https://www.youtube.com/watch?v=m5n6xcBpYog) how you can use the resize tool to identify "over-provisioned" resources on a cluster across all namespaces and resize them. 
 
+[![Resize Apps as Platform Engineer](http://img.youtube.com/vi/m5n6xcBpYog/0.jpg)](http://www.youtube.com/watch?v=m5n6xcBpYog "As a Platform Engineer")
+
 As an app developer, [watch](https://www.youtube.com/watch?v=CAYvSf0xY0o) how you can use the resize tool to identify "over-provisioned" resources in your namespace and resize them in minutes. 
+
+[![Resize Apps an App Developer](http://img.youtube.com/vi/CAYvSf0xY0o/0.jpg)](http://www.youtube.com/watch?v=CAYvSf0xY0o "As an App Developer")
 
 
 ## Blog

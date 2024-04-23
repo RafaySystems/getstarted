@@ -416,7 +416,6 @@ Following pods/applications have not configured cpu/memory requests
 The near term roadmap is based on feedback from active users. It is focused on the following: 
 
 - Support for Pods with multiple containers 
-- Support for StatefulSets and DaemonSets 
 - Support for updating manifests for Deployments with best effort QoS (i.e. resource requests not specified)
 
 <a href="#top">Back to top</a>

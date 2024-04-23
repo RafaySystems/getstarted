@@ -320,7 +320,7 @@ def main():
             else:
                 pod_cpu_value = int(pod['cpu']) * 1000 
                 pod_cpu_value = str(pod_cpu_value) + "m"
-            
+
             # If Usage is lower for CPU/Memory then update the values.
             if mem_usage_round < int(pod['memory'][:-2]) and cpu_usage_millcore < int(pod_cpu_value[:-1]):
                 #Check if new values are not going above current set values.
@@ -350,7 +350,6 @@ def main():
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
                     if not options.dry_run:
                         patch_object(r1, data, pod['deploy'], None, new_mem_requests, pod['kind'])
-                        #patch_deployment(r1, data, pod['deploy'], None, new_mem_requests)
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
@@ -362,7 +361,6 @@ def main():
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, pod['memory']])
                     if not options.dry_run:
                         patch_object(r1, data, pod['deploy'], new_cpu_requests, None, pod['kind'])
-                        #patch_deployment(r1, data, pod['deploy'],new_cpu_requests, None)
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])

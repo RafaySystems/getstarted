@@ -11,7 +11,7 @@ from kubernetes import client, config
 from prettytable import PrettyTable 
 
 
-BASE_URL = "https://console.stage.rafay.dev"
+BASE_URL = "https://console.rafay.dev"
 RESOURCE_BUFFER = 25
 # This is the minimum cpu/memory requests will be set if usage is lower than this value.
 # Unit for CPU is millicore(m) and mebibytes(Mi) for memory

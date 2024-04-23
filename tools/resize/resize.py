@@ -13,7 +13,7 @@ from prettytable import PrettyTable
 
 BASE_URL = "https://console.rafay.dev"
 RESOURCE_BUFFER = 25
-# This is the minimum cpu/memory requests will be set if usage is lowen than this value.
+# This is the minimum cpu/memory requests will be set if usage is lower than this value.
 # Unit for CPU is millicore(m) and mebibytes(Mi) for memory
 MINIMUM_REQUEST = 10
 
@@ -51,6 +51,8 @@ def get_projectID(headers, project):
         for prj in response['results']:
             if prj['name'] == project:
                 return prj['id']
+    else:
+        return None
                       
 def get_edgeID(headers, projectID, cluster):
     uri = BASE_URL + "/edge/v1/projects/" + projectID + "/edges/?limit=100"
@@ -70,6 +72,39 @@ def patch_deployment(client, ns, deploy, cpu=None, memory=None):
         deployment.spec.template.spec.containers[0].resources.requests['memory'] = memory
     #Pathch the deployment
     return client.patch_namespaced_deployment(name=deploy, namespace=ns, body=deployment)
+
+def patch_daemonset(client, ns, daemon, cpu=None, memory=None):
+    # Read daemonset   
+    daemonset = client.read_namespaced_daemon_set(name=daemon, namespace=ns)
+    if cpu:
+        daemonset.spec.template.spec.containers[0].resources.requests['cpu'] = cpu
+    if memory:
+        daemonset.spec.template.spec.containers[0].resources.requests['memory'] = memory
+    #Pathch the daemonset
+    return client.patch_namespaced_daemon_set(name=daemon, namespace=ns, body=daemonset)
+
+def patch_statefulset(client, ns, st, cpu=None, memory=None):
+    # Read daemonset   
+    sts = client.read_namespaced_daemon_set(name=st, namespace=ns)
+    if cpu:
+        sts.spec.template.spec.containers[0].resources.requests['cpu'] = cpu
+    if memory:
+        sts.spec.template.spec.containers[0].resources.requests['memory'] = memory
+    #Pathch the daemonset
+    return client.patch_namespaced_daemon_set(name=sts, namespace=ns, body=sts)
+
+def patch_object(client, ns, object, cpu=None, memory=None, kind=None):
+    if kind == 'DaemonSet':
+        patch_daemonset(client, ns, object ,cpu, memory)
+
+    elif kind == 'StatefulSet':
+        patch_statefulset(client, ns, object ,cpu, memory)
+
+    elif kind == 'ReplicaSet':
+        patch_deployment(client, ns, object, cpu, memory)
+    else:
+        print("Object %s is not supported yet with resize tool yet." %(kind))
+    
         
 def report_cluster_metrics(edge, headers, time):
      ## Cluster Metrics
@@ -150,7 +185,14 @@ def main():
               }
     
     projectID = get_projectID(headers, project)
+    if not projectID:
+        print("Project %s not found" %(cluster, project) )
+        sys.exit(1)
     edge= get_edgeID(headers, projectID, cluster)
+    if not edge:
+        print("Cluster %s not found in %s project" %(cluster, project) )
+        sys.exit(1)
+
     # Setup CSV
     filename = cluster + "-resource-usage-" + timestr + ".csv"
     fd_csv = open(filename, 'w')
@@ -196,18 +238,43 @@ def main():
             for pod in ret_pod.items:
                 pod_name = pod.metadata.name
                 pod_o_rs = pod.metadata.owner_references[0].name
-                ret_rs =  r1.list_namespaced_replica_set(namespace=ns)
-                if ret_rs.items:
-                    for rs in ret_rs.items:
-                       if rs.metadata.name == pod_o_rs:
-                            rs_o_deploy = rs.metadata.owner_references[0].name
-                            ret_deploy = r1.read_namespaced_deployment(name=rs_o_deploy, namespace=ns)
-                            if ret_deploy.spec.template.spec.containers[0].resources.requests:
-                                cpu_requests = ret_deploy.spec.template.spec.containers[0].resources.requests['cpu']
-                                memory_requests = ret_deploy.spec.template.spec.containers[0].resources.requests['memory']
-                                pod_list.append({"pod": pod_name , "rs": pod_o_rs, "deploy": rs_o_deploy, "cpu": cpu_requests, "memory": memory_requests})
-                            else:
-                                pod_list_wo_req.append({"pod": pod_name , "rs": pod_o_rs, "deploy": rs_o_deploy, "cpu": "", "memory": ""})
+                ## Find out about pods is owned by Deployment/Daemonset/Statefulset
+                owner_kind = pod.metadata.owner_references[0].kind
+                if owner_kind == "DaemonSet":
+                    ret_daemon = r1.read_namespaced_daemon_set(name=pod_o_rs, namespace=ns)
+                    rs_o_daemon = ret_daemon.metadata.name
+                    if rs_o_daemon == pod_o_rs:
+                        if ret_daemon.spec.template.spec.containers[0].resources.requests:
+                            cpu_requests = ret_daemon.spec.template.spec.containers[0].resources.requests['cpu']
+                            memory_requests = ret_daemon.spec.template.spec.containers[0].resources.requests['memory']
+                            pod_list.append({"pod": pod_name , "rs": pod_o_rs, "deploy": rs_o_daemon, "cpu": cpu_requests, "memory": memory_requests, "kind": owner_kind})
+                        else:
+                            pod_list_wo_req.append({"pod": pod_name , "rs": pod_o_rs, "deploy": rs_o_daemon, "cpu": "", "memory": "", "kind": owner_kind})
+                elif owner_kind == "StatefulSet":
+                    ret_sts = r1.read_namespaced_stateful_set(name=pod_o_rs, namespace=ns)
+                    ret_o_sts = ret_sts.metadata.name
+                    if ret_o_sts == pod_o_rs:
+                        if ret_sts.spec.template.spec.containers[0].resources.requests:
+                            cpu_requests = ret_sts.spec.template.spec.containers[0].resources.requests['cpu']
+                            memory_requests = ret_sts.spec.template.spec.containers[0].resources.requests['memory']
+                            pod_list.append({"pod": pod_name , "rs": pod_o_rs, "deploy": ret_o_sts, "cpu": cpu_requests, "memory": memory_requests, "kind": owner_kind})
+                        else:
+                            pod_list_wo_req.append({"pod": pod_name , "rs": pod_o_rs, "deploy": ret_o_sts, "cpu": "", "memory": "", "kind": owner_kind})
+                ## Only process k8s deployments          
+                else:
+                    ret_rs =  r1.list_namespaced_replica_set(namespace=ns)
+                    if ret_rs.items:
+                        for rs in ret_rs.items:
+                           if rs.metadata.name == pod_o_rs:
+                                ##Reference the deployment.
+                                rs_o_deploy = rs.metadata.owner_references[0].name
+                                ret_deploy = r1.read_namespaced_deployment(name=rs_o_deploy, namespace=ns)
+                                if ret_deploy.spec.template.spec.containers[0].resources.requests:
+                                    cpu_requests = ret_deploy.spec.template.spec.containers[0].resources.requests['cpu']
+                                    memory_requests = ret_deploy.spec.template.spec.containers[0].resources.requests['memory']
+                                    pod_list.append({"pod": pod_name , "rs": pod_o_rs, "deploy": rs_o_deploy, "cpu": cpu_requests, "memory": memory_requests, "kind": owner_kind})
+                                else:
+                                    pod_list_wo_req.append({"pod": pod_name , "rs": pod_o_rs, "deploy": rs_o_deploy, "cpu": "", "memory": "", "kind": owner_kind})
             info[ns] = pod_list
             no_requests[ns] = pod_list_wo_req
 
@@ -261,17 +328,17 @@ def main():
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, new_mem_requests])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, new_mem_requests])
                     if not options.dry_run:
-                        patch_deployment(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests)
+                        patch_object(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests, pod['kind'])
                 elif new_mem < int(pod['memory'][:-2]):
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
                     if not options.dry_run:
-                        patch_deployment(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests)
+                        patch_object(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests, pod['kind'])
                 elif new_cpu <  int(pod_cpu_value[:-1]):
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage,  pod['memory']])
                     if not options.dry_run:
-                        patch_deployment(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests)
+                        patch_object(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests, pod['kind'])
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
@@ -282,7 +349,7 @@ def main():
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
                     if not options.dry_run:
-                        patch_deployment(r1, data, pod['deploy'], None, new_mem_requests)
+                        patch_object(r1, data, pod['deploy'], None, new_mem_requests, pod['kind'])
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
@@ -293,7 +360,7 @@ def main():
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, pod['memory']])
                     if not options.dry_run:
-                        patch_deployment(r1, data, pod['deploy'],new_cpu_requests, None)
+                        patch_object(r1, data, pod['deploy'], new_cpu_requests, None, pod['kind'])
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])

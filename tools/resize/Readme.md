@@ -43,6 +43,7 @@ Table of Contents
     - [CPU](#cpu-1)
     - [Memory](#memory-1)
     - [Sample Output](#sample-output-1)
+- [Audit Trail](#audit)
 - [Roadmap](#roadmap)
 - [Limitations](#limitations)
 - [Support](#support)
@@ -408,6 +409,13 @@ Following pods/applications have not configured cpu/memory requests
 ```
 
 <a href="#top">Back to top</a>
+
+--- 
+# Audit
+
+All operations are performed on the remote cluster's Kube API server via Rafay's secure, [zero trust kubectl proxy](https://docs.rafay.co/accessproxy/overview/). 
+
+An [audit log](https://docs.rafay.co/accessproxy/audit/) of every API call is available for administrators in their Rafay Org. Organizations can also [stream the centralized audit logs](https://docs.rafay.co/integrations/siem/overview/) to their SIEM such as Splunk etc. 
 
 --- 
 

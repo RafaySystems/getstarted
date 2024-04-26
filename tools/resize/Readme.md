@@ -417,6 +417,8 @@ All operations are performed on the remote cluster's Kube API server via Rafay's
 
 An [audit log](https://docs.rafay.co/accessproxy/audit/) of every API call is available for administrators in their Rafay Org. Organizations can also [stream the centralized audit logs](https://docs.rafay.co/integrations/siem/overview/) to their SIEM such as Splunk etc. 
 
+<a href="#top">Back to top</a>
+
 --- 
 
 # Roadmap 

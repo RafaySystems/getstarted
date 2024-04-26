@@ -426,6 +426,7 @@ The near term roadmap is based on feedback from active users. It is focused on t
 # Limitations 
 
 - Users associated with multiple Rafay Orgs not supported. 
+- SSO users are not currently supported. 
 
 <a href="#top">Back to top</a>
 

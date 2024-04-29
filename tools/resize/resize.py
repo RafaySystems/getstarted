@@ -310,9 +310,9 @@ def main():
             #Calculate new value for memory requets
             new_mem = add_buffer(int(mem_usage_round))
             if new_mem  < MINIMUM_REQUEST:
-                new_mem_requests = str(MINIMUM_REQUEST) + "m"
+                new_mem_requests = str(MINIMUM_REQUEST) + "Mi"
             else:
-                new_mem_requests = str(new_mem) + "m"
+                new_mem_requests = str(new_mem) + "Mi"
 
             #Sanatize CPU values.
             if "m" in pod['cpu']:

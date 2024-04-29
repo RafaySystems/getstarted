@@ -282,7 +282,7 @@ Users that wish to experiment this on a new cluster can follow the steps describ
 
 Create a custom blueprint with "minimal" as the base blueprint and with the "visibility & monitoring" add-on enabled. Now, import your cluster into a new project in Rafay. You can follow the step-by-step instructions in [Part-1](https://docs.rafay.co/learn/quickstart/basics/overview/) in this guide. 
 
-The image below shows an imported cluster called "microk8s" operating the project called "resize". 
+The image below shows an imported cluster called "demo-imported-digitalocean" operating the project called "banana". 
 
 ![Imported Cluster](images/cluster.png)
 
@@ -293,7 +293,7 @@ In this step, you will download the Kubeconfig file for your cluster. In the Raf
 ![Download Kubeconfig](images/kubeconfig.png)
 
 
-```
+```b
 export KUBECONFIG=<path to downloaded kubeconfig file>
 ```
 

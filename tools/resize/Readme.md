@@ -425,7 +425,8 @@ An [audit log](https://docs.rafay.co/accessproxy/audit/) of every API call is av
 
 The near term roadmap is based on feedback from active users. It is focused on the following: 
 
-- Support for Pods with multiple containers 
+- Support for Pods with multiple containers
+- Ability for users to specify overrides for default values for "buffer" (i.e. headroom that should be specified) and "minimum requests" (i.e. requests that will be specified if current usage is zero)
 - Support for updating manifests for Deployments with best effort QoS (i.e. resource requests not specified)
 
 <a href="#top">Back to top</a>

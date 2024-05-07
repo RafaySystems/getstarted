@@ -12,16 +12,14 @@ from prettytable import PrettyTable
 
 
 BASE_URL = "https://console.rafay.dev"
-RESOURCE_BUFFER = 25
-# This is the minimum cpu/memory requests will be set if usage is lower than this value.
-# Unit for CPU is millicore(m) and mebibytes(Mi) for memory
-MINIMUM_REQUEST = 10
 
 def getOptions(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(description="Rafay K8S Application resize tool based on usage..", formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-d", "--dry-run", help="Generate the report of resources Usage. It does not Update resources requests.", action='store_true')
     parser.add_argument("-n", "--namespace", help="Run the tool with namespace scope")
     parser.add_argument("-A", "--all-namespaces", help="Run the tool with cluster scope", action='store_true')
+    parser.add_argument("-b", "--buffer", default=25,   help="Specify the buffer value(Percentage). This value will be added when resizing the k8s resources")
+    parser.add_argument("-m", "--minimum-value", default=10,  help="Specify the miminul values set when resizing the k8s resources")
     options = parser.parse_args(args)
     return options
 
@@ -34,8 +32,8 @@ def bytestomegabytes(bytes):
 def coretimillcore(cores):
     return (cores * 1000 )
 
-def add_buffer(num):
-    return (num + int(num * RESOURCE_BUFFER/100))
+def add_buffer(num, buffer):
+    return (num + int(num * buffer/100))
 
 def send_request(method, url, headers, payload=None):
     if payload:
@@ -111,12 +109,20 @@ def report_cluster_metrics(edge, headers, time):
     cluster_cpu_url = BASE_URL + "/cluster_metrics/cpu_details?duration=" + time +"&edgeId=" + edge + "&points=30"
     memory_cpu_url = BASE_URL + "/cluster_metrics/memory_details?duration=" + time + "&edgeId=" + edge + "&points=30"
 
+    ## CPU Metrics
     cluster_cpu_data = send_request("GET", cluster_cpu_url, headers, {})
     cluster_cpu_response = json.loads(cluster_cpu_data.text)
+    if not cluster_cpu_response['usage']:
+        print('Verify cluster is running a blueprint with monitoring addon enabled')
+        sys.exit(1)
 
+    ## Memory Metrics
     memory_gb = []
     cluster_memory_data = send_request("GET", memory_cpu_url, headers, {})
     cluster_memory_response = json.loads(cluster_memory_data.text)
+    if not cluster_memory_response['usage']:
+        print('Verify cluster is running a blueprint with monitoring addon enabled')
+        sys.exit(1)
     for memory in cluster_memory_response['total'].values():
       memory_gb.append((int(bytestogigabytes(memory))))
     
@@ -167,7 +173,9 @@ def main():
     username = os.environ['USER']
     password = os.environ['PASSWORD']
     cluster = os.environ['CLUSTER']
-    
+    MINIMUM_REQUEST = options.minimum_value
+    RESOURCE_BUFFER = options.buffer
+
     ##Rafay Authentication using SessionID
     auth_url = BASE_URL + "/auth/v1/login/"
     auth_headers = { 'Accept': 'application/json','Content-Type': 'application/json'}
@@ -292,7 +300,7 @@ def main():
             cpu_usage = str(int(cpu_usage_millcore)) + "m"
 
             #Calculate new value for cpu requests.
-            new_cpu = add_buffer(int(cpu_usage_millcore))
+            new_cpu = add_buffer(int(cpu_usage_millcore), RESOURCE_BUFFER)
             # For output
             if new_cpu < MINIMUM_REQUEST:
                 new_cpu_requests = str(MINIMUM_REQUEST) + "m"
@@ -308,7 +316,7 @@ def main():
             mem_usage = str(int(mem_usage_round)) + "Mi"
 
             #Calculate new value for memory requets
-            new_mem = add_buffer(int(mem_usage_round))
+            new_mem = add_buffer(int(mem_usage_round), RESOURCE_BUFFER)
             if new_mem  < MINIMUM_REQUEST:
                 new_mem_requests = str(MINIMUM_REQUEST) + "Mi"
             else:

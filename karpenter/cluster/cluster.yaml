@@ -9,6 +9,13 @@ spec:
     version: latest
   cloudCredentials: aws-cloud-credential
   config:
+    addons:
+    - name: kube-proxy
+      version: latest
+    - name: vpc-cni
+      version: latest
+    - name: coredns
+      version: latest
     iam:
       withOIDC: true
       serviceAccounts:

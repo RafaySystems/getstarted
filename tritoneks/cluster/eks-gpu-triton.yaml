@@ -1,63 +1,96 @@
+apiVersion: infra.k8smgmt.io/v3
 kind: Cluster
 metadata:
+  # The name of the cluster
   name: eks-gpu-triton
-  project: defaultproject
+  # The name of the project the cluster will be created in
+  project: awsdemo
 spec:
-  blueprint: default
-  cloudprovider: aws-cloud-credential
-  cniprovider: aws-cni
-  proxyconfig: {}
-  type: eks
----
-apiVersion: rafay.io/v1alpha5
-kind: ClusterConfig
-metadata:
-  name: eks-gpu-triton
-  region: us-west-1
-  tags:
-    email: tim@rafay.co
-    env: qa
-  version: "1.24"
-managedNodeGroups:
-- amiFamily: AmazonLinux2
-  desiredCapacity: 1
-  iam:
-    withAddonPolicies:
-      albIngress: true
-      autoScaler: true
-      efs: true
-      externalDNS: true
-      imageBuilder: true
-  instanceType: t3.large
-  labels:
-    NodeType: t3-node
-  maxSize: 1
-  minSize: 1
-  name: t3-nodegroup
-  privateNetworking: true
-  tags:
-    email: tim@rafay.co
-    env: qa
-  volumeSize: 100
-  volumeType: gp3
-- name: gpu-nodegroup
-  # grab AMI ID for Ubuntu EKS AMI here: https://cloud-images.ubuntu.com/aws-eks/
-  # using AMI ID for us-west-1 region: ami-00687acd80b7a620a
-  ami: ami-0114d85734fee93fb
-  instanceType: g4dn.xlarge
-  minSize: 1
-  maxSize: 1
-  volumeSize: 100
-  tags:
-    email: tim@rafay.co
-    env: qa
-  desiredCapacity: 1
-  overrideBootstrapCommand: |
-    [Ubuntu]
-vpc:
-  cidr: 192.168.0.0/16
-  clusterEndpoints:
-    privateAccess: true
-    publicAccess: false
-  nat:
-    gateway: Single
+  blueprintConfig:
+    # The name of the blueprint the cluster will use
+    name: default
+    # The version of the blueprint the cluster will use
+    version: latest
+  # The name of the cloud credential that will be used to create the cluster  
+  cloudCredentials: aws-cloud-credential
+  config:
+    # The EKS addons that will be applied to the cluster
+    addons:
+    - name: kube-proxy
+      version: latest
+    - name: vpc-cni
+      version: latest
+    - name: coredns
+      version: latest
+    managedNodeGroups:
+    # The AWS AMI family type the nodes will use
+    - amiFamily: AmazonLinux2
+      # The desired number of nodes that can run in the node group  
+      desiredCapacity: 1
+      iam:
+        withAddonPolicies:
+          # Enables access to ALB Ingress controller
+          albIngress: true
+          # Enables the IAM policy for cluster autoscaler
+          autoScaler: true
+          # Enables full access to EFS
+          efs: true
+          # Adds the external-dns project policies for Amazon Route 53
+          externalDNS: true
+          # Allows for full ECR (Elastic Container Registry) access. This is useful for building, for example, a CI server that needs to push images to ECR
+          imageBuilder: true
+      # The AWS EC2 instance type that will be used for the nodes
+      instanceType: t3.large
+      # The labels applied to the nodes in the node group
+      labels:
+        NodeType: t3-node
+      # The maximum number of nodes that can run in the node group
+      maxSize: 1
+      # The minimum number of nodes that can run in the node group
+      minSize: 1
+      # The name of the node group that will be created in AWS
+      name: t3-nodegroup
+      # Enable private networking for the nodegroup
+      privateNetworking: true
+      # The size in gigabytes of the volume attached to each node
+      volumeSize: 100
+      # The type of disk backing the node volume. alid variants are: "gp2" is General Purpose SSD, "gp3" is General Purpose SSD which can be optimised for high throughput (default), "io1" is Provisioned IOPS SSD, "sc1" is Cold HDD, "st1" is Throughput Optimized HDD.
+      volumeType: gp3
+      # The name of the node group that will be created in AWS
+    - name: gpu-  # This node group is for the GPU instances
+      # grab AMI ID for Ubuntu EKS AMI here: https://cloud-images.ubuntu.com/aws-eks/
+      # using AMI ID for us-west-1 region: ami-00687acd80b7a620a
+      ami: ami-0114d85734fee93fb
+      # The AWS EC2 instance type that will be used for the nodes
+      instanceType: g4dn.xlarge
+      # The minimum number of nodes that can run in the node group
+      minSize: 1
+      # The maximum number of nodes that can run in the node group
+      maxSize: 1
+      # The size in gigabytes of the volume attached to each node
+      volumeSize: 100
+      # The desired number of nodes that can run in the node group  
+      desiredCapacity: 1
+      # Override the vendor's bootstrapping script
+      overrideBootstrapCommand: |
+        [Ubuntu]
+    metadata:
+      # The name of the cluster
+      name: cluster1
+      # The AWS region the cluster will be created in
+      region: us-west-2
+      # The tags that will be applied to the AWS cluster resources
+      tags:
+        email: user@rafay.co
+        env: qa
+      # The Kubernetes version that will be installed on the cluster  
+      version: latest
+    vpc:
+      clusterEndpoints:
+        # Enables private access to the Kubernetes API server endpoints
+        privateAccess: true
+        # Enables public access to the Kubernetes API server endpoints
+        publicAccess: false
+      # The CIDR that will be used  by the cluster VPC
+      cidr: 192.168.0.0/16
+  type: aws-eks

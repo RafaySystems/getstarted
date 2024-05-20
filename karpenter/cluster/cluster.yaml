@@ -1,14 +1,20 @@
 apiVersion: infra.k8smgmt.io/v3
 kind: Cluster
 metadata:
+  # The name of the cluster
   name: karpenter-cluster
+  # The name of the project the cluster will be created in
   project: defaultproject
 spec:
   blueprintConfig:
+    # The name of the blueprint the cluster will use
     name: minimal
+    # The version of the blueprint the cluster will use
     version: latest
+  # The name of the cloud credential that will be used to create the cluster  
   cloudCredentials: aws-cloud-credential
   config:
+    # The EKS addons that will be applied to the cluster
     addons:
     - name: kube-proxy
       version: latest
@@ -17,7 +23,9 @@ spec:
     - name: coredns
       version: latest
     iam:
+      # Enables the IAM OIDC provider as well as IRSA for the Amazon CNI plugin
       withOIDC: true
+      # Create a service account with the below IAM policy
       serviceAccounts:
       - attachPolicy:
           Statement:
@@ -43,7 +51,9 @@ spec:
             Resource: "*"
           Version: "2012-10-17"
         metadata:
+          # The name of the service account
           name: karpenter
+          # The name of the namespace where the service account will be created
           namespace: karpenter  
     identityMappings:
       arns:
@@ -53,44 +63,65 @@ spec:
         - system:bootstrappers
         - system:nodes	  
     managedNodeGroups:
-    - amiFamily: AmazonLinux2
+      # The AWS AMI family type the nodes will use
+    - amiFamily: AmazonLinux2 # This node group will be used for worker nodes
+      # The desired number of nodes that can run in the node group   
       desiredCapacity: 2
+      # The AWS EC2 instance types that will be used for the nodes
       instanceTypes:
       - t3.medium
       - t3.large
+      # The maximum number of nodes that can run in the node group
       maxSize: 4
+      # The minimum number of nodes that can run in the node group
       minSize: 2
+      # The name of the node group that will be created in AWS
       name: managed-spot
+      # Enable Spot instances to be used for the node group
       spot: true
-    - amiFamily: AmazonLinux2
+      # The AWS AMI family type the nodes will use
+    - amiFamily: AmazonLinux2  # This node group will be used for the system resources
+      # The desired number of nodes that can run in the node group  
       desiredCapacity: 1
+      # The AWS EC2 instance type that will be used for the nodes
       instanceType: t3.large
+      # The labels applied to the nodes in the node group
       labels:
         nodes: system
+      # The maximum number of nodes that can run in the node group
       maxSize: 2
+      # The minimum number of nodes that can run in the node group
       minSize: 1
+      # The name of the node group that will be created in AWS
       name: managed-system
+      # Apply taints to the node group to allow only system resources to be scheduled on these nodes
       taints:
       - effect: NoSchedule
         key: components
         value: system
     metadata:
+      # The name of the cluster
       name: karpenter-cluster
+      # The AWS region the cluster will be created in
       region: us-west-2
+      # The tags that will be applied to the AWS cluster resources
       tags:
         'cluster-name': 'karpenter-cluster'
-        email: tim@rafay.co
+        email: user@rafay.co
         env: qa
-      version: "1.23"
-    network:
-      cni:
-        name: aws-cni
+      # The Kubernetes version that will be installed on the cluster  
+      version: latest
     vpc:
+      # AutoAllocateIPV6 requests an IPv6 CIDR block with /56 prefix for the VPC
       autoAllocateIPv6: false
       clusterEndpoints:
+        # Enables private access to the Kubernetes API server endpoints
         privateAccess: true
+        # Enables public access to the Kubernetes API server endpoints
         publicAccess: false
+      # The CIDR that will be used  by the cluster VPC
       cidr: 192.168.0.0/16
+  # Configure the scheduler to only place system resources on the managed-system node group    
   systemComponentsPlacement:
     nodeSelector:
       nodes: system

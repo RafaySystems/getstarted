@@ -55,5 +55,18 @@ resource "rafay_eks_cluster" "cluster" {
         private_networking = true
 	    }
     }
+	
+	addons {
+      name = "vpc-cni"
+      version = "latest"
+    }
+    addons {
+      name = "kube-proxy"
+      version = "latest"
+    }
+    addons {
+      name = "coredns"
+      version = "latest"
+    }
   }
 }

@@ -6,7 +6,6 @@ metadata:
 spec:
   base:
     name: minimal
-    version: latest
   type: custom
   customAddons:
   - name: karpenter-addon

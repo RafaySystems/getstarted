@@ -36,9 +36,18 @@ spec:
             - "ec2:RunInstances"
             - "ec2:CreateTags"
             - "iam:PassRole"
+            - "iam:CreateInstanceProfile"
+            - "iam:TagInstanceProfile"
+            - "iam:AddRoleToInstanceProfile"
+            - "iam:RemoveRoleFromInstanceProfile"
+            - "iam:DeleteInstanceProfile"
+            - "ec2:DeleteLaunchTemplate"
             - "ec2:TerminateInstances"
             # Read Operations
             - "ec2:DescribeLaunchTemplates"
+            - "ec2:DescribeSpotPriceHistory"
+            - "ec2:DescribeImage"
+            - "ec2:DescribeImages"
             - "ec2:DescribeInstances"
             - "ec2:DescribeSecurityGroups"
             - "ec2:DescribeSubnets"
@@ -47,6 +56,10 @@ spec:
             - "ec2:DescribeAvailabilityZones"
             - "ssm:GetParameter"
             - "eks:DescribeCluster"
+            - "pricing:DescribeServices"
+            - "pricing:GetAttributeValues"
+            - "pricing:GetProducts"
+            - "iam:GetInstanceProfile"
             Effect: Allow
             Resource: "*"
           Version: "2012-10-17"
@@ -107,8 +120,8 @@ spec:
       # The tags that will be applied to the AWS cluster resources
       tags:
         'cluster-name': 'karpenter-cluster'
-        email: user@rafay.co
-        env: qa
+        email: <EMAIL>
+        env: <ENVIRONMENT>
       # The Kubernetes version that will be installed on the cluster  
       version: latest
     vpc:

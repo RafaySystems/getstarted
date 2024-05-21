@@ -6,11 +6,12 @@ metadata:
 spec:
   base:
     name: minimal
-    version: latest
   type: custom
   customAddons:
   - name: karpenter-addon
     version: v1
   - name: nodepool-addon
     version: v1
+    dependson:
+    - karpenter-addon
   version: v1

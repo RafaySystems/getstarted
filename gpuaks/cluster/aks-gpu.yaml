@@ -1,50 +1,75 @@
-apiVersion: rafay.io/v1alpha1
+apiVersion: infra.k8smgmt.io/v3
 kind: Cluster
 metadata:
+  # The name of the cluster
   name: demo-gpu-aks
+  # The name of the project the cluster will be created in
   project: defaultproject
 spec:
-  blueprint: default-aks
-  cloudprovider: azure-cc
-  clusterConfig:
-    apiVersion: rafay.io/v1alpha1
+  blueprintConfig:
+    # The name of the blueprint the cluster will use
+    name: default-aks
+  # The name of the cloud credential that will be used to create the cluster   
+  cloudCredentials: azure-cc
+  config:
     kind: aksClusterConfig
     metadata:
+      # The name of the cluster
       name: demo-gpu-aks
     spec:
       managedCluster:
         apiVersion: "2022-07-01"
         identity:
+          # The identity type the AKS cluster will use to access Azure resources
           type: SystemAssigned
-        location: northcentralus
+        # The Azure geo-location where the resources will reside
+        location: centralindia
         properties:
           apiServerAccessProfile:
+            # Make network traffic between the API server and node pools on a private network
             enablePrivateCluster: true
+          # DNS name prefix of the Kubernetes API server FQDN
           dnsPrefix: demo-gpu-aks-dns
-          kubernetesVersion: 1.25.6
+          # The Kubernetes version that will be installed on the cluster
+          kubernetesVersion: 1.29.4
           networkProfile:
             loadBalancerSku: standard
+            # Network plugin used for building the Kubernetes network. Valid values are azure, kubenet, none
             networkPlugin: kubenet
         sku:
+          # The name of a managed cluster SKU
           name: Basic
+          # If not specified, the default is Free. See uptime SLA for more details. Valid values are Paid, Free
           tier: Free
         type: Microsoft.ContainerService/managedClusters
       nodePools:
       - apiVersion: "2022-07-01"
-        location: northcentralus
+        # The Azure geo-location where the node pools will reside
+        location: centralindia
+        # The name of the  node pool
         name: primary
         properties:
+          # The desired number of nodes that can run in the node pool 
           count: 1
+          # Whether to enable auto-scaler
           enableAutoScaling: true
+          # The maximum number of nodes that can run in the node pool
           maxCount: 1
+          # The maximum number of pods that can run on a node
           maxPods: 110
+          # The minimum number of nodes that can run in the node pool
           minCount: 1
           mode: System
-          orchestratorVersion: 1.25.6
+          # The kubernetes version that will run on the node pool
+          orchestratorVersion: 1.29.4
+          # The operating system type that the nodes in the node pool will run
           osType: Linux
+          # Valid values are VirtualMachineScaleSets, AvailabilitySet
           type: VirtualMachineScaleSets
+          # The size of the VMs that the nodes will run on
           vmSize: Standard_NC4as_T4_v3
         type: Microsoft.ContainerService/managedClusters/agentPools
-      resourceGroupName: Tim-RG
-  proxyconfig: {}
+        # The resource group where the cluster will be created
+      resourceGroupName: Resource-Group
+  proxyConfig: {}
   type: aks

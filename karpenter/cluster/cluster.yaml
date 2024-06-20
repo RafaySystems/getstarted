@@ -59,7 +59,7 @@ spec:
       withOIDC: true
     identityMappings:
       arns:
-      - arn: "arn:aws:iam::<ACCOUNT-NUMBER>:role/KarpenterNodeRole-Rafay"
+      - arn: arn:aws:iam::<ACCOUNT-NUMBER>:role/KarpenterNodeRole-Rafay
         group:
         - system:bootstrappers
         - system:nodes

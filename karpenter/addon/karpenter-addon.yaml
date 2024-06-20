@@ -8,7 +8,7 @@ spec:
     artifact:
       catalog: default-rafay
       chartName: karpenter
-      chartVersion: v0.32.1
+      chartVersion: 0.35.4
       valuesPaths:
       - name: file://custom-values.yaml
     options:

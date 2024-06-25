@@ -2,4 +2,20 @@ serviceAccount:
   create: false
   name: karpenter
 settings:
-  clusterName: {{{ .global.Rafay.ClusterName }}} 
+  clusterName: {{{ .global.Rafay.ClusterName }}}
+controller:
+  resources:
+    requests:
+      cpu: 1
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 1Gi
+additionalAnnotations:
+  a8r.io/owner: "user@k8s.com"
+  a8r.io/runbook: "http://www.k8s.com"
+replicas: 1
+tolerations:
+  - key: nodeInfra
+    operator: Exists
+    effect: NoSchedule

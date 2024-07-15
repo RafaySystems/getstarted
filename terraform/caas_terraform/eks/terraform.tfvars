@@ -1,17 +1,17 @@
 # Poject name variable
-project               = "caas-7-15-1"
+project               = "changeme"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = "arn:aws:iam::679196758854:role/dreta-full-staging"
-externalid              = "05a1-9e93-5019-3368-9669"
+rolearn                 = "changeme"
+externalid              = "changeme"
 
 # Instance profile Name for Karpenter nodes (Optional: Installs IRSA)
-instance_profile       = "arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay"
+instance_profile       = "changeme"
 
 # Cluster variables
-cluster_name           =  "caas-7-15-1"
+cluster_name           =  "changeme"
 # Cluster Region
 cluster_location       =  "us-west-2"
 # K8S Version
@@ -19,10 +19,10 @@ k8s_version            =  "1.28"
 
 # TAGS (Optional)
 cluster_tags = {
-    "email" = "david@rafay.co"
+    "email" = "docs@rafay.co"
     "env"    = "dev"
     "orchestrator" = "k8s"
-    "cluster-name" = "caas-7-15-1"
+    "cluster-name" = "changeme"
 }
 
 # S3 bucket name for Backup/Restore (Optional: Installs IRSA & DR components)
@@ -36,21 +36,21 @@ cluster_labels = {
 }
 
 # IAM Roles to access EKS provided endpoint (Optional)
-cluster_admin_iam_roles = ["arn:aws:iam::679196758854:user/david@rafay.co"]
+cluster_admin_iam_roles = ["changeme"]
 
 # Allow provisioning of VPC & Subnets
 create_vpc = true
 /*
 # ID and AZ of private subnets (Optional: must have proper permissions to create VPC)
 private_subnet_ids = {
-  "subnet-001c73a7a4bd8950c" = "us-west-2a",
-  "subnet-01199f3894365b393" = "us-west-2b"
+  "subnet-changeme" = "us-west-2a",
+  "subnet-changeme" = "us-west-2b"
 }
 
 # ID and AZ of public subnets (optional)
 public_subnet_ids = {
-  "subnet-0d93f0cf2e0d6e2bd" = "us-west-2a",
-  "subnet-09c386bc5800ee067" = "us-west-2b"
+  "subnet-changeme" = "us-west-2a",
+  "subnet-changeme" = "us-west-2b"
 }
 */
 # Systems Components Placement

@@ -1,32 +1,32 @@
 # Poject name variable
-project               = "changeme"
+project               = "caas-7-15-1"
 
 # Cloud Credentials specific variables
 cloud_credentials_name  = "rafay-cloud-credential"
 # Specify Role ARN & externalid info below for EKS.
-rolearn                 = "changeme"
-externalid              = "changeme"
+rolearn                 = "arn:aws:iam::679196758854:role/dreta-full-staging"
+externalid              = "05a1-9e93-5019-3368-9669"
 
 # Instance profile Name for Karpenter nodes (Optional: Installs IRSA)
-instance_profile       = "changeme"
+instance_profile       = "arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay"
 
 # Cluster variables
-cluster_name           =  "changeme"
+cluster_name           =  "caas-7-15-1"
 # Cluster Region
 cluster_location       =  "us-west-2"
 # K8S Version
-k8s_version            =  "1.27"
+k8s_version            =  "1.28"
 
 # TAGS (Optional)
 cluster_tags = {
-    "email" = "docs@rafay.co"
+    "email" = "david@rafay.co"
     "env"    = "dev"
     "orchestrator" = "k8s"
-    "cluster-name" = "changeme"
+    "cluster-name" = "caas-7-15-1"
 }
 
 # S3 bucket name for Backup/Restore (Optional: Installs IRSA & DR components)
-s3_bucket = "changeme"
+/* s3_bucket = ""*/
 
 # K8s cluster labels (Optional)
 cluster_labels = {
@@ -36,18 +36,21 @@ cluster_labels = {
 }
 
 # IAM Roles to access EKS provided endpoint (Optional)
-cluster_admin_iam_roles = ["changeme"]
+cluster_admin_iam_roles = ["arn:aws:iam::679196758854:user/david@rafay.co"]
+
+# Allow provisioning of VPC & Subnets
+create_vpc = true
 /*
 # ID and AZ of private subnets (Optional: must have proper permissions to create VPC)
 private_subnet_ids = {
-  "subnet-changeme" = "us-west-2a",
-  "subnet-changeme" = "us-west-2b"
+  "subnet-001c73a7a4bd8950c" = "us-west-2a",
+  "subnet-01199f3894365b393" = "us-west-2b"
 }
 
 # ID and AZ of public subnets (optional)
 public_subnet_ids = {
-  "subnet-changeme" = "us-west-2a",
-  "subnet-changeme" = "us-west-2b"
+  "subnet-0d93f0cf2e0d6e2bd" = "us-west-2a",
+  "subnet-09c386bc5800ee067" = "us-west-2b"
 }
 */
 # Systems Components Placement
@@ -62,7 +65,7 @@ managed_nodegroups = {
     node_count      = 1
     node_max_count  = 5
     node_min_count  = 1
-    k8s_version     = "1.27"
+    k8s_version     = "1.28"
     instance_type   = "t3.xlarge"
     taint_key       = "nodeInfra"
     taint_operator  = "Exists"
@@ -82,7 +85,7 @@ node_tags = {
 blueprint_name         = "custom-blueprint"
 blueprint_version      = "v1"
 base_blueprint         = "minimal"
-base_blueprint_version = "2.3.0"
+base_blueprint_version = "2.7.0"
 namespaces             = [
   "ingress-nginx", 
   "cert-manager",

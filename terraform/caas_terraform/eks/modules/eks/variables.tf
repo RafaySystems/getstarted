@@ -47,6 +47,12 @@ variable "cluster_labels" {
   description = "Map of cluster labels for cluster"
 }
 
+variable "create_vpc" {
+  type        = bool
+  default     = true
+  description = "Create VPC & Subnets"
+}
+
 variable "private_subnet_ids" {
   type        = map(string)
   default     = {}

@@ -15,7 +15,7 @@ cluster_name           =  "changeme"
 # Cluster Region
 cluster_location       =  "us-west-2"
 # K8S Version
-k8s_version            =  "1.27"
+k8s_version            =  "1.28"
 
 # TAGS (Optional)
 cluster_tags = {
@@ -26,7 +26,7 @@ cluster_tags = {
 }
 
 # S3 bucket name for Backup/Restore (Optional: Installs IRSA & DR components)
-s3_bucket = "changeme"
+/* s3_bucket = ""*/
 
 # K8s cluster labels (Optional)
 cluster_labels = {
@@ -37,6 +37,9 @@ cluster_labels = {
 
 # IAM Roles to access EKS provided endpoint (Optional)
 cluster_admin_iam_roles = ["changeme"]
+
+# Allow provisioning of VPC & Subnets
+create_vpc = true
 /*
 # ID and AZ of private subnets (Optional: must have proper permissions to create VPC)
 private_subnet_ids = {
@@ -62,7 +65,7 @@ managed_nodegroups = {
     node_count      = 1
     node_max_count  = 5
     node_min_count  = 1
-    k8s_version     = "1.27"
+    k8s_version     = "1.28"
     instance_type   = "t3.xlarge"
     taint_key       = "nodeInfra"
     taint_operator  = "Exists"
@@ -82,7 +85,7 @@ node_tags = {
 blueprint_name         = "custom-blueprint"
 blueprint_version      = "v1"
 base_blueprint         = "minimal"
-base_blueprint_version = "2.3.0"
+base_blueprint_version = "2.7.0"
 namespaces             = [
   "ingress-nginx", 
   "cert-manager",

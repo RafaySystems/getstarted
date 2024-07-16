@@ -156,19 +156,22 @@ resource "rafay_eks_cluster" "cluster" {
       }
     }
     vpc {
-      subnets {
-        dynamic "private" {
-          for_each = var.private_subnet_ids
-          content {
-            name = private.value
-            id   = private.key
+      dynamic "subnets" {
+        for_each = var.create_vpc ? {} : {}
+        content {
+          dynamic "private" {
+            for_each = var.private_subnet_ids
+            content {
+              name = private.value
+              id   = private.key
+            }
           }
-        }
-        dynamic "public" {
-          for_each = var.public_subnet_ids
-          content {
-            name = public.value
-            id   = public.key
+          dynamic "public" {
+            for_each = var.public_subnet_ids
+            content {
+              name = public.value
+              id   = public.key
+            }
           }
         }
       }

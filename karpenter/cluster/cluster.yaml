@@ -4,7 +4,7 @@ metadata:
   name: karpenter-cluster
   project: defaultproject
 spec:
-  blueprintConfig:
+  blueprintconfig:
     name: minimal
   cloudCredentials: aws-cloud-credential
   config:
@@ -15,7 +15,13 @@ spec:
       version: latest
     - name: coredns
       version: latest
-    - name: aws-ebs-csi-driver
+    - configurationValues: |-
+        controller:
+          tolerations:
+            - effect: NoSchedule
+              key: nodeInfra
+              operator: Exists
+      name: aws-ebs-csi-driver
       version: latest
     iam:
       serviceAccounts:
@@ -59,7 +65,7 @@ spec:
       withOIDC: true
     identityMappings:
       arns:
-      - arn: arn:aws:iam::<ACCOUNT-NUMBER>:role/KarpenterNodeRole-Rafay
+      - arn: arn:aws:iam::679196758854:role/KarpenterNodeRole-Rafay
         group:
         - system:bootstrappers
         - system:nodes
@@ -69,14 +75,14 @@ spec:
       desiredCapacity: 1
       instanceType: t3.large
       labels:
-        nodes: infra
+        node: infra
       maxSize: 2
       minSize: 0
       name: infra-nodegroup
       taints:
       - effect: NoSchedule
         key: nodeInfra
-      version: "1.28"
+      version: "1.29"
     metadata:
       name: karpenter-cluster
       region: us-west-2
@@ -84,7 +90,7 @@ spec:
         cluster-name: karpenter-cluster
         email: <EMAIL>
         env: <ENV>
-      version: "1.28"
+      version: "1.29"
     vpc:
       autoAllocateIPv6: false
       cidr: 192.168.0.0/16
@@ -92,6 +98,8 @@ spec:
         privateAccess: true
         publicAccess: false
   systemComponentsPlacement:
+    nodeSelector:
+      node: infra
     tolerations:
     - effect: NoSchedule
       key: nodeInfra

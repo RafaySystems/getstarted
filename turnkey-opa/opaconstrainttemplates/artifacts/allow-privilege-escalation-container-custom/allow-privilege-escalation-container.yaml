@@ -14,7 +14,7 @@ spec:
   crd:
     spec:
       names:
-        kind: allow-privilege-escalation-container
+        kind: Allow-Privilege-Escalation-Container
       validation:
         openAPIV3Schema:
           type: object

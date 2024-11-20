@@ -14,6 +14,8 @@ controller:
 additionalAnnotations:
   a8r.io/owner: "user@k8s.com"
   a8r.io/runbook: "http://www.k8s.com"
+nodeSelector:
+  node: infra
 replicas: 1
 tolerations:
   - key: nodeInfra

@@ -184,7 +184,7 @@ resource "rafay_eks_cluster" "cluster" {
 	    for_each = var.managed_nodegroups
 	    content {
 	      name       = managed_nodegroups.value.ng_name
-        ami_family = "AmazonLinux2"
+        ami_family = "AmazonLinux2023"
         iam {
           iam_node_group_with_addon_policies {
             image_builder = true

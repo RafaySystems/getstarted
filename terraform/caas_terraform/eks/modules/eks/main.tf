@@ -41,124 +41,12 @@ resource "rafay_eks_cluster" "cluster" {
           username = "cluster-admin"
         }
       }
-      dynamic "arns" {
-        for_each = var.instance_profile != null ? [0] : []
-        content {
-          arn   = var.instance_profile
-          group = ["system:bootstrappers", "system:nodes"]
-          username = "system:node:{{EC2PrivateDNSName}}"
-        }
-      }
     }
     iam {
       with_oidc = "true"
-      dynamic "service_accounts" {
-        for_each = var.instance_profile != null ? [0] : []
-        content {
-          metadata {
-            name      = "karpenter"
-            namespace = "karpenter"
-          }
-          attach_policy = <<EOF
-          {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                    "ec2:CreateLaunchTemplate",
-                    "ec2:CreateFleet",
-                    "ec2:RunInstances",
-                    "ec2:CreateTags",
-                    "iam:PassRole",
-                    "iam:CreateInstanceProfile",
-                    "iam:GetInstanceProfile",
-                    "iam:TagInstanceProfile",
-                    "iam:AddRoleToInstanceProfile",
-                    "iam:RemoveRoleFromInstanceProfile",
-                    "iam:DeleteInstanceProfile",
-                    "ec2:TerminateInstances",
-                    "ec2:DescribeLaunchTemplates",
-                    "ec2:DescribeInstances",
-                    "ec2:DescribeSecurityGroups",
-                    "ec2:DescribeSubnets",
-                    "ec2:DescribeImage",
-                    "ec2:DescribeImages",
-                    "ec2:DescribeInstanceTypes",
-                    "ec2:DescribeInstanceTypeOfferings",
-                    "ec2:DescribeAvailabilityZones",
-                    "ec2:DeleteLaunchTemplate",
-                    "ssm:GetParameter",
-                    "eks:DescribeCluster",
-                    "pricing:GetProducts",
-                    "pricing:DescribeServices",
-                    "pricing:GetAttributeValues",
-                    "ec2:DescribeSpotPriceHistory"
-                  ],
-                  "Resource": [
-                    "*"
-                  ]
-              }
-            ] 
-          }
-          EOF
-        }
-      }
-      dynamic "service_accounts" {
-        for_each = var.s3_bucket != null ? [0] : []
-        content {
-          metadata {
-            name      = "velero-rafay"
-            namespace = "rafay-system"
-          }
-          attach_policy = <<EOF
-          {
-              "Version": "2012-10-17",
-              "Statement": [
-                  {
-                      "Effect": "Allow",
-                      "Action": [
-                          "ec2:DescribeVolumes",
-                          "ec2:DescribeSnapshots",
-                          "ec2:CreateTags",
-                          "ec2:CreateVolume",
-                          "ec2:CreateSnapshot",
-                          "ec2:DeleteSnapshot"
-                      ],
-                      "Resource": "*"
-                  },
-                  {
-                      "Effect": "Allow",
-                      "Action": [
-                          "s3:GetObject",
-                          "s3:DeleteObject",
-                          "s3:PutObject",
-                          "s3:AbortMultipartUpload",
-                          "s3:ListMultipartUploadParts"
-                      ],
-                      "Resource": [
-                          "arn:aws:s3:::${var.s3_bucket}/*"
-                      ]
-                  },
-                  {
-                      "Effect": "Allow",
-                      "Action": [
-                          "s3:ListBucket"
-                      ],
-                      "Resource": [
-                          "arn:aws:s3:::${var.s3_bucket}"
-                      ]
-                  }
-              ]
-          }
-          EOF
-        }
-      }
     }
     vpc {
-      dynamic "subnets" {
-        for_each = var.create_vpc ? {} : {}
-        content {
+      subnets {
           dynamic "private" {
             for_each = var.private_subnet_ids
             content {
@@ -173,7 +61,6 @@ resource "rafay_eks_cluster" "cluster" {
               id   = public.key
             }
           }
-        }
       }
       cluster_endpoints {
         private_access = true
@@ -184,7 +71,7 @@ resource "rafay_eks_cluster" "cluster" {
 	    for_each = var.managed_nodegroups
 	    content {
 	      name       = managed_nodegroups.value.ng_name
-        ami_family = "AmazonLinux2"
+        ami_family = "AmazonLinux2023"
         iam {
           iam_node_group_with_addon_policies {
             image_builder = true

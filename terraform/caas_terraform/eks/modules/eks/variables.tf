@@ -27,30 +27,13 @@ variable "cluster_admin_iam_roles" {
   description = "IAM Roles to be granted cluster-admin access."
 }
 
-variable "instance_profile" {
-  type = string
-  default = "null"
-}
-
 variable "k8s_version" {
   type = string
-}
-
-variable "s3_bucket" {
-  type = string
-  default = "null"
-  description = "The name of the AWS S3 bucket for storing backups"
 }
 
 variable "cluster_labels" {
   type        = map(string)
   description = "Map of cluster labels for cluster"
-}
-
-variable "create_vpc" {
-  type        = bool
-  default     = true
-  description = "Create VPC & Subnets"
 }
 
 variable "private_subnet_ids" {

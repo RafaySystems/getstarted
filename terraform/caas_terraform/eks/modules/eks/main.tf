@@ -46,9 +46,7 @@ resource "rafay_eks_cluster" "cluster" {
       with_oidc = "true"
     }
     vpc {
-      dynamic "subnets" {
-        for_each = var.create_vpc ? {} : {}
-        content {
+      subnets {
           dynamic "private" {
             for_each = var.private_subnet_ids
             content {
@@ -63,7 +61,6 @@ resource "rafay_eks_cluster" "cluster" {
               id   = public.key
             }
           }
-        }
       }
       cluster_endpoints {
         private_access = true

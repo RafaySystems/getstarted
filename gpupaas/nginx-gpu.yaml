@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest
+        image: registry.rafay-edge.net/rafay/nginx-test:1.0
         resources:
           requests:
             cpu: "100m"     # Requesting 0.1 vCPU
@@ -24,6 +24,6 @@ spec:
           limits:
             cpu: "100m"     # Limiting to 0.1 vCPU
             memory: "128Mi" # Limiting to 128 MiB of memory
-            nvidia.com/gpu: 1  # Requesting 1 GPU
+            nvidia.com/gpu.shared: 1  # Requesting 1 GPU
         ports:
         - containerPort: 80

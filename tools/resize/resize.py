@@ -15,7 +15,7 @@ BASE_URL = "https://console.rafay.dev"
 
 def getOptions(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(description="Rafay K8S Application resize tool based on usage..", formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("-d", "--dry-run", help="Generate the report of resources Usage. It does not Update resources requests.", action='store_true')
+    parser.add_argument("-d", "--dry-run", help="Generate the report of resources Usage. It does not Update resources requests.")
     parser.add_argument("-n", "--namespace", help="Run the tool with namespace scope")
     parser.add_argument("-A", "--all-namespaces", help="Run the tool with cluster scope", action='store_true')
     parser.add_argument("-b", "--buffer", default=25,   help="Specify the buffer value(Percentage). This value will be added when resizing the k8s resources")
@@ -42,7 +42,7 @@ def send_request(method, url, headers, payload=None):
         return requests.request(method, url, headers=headers)
     
 def get_projectID(headers, project):
-    uri = BASE_URL + "/auth/v1/projects/?limit=100"
+    uri = BASE_URL + "/auth/v1/projects/?limit=1000"
     response = send_request("GET", uri, headers, {})
     response = json.loads(response.text)
     if response['count'] > 0:
@@ -335,17 +335,17 @@ def main():
                 if new_mem < int(pod['memory'][:-2]) and new_cpu <  int(pod['memory'][:-2])  :
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, new_mem_requests])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, new_mem_requests])
-                    if not options.dry_run:
+                    if options.dry_run == "false":
                         patch_object(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests, pod['kind'])
                 elif new_mem < int(pod['memory'][:-2]):
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
-                    if not options.dry_run:
+                    if options.dry_run == "false":
                         patch_object(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests, pod['kind'])
                 elif new_cpu <  int(pod_cpu_value[:-1]):
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage,  pod['memory']])
-                    if not options.dry_run:
+                    if options.dry_run == "false":
                         patch_object(r1, data, pod['deploy'],new_cpu_requests, new_mem_requests, pod['kind'])
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
@@ -356,7 +356,7 @@ def main():
                 if new_mem < int(pod['memory'][:-2]):
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'],  pod['memory'], mem_usage, new_mem_requests])
-                    if not options.dry_run:
+                    if options.dry_run == "false":
                         patch_object(r1, data, pod['deploy'], None, new_mem_requests, pod['kind'])
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
@@ -367,7 +367,7 @@ def main():
                 if new_cpu < int(pod_cpu_value[:-1]):
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, pod['memory']])
                     csv_writer.writerow([data, pod['pod'], pod['cpu'], cpu_usage, new_cpu_requests,  pod['memory'], mem_usage, pod['memory']])
-                    if not options.dry_run:
+                    if options.dry_run == "false":
                         patch_object(r1, data, pod['deploy'], new_cpu_requests, None, pod['kind'])
                 else:
                     appTable.add_row([data, pod['pod'], pod['cpu'], cpu_usage, pod['cpu'], pod['memory'], mem_usage, pod['memory']])
@@ -407,7 +407,7 @@ def main():
     print(appTable)
     print("\nFollowing pods/applications have not configured cpu/memory requests")
     print(appTableNoReq)
-    if not options.dry_run:
+    if options.dry_run == "false":
         print("\nCalculating Cluster resource utilization after the updates...It may take few mins..")
         time.sleep(300)
         csv_writer.writerow("\n\n")

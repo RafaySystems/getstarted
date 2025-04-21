@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-gpu-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: registry.rafay-edge.net/rafay/nginx-test:1.0
+        resources:
+          requests:
+            cpu: "100m"     # Requesting 0.1 vCPU
+            memory: "128Mi" # Requesting 128 MiB of memory
+          limits:
+            cpu: "100m"     # Limiting to 0.1 vCPU
+            memory: "128Mi" # Limiting to 128 MiB of memory
+        ports:
+        - containerPort: 80

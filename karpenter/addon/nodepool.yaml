@@ -1,4 +1,4 @@
-apiVersion: karpenter.sh/v1beta1
+apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
   name: default
@@ -21,26 +21,27 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-        - key: karpenter.k8s.aws/instance-size
-          operator: In
-          values: ["medium", "large", "xlarge"]
       nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
         name: default
   limits:
     cpu: 1000
   disruption:
-    consolidationPolicy: WhenUnderutilized
-    expireAfter: 720h # 30 * 24h = 720h
+    consolidationPolicy: 
+    expireAfter: 720h # 30 * 24h = 720hconsolidateAfter: 1m
+    consolidateAfter: 1m
 ---
-apiVersion: karpenter.k8s.aws/v1beta1
+apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
   name: default
 spec:
+  amiSelectorTerms:
+    - alias: al2@latest
   tags:
     email: k8s@k8s.co
     env: dev
-  amiFamily: AL2 # Amazon Linux 2
   role: "KarpenterNodeRole-Rafay"
   subnetSelectorTerms:
     - tags:

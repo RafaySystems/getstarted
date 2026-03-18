@@ -1,106 +1,187 @@
-resource "rafay_aks_cluster" "cluster" {
-  apiversion = "rafay.io/v1alpha1"
-  kind       = "Cluster"
+resource "rafay_aks_cluster_v3" "aks-cluster" {
   metadata {
     name    = var.cluster_name
     project = var.project
   }
   spec {
     type          = "aks"
-    blueprint     = var.blueprint_name
-    blueprintversion = var.blueprint_version
-    cloudprovider = var.cloud_credentials_name
-    cluster_config {
-      apiversion = "rafay.io/v1alpha1"
+    blueprint_config {
+      name = var.blueprint_name
+      version = var.blueprint_version
+    }
+    /*proxy_config {
+      http_proxy = var.http_proxy
+      https_proxy = var.https_proxy
+      no_proxy = var.no_proxy
+    }*/
+    cloud_credentials = var.cloud_credentials_name
+    system_components_placement {
+      node_selector = {
+        app = "infra"
+        dedicated = "true"
+      }
+      tolerations {
+        effect = "PreferNoSchedule"
+        key = "app"
+        operator = "Equal"
+        value =  "infra"
+      }
+      daemon_set_override {
+        node_selection_enabled = false
+        tolerations {
+          key = "app1dedicated"
+          value = true
+          effect = "NoSchedule"
+          operator = "Equal"
+        }
+      }
+    }
+    config {
       kind       = "aksClusterConfig"
       metadata {
         name = var.cluster_name
       }
       spec {
-        resource_group_name = var.cluster_resource_group
+        resource_group_name = var.rg_name
         managed_cluster {
-          apiversion = "2021-05-01"
-          identity {
-            type = "SystemAssigned"
+          api_version = "2024-01-01"
+          sku {
+            name = "Base"
+            tier = "Free"
           }
-          location = var.cluster_location
+          identity {
+            type = "systemAssigned"
+            user_assigned_identities = {}
+          }
+          location = var.location
+          tags = {
+            "email" = "user@company.com"
+            "env" = "terraform"
+          }
           properties {
             api_server_access_profile {
               enable_private_cluster = true
-              enable_private_cluster_public_fqdn = false
             }
-            dns_prefix         = "${var.cluster_name}-dns"
-            enable_rbac        = true
+            #disk_encryption_set_id = var.disk_encryption_set_id
+            dns_prefix         = var.dns_prefix
             kubernetes_version = var.k8s_version
+            network_profile {
+              network_plugin      = "azure"
+              load_balancer_sku   = "standard"
+              network_plugin_mode = "overlay"
+              network_dataplane   = "cilium"
+              pod_cidr            = "192.168.0.0/16"
+              service_cidr        = "10.0.0.0/16"
+              dns_service_ip      = "10.0.0.10"
+            }
+            node_provisioning_profile {
+              mode = "Auto"
+              default_node_pools = "Auto"    
+            }
+            power_state {
+              code = "Running"
+            }
+            oidc_issuer_profile {
+              enabled = true
+            }
+            security_profile {
+              workload_identity {
+                enabled = true
+              }
+            }
+            /*service_mesh_profile {
+                istio {
+                  mode = 
+                }
+            }*/
             addon_profiles {
               http_application_routing {
-                enabled = false
+                enabled = true
               }
-              azure_policy  {
-                enabled = false
+              azure_policy {
+                enabled = true
               }
               azure_keyvault_secrets_provider {
                 enabled = true
                 config {
-                  enable_secret_rotation = "true"
+                  enable_secret_rotation = false
                   rotation_poll_interval = "2m"
                 }
               }
             }
-            auto_scaler_profile {
-              balance_similar_node_groups      = "false"
-              expander                         = "random"
-              max_graceful_termination_sec     = "600"
-              max_node_provision_time          = "15m"
-              ok_total_unready_count           =  "3"
-              max_total_unready_percentage     = "45"
-              new_pod_scale_up_delay           = "10s"
-              scale_down_delay_after_add       = "10m"
-              scale_down_delay_after_delete    = "10s"
-              scale_down_delay_after_failure   = "3m"
-              scan_interval                    = "10s"
-              scale_down_unneeded_time         = "10m"
-              scale_down_unready_time          = "20m"
-              scale_down_utilization_threshold = "0.5"
-              max_empty_bulk_delete            = "10"
-              skip_nodes_with_local_storage    = "true"
-              skip_nodes_with_system_pods      = "true"
-            }
-            network_profile {
-              network_plugin = "kubenet"
-              network_policy = "calico"
-              outbound_type  = "loadBalancer"
+            auto_upgrade_profile {
+              upgrade_channel = "rapid"
+              node_os_upgrade_channel = "NodeImage"
             }
           }
           type = "Microsoft.ContainerService/managedClusters"
         }
-        dynamic "node_pools" {
-          for_each = var.nodePools
-          content {
-            apiversion = "2021-05-01"
-            name       = node_pools.value.name
-            location   = node_pools.value.location
-            properties {
-              count                = node_pools.value.count
-              enable_auto_scaling  = true
-              enable_node_public_ip = false
-              max_count		         = node_pools.value.maxCount
-              min_count		         = node_pools.value.minCount
-              max_pods             = 110
-              mode                 = node_pools.value.mode
-              orchestrator_version = node_pools.value.k8sVersion
-              os_type              = "Linux"
-              os_disk_size_gb      = 30
-              availability_zones   = [1, 2, 3]
-              type                 = "VirtualMachineScaleSets"
-              upgrade_settings {
-                max_surge = "40%"
-              }
-              vm_size = node_pools.value.vmSize
+        node_pools {
+          api_version = "2024-01-01"
+          name       = "primary"
+          location = "centralindia"
+          properties {
+            count                = 1
+            enable_auto_scaling  = false
+            max_count            = 2
+            max_pods             = 40
+            min_count            = 1
+            mode                 = "System"
+            orchestrator_version = "1.25.6"
+            os_type              = "Linux"
+            type                 = "VirtualMachineScaleSets"
+            vm_size              = "Standard_DS2_v2"
+            node_labels = {
+              app = "infra"
+              dedicated = "true"
             }
-            type = "Microsoft.ContainerService/managedClusters/agentPools"
+            node_taints               = ["app=infra:PreferNoSchedule"]
           }
+          type = "Microsoft.ContainerService/managedClusters/agentPools"
         }
+
+        node_pools {
+          api_version = "2024-01-01"
+          name       = "agentpool2"
+          location = "centralindia"
+          properties {
+            count                = 1
+            enable_auto_scaling  = false
+            max_count            = 2
+            max_pods             = 40
+            min_count            = 1
+            mode                 = "User"
+            orchestrator_version = "1.25.6"
+            os_type              = "Linux"
+            type                 = "VirtualMachineScaleSets"
+            vm_size              = "Standard_B4ms"
+            node_labels = {
+              app = "infra"
+              dedicated = "true"
+            }
+            node_taints               = ["app=infra:PreferNoSchedule"]
+          }
+          type = "Microsoft.ContainerService/managedClusters/agentPools"
+        }
+        maintenance_configurations {
+          api_version = "2024-01-01"
+          name = "aksManagedNodeOSUpgradeSchedule"
+          properties {
+            maintenance_window {
+              duration_hours = 4
+              schedule {
+                daily {
+                  interval_days = 1
+                }
+              }
+              start_date = "2024-07-19"
+              start_time = "11:38"
+              utc_offset = "+05:30"
+            }
+          }
+          type = "Microsoft.ContainerService/managedClusters/maintenanceConfigurations"
+        }
+
       }
     }
   }

@@ -212,7 +212,7 @@ resource "rafay_eks_cluster" "cluster" {
     }*/
 	managed_nodegroups_map = {
       "infra-terraform" = {
-		ami_family         = "AmazonLinux2"
+		ami_family         = "AmazonLinux2023"
         instance_type      = "t3.large"
         desired_capacity   = 1
         min_size           = 0

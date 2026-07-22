@@ -227,6 +227,7 @@ resource "rafay_eks_cluster" "cluster" {
 		  operator  = "Exists"
         }
       }
+	}
     addons {
       name = "aws-ebs-csi-driver"
       version = "latest" 

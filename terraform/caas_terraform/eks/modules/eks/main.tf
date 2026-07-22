@@ -59,6 +59,7 @@ resource "rafay_eks_cluster" "cluster" {
             name      = "karpenter"
             namespace = "karpenter"
           }
+		  role_name = "${var.cluster_name}-karpenter-sa"
           attach_policy = <<EOF
           {
             "Version": "2012-10-17",
@@ -111,6 +112,7 @@ resource "rafay_eks_cluster" "cluster" {
             name      = "velero-rafay"
             namespace = "rafay-system"
           }
+		  role_name = "${var.cluster_name}-velero-sa"
           attach_policy = <<EOF
           {
               "Version": "2012-10-17",

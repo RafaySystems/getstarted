@@ -182,7 +182,7 @@ resource "rafay_eks_cluster" "cluster" {
         public_access  = false
       }
     }
-    dynamic "managed_nodegroups" {
+    /*dynamic "managed_nodegroups" {
 	    for_each = var.managed_nodegroups
 	    content {
 	      name       = managed_nodegroups.value.ng_name
@@ -209,7 +209,24 @@ resource "rafay_eks_cluster" "cluster" {
         }
         labels = managed_nodegroups.value.labels
 	    }
-    }
+    }*/
+	managed_nodegroups_map = {
+      "infra-terraform" = {
+		ami_family         = "AmazonLinux2"
+        instance_type      = "t3.large"
+        desired_capacity   = 1
+        min_size           = 0
+        max_size           = 4
+        volume_size        = 80
+        volume_type        = "gp3"
+        version            = "1.36"
+		private_networking = true
+		taints {
+          key       = "node/infra"
+          effect    = "NoSchedule"
+		  operator  = "Exists"
+        }
+      }
     addons {
       name = "aws-ebs-csi-driver"
       version = "latest" 

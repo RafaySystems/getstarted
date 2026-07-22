@@ -14,13 +14,13 @@ resource "rafay_eks_cluster" "cluster" {
       cloud_provider = var.cloud_credentials_name
       cni_provider   = "aws-cni"
       proxy_config   = {}
-      system_components_placement {      
+      /*system_components_placement {      
         tolerations {
           key       = var.rafay_tol_key
           operator  = var.rafay_tol_operator
           effect    = var.rafay_tol_effect
         }
-      }
+      }*/
     }
   }
   cluster_config {
@@ -221,11 +221,6 @@ resource "rafay_eks_cluster" "cluster" {
         volume_type        = "gp3"
         version            = "1.36"
 		private_networking = true
-		taints {
-          key       = "node/infra"
-          effect    = "NoSchedule"
-		  operator  = "Exists"
-        }
       }
 	}
     addons {

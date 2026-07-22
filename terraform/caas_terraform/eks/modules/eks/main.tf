@@ -56,7 +56,7 @@ resource "rafay_eks_cluster" "cluster" {
         for_each = var.instance_profile != null ? [0] : []
         content {
           metadata {
-            name      = "karpenter"
+            name      = "${var.cluster_name}-karpenter-sa"
             namespace = "karpenter"
           }
 		  role_name = "${var.cluster_name}-karpenter-sa"
@@ -109,7 +109,7 @@ resource "rafay_eks_cluster" "cluster" {
         for_each = var.s3_bucket != null ? [0] : []
         content {
           metadata {
-            name      = "velero-rafay"
+            name      = "${var.cluster_name}-velero-sa"
             namespace = "rafay-system"
           }
 		  role_name = "${var.cluster_name}-velero-sa"

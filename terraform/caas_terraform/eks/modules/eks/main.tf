@@ -14,13 +14,13 @@ resource "rafay_eks_cluster" "cluster" {
       cloud_provider = var.cloud_credentials_name
       cni_provider   = "aws-cni"
       proxy_config   = {}
-      system_components_placement {      
+      /*system_components_placement {      
         tolerations {
           key       = var.rafay_tol_key
           operator  = var.rafay_tol_operator
           effect    = var.rafay_tol_effect
         }
-      }
+      }*/
     }
   }
   cluster_config {
@@ -56,9 +56,10 @@ resource "rafay_eks_cluster" "cluster" {
         for_each = var.instance_profile != null ? [0] : []
         content {
           metadata {
-            name      = "karpenter"
+            name      = "${var.cluster_name}-karpenter-sa"
             namespace = "karpenter"
           }
+		  role_name = "${var.cluster_name}-karpenter-sa"
           attach_policy = <<EOF
           {
             "Version": "2012-10-17",
@@ -108,9 +109,10 @@ resource "rafay_eks_cluster" "cluster" {
         for_each = var.s3_bucket != null ? [0] : []
         content {
           metadata {
-            name      = "velero-rafay"
+            name      = "${var.cluster_name}-velero-sa"
             namespace = "rafay-system"
           }
+		  role_name = "${var.cluster_name}-velero-sa"
           attach_policy = <<EOF
           {
               "Version": "2012-10-17",
@@ -180,7 +182,7 @@ resource "rafay_eks_cluster" "cluster" {
         public_access  = false
       }
     }
-    dynamic "managed_nodegroups" {
+    /*dynamic "managed_nodegroups" {
 	    for_each = var.managed_nodegroups
 	    content {
 	      name       = managed_nodegroups.value.ng_name
@@ -207,7 +209,20 @@ resource "rafay_eks_cluster" "cluster" {
         }
         labels = managed_nodegroups.value.labels
 	    }
-    }
+    }*/
+	managed_nodegroups_map = {
+      "infra-terraform" = {
+		ami_family         = "AmazonLinux2023"
+        instance_type      = "t3.large"
+        desired_capacity   = 1
+        min_size           = 0
+        max_size           = 4
+        volume_size        = 80
+        volume_type        = "gp3"
+        version            = "1.36"
+		private_networking = true
+      }
+	}
     addons {
       name = "aws-ebs-csi-driver"
       version = "latest" 
